@@ -17,21 +17,24 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    private String nickname;
+//    private String nickname;
+//
+//    private String userEmail;
+//
+//    private String phoneNumber;
+//
+//    private Date created;
+//
+//    private String token;
+//
+//    private Long Point;
 
-    private String userEmail;
+    private String firstname;
+    private String lastname;
 
-    private String phoneNumber;
+//    @OneToMany(mappedBy = "user")
+//    private List<UserOrder> userOrders = new ArrayList<>();
 
-    private Date created;
-
-    private String token;
-
-    private Long Point;
-
-    @OneToMany(mappedBy = "user")
-    private List<UserOrder> userorders = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<Review> review = new ArrayList<>();
+//    @OneToMany(mappedBy = "user")
+//    private List<Review> review = new ArrayList<>();
 }
