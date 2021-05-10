@@ -1,33 +1,16 @@
 spring:
-#  datasource:
-#    url: jdbc:h2:tcp://localhost/~/test
-#    username: sa
-#    password:
-#    driver-class-name: org.h2.Driver
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://database-2.c2beaxn4glkx.ap-northeast-2.rds.amazonaws.com:5432/
-    username: postgres
-    password: tkdrud11
-
-    hikari:
-      connection-timeout: 20000
-      maximum-pool-size: 10
-  #JPA
+    url: jdbc:h2:tcp://localhost/~/test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
   jpa:
-    database: POSTGRESQL
-    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
-    show-sql: false
-    generate-ddl: true
     hibernate:
       ddl-auto: create
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
-        jdbc:
-          lob:
-            non_contextual: true
+        # show_sql: true
+        format_sql: true
 logging:
   level:
     org.hibernate.SQL: debug
