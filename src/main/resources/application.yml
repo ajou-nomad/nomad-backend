@@ -9,6 +9,10 @@ spring:
     url: jdbc:postgresql://database-2.c2beaxn4glkx.ap-northeast-2.rds.amazonaws.com
     username: postgres
     password: tkdrud11
+
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 10
   #JPA
   jpa:
     database: POSTGRESQL
