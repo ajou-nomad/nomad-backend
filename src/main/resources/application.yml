@@ -6,7 +6,7 @@ spring:
 #    driver-class-name: org.h2.Driver
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://database-2.c2beaxn4glkx.ap-northeast-2.rds.amazonaws.com
+    url: jdbc:postgresql://database-2.c2beaxn4glkx.ap-northeast-2.rds.amazonaws.com:5432/
     username: postgres
     password: tkdrud11
 
@@ -20,7 +20,7 @@ spring:
     show-sql: false
     generate-ddl: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
