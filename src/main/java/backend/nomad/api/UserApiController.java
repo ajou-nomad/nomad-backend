@@ -17,20 +17,23 @@ public class UserApiController {
 
     private final UserService userService;
 
-
-
     @PostMapping("/user")
     public CreateUserResponse savaUser(@RequestBody @Valid CreateUserRequest request) {
         User user = new User();
+//        user.setNickName(request.getNickName());
 //        user.setNickname(request.getNickname());
 //        user.setUserEmail(request.userEmail);
 //        user.setPhoneNumber(request.phoneNumber);
 //        user.setCreated(request.created);
         user.setFirstname(request.getFirstname());
         user.setLastname(request.getLastname());
-
+        String f = user.getFirstname();
+        String l = user.getLastname();
         Long id = userService.join(user);
-        return new CreateUserResponse(id);
+
+        return new CreateUserResponse(id, f, l);
+
+//        return new CreateUserResponse(id);
     }
 //    @PostMapping("/user")
 //    public CreateUser x(@RequestBody @Valid CreateUserRequest request) {
@@ -60,8 +63,8 @@ public class UserApiController {
 
     @Data
     static class CreateUserRequest {
-        private Long id;
-//        private String nickname;
+//        private Long id;
+//        private String nickName;
 //        private String userEmail;
 //        private String phoneNumber;
 //        private Date created;
@@ -70,17 +73,21 @@ public class UserApiController {
         private String firstname;
         private String lastname;
     }
-
+//
     @Data
     static class CreateUserResponse {
         private Long id;
+        private String firstname;
+        private String lastname;
 
 
-        public CreateUserResponse(Long id) {
+        public CreateUserResponse(Long id, String firstname, String lastname) {
             this.id = id;
+            this.firstname = firstname;
+            this.lastname = lastname;
 
         }
-
-
+//
+//
     }
 }
