@@ -4,6 +4,7 @@ import backend.nomad.domain.User;
 import backend.nomad.service.UserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,23 +16,27 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class UserApiController {
 
-    private final UserService userService;
+//    private final UserService userService;
 
-    @PostMapping("/user")
-    public CreateUserResponse savaUser(@RequestBody @Valid CreateUserRequest request) {
-        User user = new User();
+    @GetMapping("/hello")
+    public String hello() {
+        return "HelloWorld";
+    }
+//    @GetMapping("/user/{id}")
+//    public CreateUserResponse savaUser(@RequestBody @Valid CreateUserRequest request) {
+//        User user = new User();
 //        user.setNickName(request.getNickName());
 //        user.setNickname(request.getNickname());
 //        user.setUserEmail(request.userEmail);
 //        user.setPhoneNumber(request.phoneNumber);
 //        user.setCreated(request.created);
-        user.setFirstname(request.getFirstname());
-        user.setLastname(request.getLastname());
-        String f = user.getFirstname();
-        String l = user.getLastname();
-        Long id = userService.join(user);
+//        user.setFirstname(request.getFirstname());
+//        user.setLastname(request.getLastname());
+//        String f = user.getFirstname();
+//        String l = user.getLastname();
+//        Long id = userService.join(user);
 
-        return new CreateUserResponse(id, f, l);
+//        return new CreateUserResponse(id);
 
 //        return new CreateUserResponse(id);
     }
@@ -61,8 +66,8 @@ public class UserApiController {
 //    }
 
 
-    @Data
-    static class CreateUserRequest {
+//    @Data
+//    static class CreateUserRequest {
 //        private Long id;
 //        private String nickName;
 //        private String userEmail;
@@ -70,24 +75,24 @@ public class UserApiController {
 //        private Date created;
 //        private String token;
 //        private Long Point;
-        private String firstname;
-        private String lastname;
-    }
-//
-    @Data
-    static class CreateUserResponse {
-        private Long id;
-        private String firstname;
-        private String lastname;
-
-
-        public CreateUserResponse(Long id, String firstname, String lastname) {
-            this.id = id;
-            this.firstname = firstname;
-            this.lastname = lastname;
-
-        }
+//        private String firstname;
+//        private String lastname;
 //
 //
-    }
-}
+//    }
+//
+//    @Data
+//    static class CreateUserResponse {
+//        private Long id;
+//
+//
+//
+//        public CreateUserResponse(Long id, String firstname, String lastname) {
+//            this.id = id;
+//
+//
+//        }
+//
+//
+//    }
+//}

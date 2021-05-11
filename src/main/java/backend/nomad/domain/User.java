@@ -9,12 +9,13 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 public class User {
 
     @Id
     @GeneratedValue
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Long id;
 
 //    private String nickName;
@@ -37,4 +38,9 @@ public class User {
 
 //    @OneToMany(mappedBy = "user")
 //    private List<Review> review = new ArrayList<>();
+
+//    public User(String firstname, String lastname) {
+//        this.firstname = firstname;
+//        this.lastname = lastname;
+//    }
 }
