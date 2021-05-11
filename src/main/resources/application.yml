@@ -1,14 +1,25 @@
+#spring:
+#  datasource:
+#    url: jdbc:mariadb://database-2.c2beaxn4glkx.ap-northeast-2.rds.amazonaws.com:3306/admin
+#    driver-class-name: org.mariadb.jdbc.Driver
+#    username: admin
+#    password: tkdrud11
+#
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: create-drop
 spring:
+  profiles: local
   datasource:
-    url: jdbc:mariadb://database-2.c2beaxn4glkx.ap-northeast-2.rds.amazonaws.com:3306/admin
-    username: admin
-    password: tkdrud11
-    driver-class-name: org.mariadb.jdbc.Driver
-
+    data: classpath:data-h2.sql # 시작할때 실행시킬 script
   jpa:
+    show-sql: true
     hibernate:
-      ddl-auto: none
-
+      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: true
 logging:
   level:
     org.hibernate.SQL: debug
