@@ -1,23 +1,13 @@
 spring:
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://database-2.c2beaxn4glkx.ap-northeast-2.rds.amazonaws.com:5432/
-    username: postgres
+    url: jdbc:mariadb://database-2.c2beaxn4glkx.ap-northeast-2.rds.amazonaws.com:3306/admin
+    username: admin
     password: tkdrud11
+    driver-class-name: org.mariadb.jdbc.Driver
+
   jpa:
-    database: POSTGRESQL
-    database-platform: org.hibernate.dialect.PostgreSQL95Dialect
-    show-sql: false
-    generate-ddl: true
     hibernate:
-      ddl-auto: create
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    properties:
-      hibernate:
-        jdbc:
-          lob:
-            non_contextual: true
+      ddl-auto: none
 
 logging:
   level:
