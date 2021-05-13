@@ -1,46 +1,46 @@
-package backend.nomad.domain;
-
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-@Entity
-@Getter
-@Setter
-public class User {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private Long id;
-
-//    private String nickName;
+//package backend.nomad.domain;
 //
-//    private String userEmail;
+//import lombok.Getter;
+//import lombok.Setter;
 //
-//    private String phoneNumber;
+//import javax.persistence.*;
+//import java.util.ArrayList;
+//import java.util.Date;
+//import java.util.List;
 //
-//    private Date created;
+//@Entity
+//@Getter
+//@Setter
+//public class User {
 //
-//    private String token;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id")
+//    private Long id;
 //
-//    private Long Point;
-
-    private String firstname;
-    private String lastname;
-
-//    @OneToMany(mappedBy = "user")
-//    private List<UserOrder> userOrders = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "user")
-//    private List<Review> review = new ArrayList<>();
-
-//    public User(String firstname, String lastname) {
-//        this.firstname = firstname;
-//        this.lastname = lastname;
-//    }
-}
+////    private String nickName;
+////
+////    private String userEmail;
+////
+////    private String phoneNumber;
+////
+////    private Date created;
+////
+////    private String token;
+////
+////    private Long Point;
+//
+//    private String firstname;
+//    private String lastname;
+//
+////    @OneToMany(mappedBy = "user")
+////    private List<UserOrder> userOrders = new ArrayList<>();
+//
+////    @OneToMany(mappedBy = "user")
+////    private List<Review> review = new ArrayList<>();
+//
+////    public User(String firstname, String lastname) {
+////        this.firstname = firstname;
+////        this.lastname = lastname;
+////    }
+//}

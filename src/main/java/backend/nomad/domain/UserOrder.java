@@ -1,5 +1,7 @@
 //package backend.nomad.domain;
 //
+//import backend.nomad.domain.group.Group;
+//
 //import javax.persistence.*;
 //
 //@Entity
