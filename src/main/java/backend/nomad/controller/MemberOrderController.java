@@ -1,10 +1,12 @@
 package backend.nomad.controller;
 
-
 import backend.nomad.domain.member.Member;
+import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.dto.member.MemberMainResponseDto;
+import backend.nomad.dto.member.MemberOrderMainResponseDto;
+import backend.nomad.dto.member.MemberOrderSaveRequestDto;
 import backend.nomad.dto.member.MemberSaveRequestDto;
-import backend.nomad.service.MemberService;
+import backend.nomad.service.MemberOrderService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -13,28 +15,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
-
 @RestController
 @RequiredArgsConstructor
-public class MemberController {
+public class MemberOrderController {
 
-    private final MemberService memberService;
+    private final MemberOrderService memberOrderService;
 
-    @PostMapping("/auth/user")
-    public Long saveMember(@RequestBody MemberSaveRequestDto dto) {
-        return memberService.save(dto);
+    @PostMapping("/memberOrder")
+    public Long saveMemberOrder(@RequestBody MemberOrderSaveRequestDto dto) {
+        return memberOrderService.save(dto);
     }
 
-    @GetMapping("/memberList")
-    public Result findMembers() {
-        List<Member> findMembers = memberService.findMembers();
-        List<MemberMainResponseDto> collect = findMembers.stream()
-                .map(m -> new MemberMainResponseDto(m.getMemberId(), m.getNickName(), m.getEmail(), m.getPhoneNum(), m.getToken()))
+    @GetMapping("/memberOrderList")
+    public Result findMemberOrders() {
+        List<MemberOrder> findMemberOrders = memberOrderService.findMemberOrders();
+        List<MemberOrderMainResponseDto> collect = findMemberOrders.stream()
+                .map(m -> new MemberOrderMainResponseDto(m.getMemberOrderId(), m.getMember()))
                 .collect(Collectors.toList());
 
         return new Result(collect);

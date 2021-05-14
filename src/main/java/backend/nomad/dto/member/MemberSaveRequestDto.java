@@ -24,12 +24,11 @@ public class MemberSaveRequestDto {
     private long point;
 
     @Builder
-    public MemberSaveRequestDto(String nickName, String email, String phoneNum, String token, long point) {
+    public MemberSaveRequestDto(String nickName, String email, String phoneNum, String token) {
         this.nickName = nickName;
         this.email = email;
         this.phoneNum = phoneNum;
         this.token = token;
-        this.point = point;
     }
 
     public Member toEntity() {
@@ -38,7 +37,6 @@ public class MemberSaveRequestDto {
                 .email(email)
                 .phoneNum(phoneNum)
                 .token(token)
-                .point(point)
                 .build();
     }
 }

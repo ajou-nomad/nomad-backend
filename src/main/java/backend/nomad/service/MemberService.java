@@ -1,6 +1,7 @@
 package backend.nomad.service;
 
 //import backend.nomad.domain.User;
+import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberRepository;
 import backend.nomad.dto.member.MemberMainResponseDto;
 import backend.nomad.dto.member.MemberSaveRequestDto;
@@ -10,9 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
 
@@ -20,7 +22,12 @@ public class MemberService {
 
     @Transactional
     public Long save(MemberSaveRequestDto dto) {
-        return memberRepository.save(dto.toEntity()).getId();
+        return memberRepository.save(dto.toEntity()).getMemberId();
+    }
+
+    @Transactional
+    public List<Member> findMembers() {
+        return memberRepository.findAll();
     }
 
 //    public List<User> findMembers() {
