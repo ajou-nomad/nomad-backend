@@ -22,7 +22,7 @@ public class FirebaseInit {
     @PostConstruct
     public void initialize() throws IOException {
         try {
-            FileInputStream refreshToken = new FileInputStream("//rn-fooddeliveryapp-c2ae6-firebase-adminsdk-4w1d8-c6bd8b4f1b.json");
+            FileInputStream refreshToken = new FileInputStream("rn-fooddeliveryapp-c2ae6-firebase-adminsdk-4w1d8-c6bd8b4f1b.json");
 //            ClassPathResource Path = new ClassPathResource("rn-fooddeliveryapp-c2ae6-firebase-adminsdk-4w1d8-c6bd8b4f1b.json");
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(refreshToken))
