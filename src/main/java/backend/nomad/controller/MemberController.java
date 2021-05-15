@@ -43,7 +43,7 @@ public class MemberController {
 
         List<Member> findMembers = memberService.findMembers();
         List<MemberMainResponseDto> collect = findMembers.stream()
-                .map(m -> new MemberMainResponseDto(m.getMemberId(), m.getNickName(), m.getEmail(), m.getPhoneNum(), m.getToken(), m.getUid(), m.getMemberType(), m.getShopIdNumber(), m.getDeliIdNumber()))
+                .map(m -> new MemberMainResponseDto(m.getMemberId(), m.getNickName(), m.getEmail(), m.getPhoneNum(), m.getToken(), m.getUid(), m.getMemberType(), m.getPoint(), m.getShopIdNumber(), m.getDeliIdNumber()))
                 .collect(Collectors.toList());
         for (Member member : findMembers) {
             System.out.println(member.getUid());
@@ -59,7 +59,7 @@ public class MemberController {
     public Result findMembers() {
         List<Member> findMembers = memberService.findMembers();
         List<MemberMainResponseDto> collect = findMembers.stream()
-                .map(m -> new MemberMainResponseDto(m.getMemberId(), m.getNickName(), m.getEmail(), m.getPhoneNum(), m.getToken(), m.getUid(), m.getMemberType(), m.getShopIdNumber(), m.getDeliIdNumber()))
+                .map(m -> new MemberMainResponseDto(m.getMemberId(), m.getNickName(), m.getEmail(), m.getPhoneNum(), m.getToken(), m.getUid(), m.getMemberType(), m.getPoint(), m.getShopIdNumber(), m.getDeliIdNumber()))
                 .collect(Collectors.toList());
 
         return new Result(collect);

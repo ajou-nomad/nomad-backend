@@ -26,6 +26,7 @@ public class Member {
     private String phoneNum;
     private String token;
     private String uid;
+    private Long point;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
@@ -45,7 +46,7 @@ public class Member {
 
 
     @Builder
-    public Member(String email, String nickName, String phoneNum, String token, String uid, MemberType memberType, String shopIdNumber, String deliIdNumber) {
+    public Member(String email, String nickName, String phoneNum, String token, String uid, MemberType memberType, String shopIdNumber, String deliIdNumber, Long point) {
         this.email = email;
         this.nickName = nickName;
         this.phoneNum = phoneNum;
@@ -54,5 +55,6 @@ public class Member {
         this.memberType = memberType;
         this.shopIdNumber = shopIdNumber;
         this.deliIdNumber = deliIdNumber;
+        this.point = point;
     }
 }

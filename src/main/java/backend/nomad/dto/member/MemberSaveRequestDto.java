@@ -28,13 +28,14 @@ public class MemberSaveRequestDto {
     private long point;
 
     @Builder
-    public MemberSaveRequestDto(String nickName, String email, String phoneNum, String token, String uid, MemberType memberType, String shopIdNumber, String deliIdNumber) {
+    public MemberSaveRequestDto(String nickName, String email, String phoneNum, String token, String uid, MemberType memberType, Long point, String shopIdNumber, String deliIdNumber) {
         this.nickName = nickName;
         this.email = email;
         this.phoneNum = phoneNum;
         this.token = token;
         this.uid = uid;
         this.memberType = memberType;
+        this.point = point;
         this.shopIdNumber = shopIdNumber;
         this.deliIdNumber = deliIdNumber;
     }
@@ -47,6 +48,7 @@ public class MemberSaveRequestDto {
                 .token(token)
                 .uid(uid)
                 .memberType(memberType)
+                .point(point)
                 .shopIdNumber(shopIdNumber)
                 .deliIdNumber(deliIdNumber)
                 .build();

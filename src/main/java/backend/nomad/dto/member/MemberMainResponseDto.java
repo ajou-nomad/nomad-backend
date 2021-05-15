@@ -15,10 +15,11 @@ public class MemberMainResponseDto {
     private String token;
     private String uid;
     private MemberType memberType;
+    private Long point;
     private String shopIdNumber;
     private String deliIdNumber;
 
-    public MemberMainResponseDto(Long memberId, String nickName, String email, String phoneNum, String token, String uid, MemberType memberType, String shopIdNumber, String deliIdNumber) {
+    public MemberMainResponseDto(Long memberId, String nickName, String email, String phoneNum, String token, String uid, MemberType memberType, Long point, String shopIdNumber, String deliIdNumber) {
         this.memberId = memberId;
         this.nickName = nickName;
         this.email = email;
@@ -26,6 +27,7 @@ public class MemberMainResponseDto {
         this.token = token;
         this.uid = uid;
         this.memberType = memberType;
+        this.point = point;
         this.shopIdNumber = shopIdNumber;
         this.deliIdNumber = deliIdNumber;
     }
