@@ -26,9 +26,13 @@ public class Member {
     private String nickName;
     private String phoneNum;
     private String token;
+    private String uid;
 
-    @OneToOne(mappedBy = "member")
-    private MemberOrder memberOrder;
+    @Enumerated(EnumType.STRING)
+    private MemberType memberType;
+
+//    @OneToOne(mappedBy = "member")
+//    private MemberOrder memberOrder;
 
 //    @OneToMany(mappedBy = "member")
 //    private List<MemberOrder> memberOrders = new ArrayList<>();
@@ -39,10 +43,12 @@ public class Member {
 
 
     @Builder
-    public Member(String email, String nickName, String phoneNum, String token) {
+    public Member(String email, String nickName, String phoneNum, String token, String uid, MemberType memberType) {
         this.email = email;
         this.nickName = nickName;
         this.phoneNum = phoneNum;
         this.token = token;
+        this.uid = uid;
+        this.memberType = memberType;
     }
 }
