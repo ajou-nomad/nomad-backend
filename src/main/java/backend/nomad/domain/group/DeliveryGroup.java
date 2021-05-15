@@ -20,7 +20,10 @@ public class DeliveryGroup {
     @Column(name = "group_id")
     private Long groupId;
     private Long groupNum;
-    private String address;
+
+    @Embedded
+    private Location location;
+
     private String store;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -29,9 +32,9 @@ public class DeliveryGroup {
 
 
     @Builder
-    public DeliveryGroup(Long groupNum, String address, String store) {
+    public DeliveryGroup(Long groupNum, Location location, String store) {
         this.groupNum = groupNum;
-        this.address = address;
+        this.location = location;
         this.store = store;
     }
 }
