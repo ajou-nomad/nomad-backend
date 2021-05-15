@@ -26,7 +26,10 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/member")
-    public Long saveMember(@RequestBody MemberSaveRequestDto dto) {
+    public Long saveMember(@RequestHeader("Authorization") String header, @RequestBody MemberSaveRequestDto dto) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+        dto.setUid(uid);
         return memberService.save(dto);
     }
 
@@ -38,7 +41,7 @@ public class MemberController {
 
         List<Member> findMembers = memberService.findMembers();
         List<MemberMainResponseDto> collect = findMembers.stream()
-                .map(m -> new MemberMainResponseDto(m.getMemberId(), m.getNickName(), m.getEmail(), m.getPhoneNum(), m.getToken(), m.getUid(), m.getMemberType()))
+                .map(m -> new MemberMainResponseDto(m.getMemberId(), m.getNickName(), m.getEmail(), m.getPhoneNum(), m.getToken(), m.getUid(), m.getMemberType(), m.getShopIdNumber(), m.getDeliIdNumber()))
                 .collect(Collectors.toList());
         for (Member member : findMembers) {
             System.out.println(member.getUid());
@@ -54,7 +57,7 @@ public class MemberController {
     public Result findMembers() {
         List<Member> findMembers = memberService.findMembers();
         List<MemberMainResponseDto> collect = findMembers.stream()
-                .map(m -> new MemberMainResponseDto(m.getMemberId(), m.getNickName(), m.getEmail(), m.getPhoneNum(), m.getToken(), m.getUid(), m.getMemberType()))
+                .map(m -> new MemberMainResponseDto(m.getMemberId(), m.getNickName(), m.getEmail(), m.getPhoneNum(), m.getToken(), m.getUid(), m.getMemberType(), m.getShopIdNumber(), m.getDeliIdNumber()))
                 .collect(Collectors.toList());
 
         return new Result(collect);

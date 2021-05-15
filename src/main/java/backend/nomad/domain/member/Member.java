@@ -22,7 +22,6 @@ public class Member {
     private Long memberId;
 
     private String email;
-//    private String password;
     private String nickName;
     private String phoneNum;
     private String token;
@@ -30,6 +29,9 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
+
+    private String shopIdNumber;
+    private String deliIdNumber;
 
 //    @OneToOne(mappedBy = "member")
 //    private MemberOrder memberOrder;
@@ -43,12 +45,14 @@ public class Member {
 
 
     @Builder
-    public Member(String email, String nickName, String phoneNum, String token, String uid, MemberType memberType) {
+    public Member(String email, String nickName, String phoneNum, String token, String uid, MemberType memberType, String shopIdNumber, String deliIdNumber) {
         this.email = email;
         this.nickName = nickName;
         this.phoneNum = phoneNum;
         this.token = token;
         this.uid = uid;
         this.memberType = memberType;
+        this.shopIdNumber = shopIdNumber;
+        this.deliIdNumber = deliIdNumber;
     }
 }

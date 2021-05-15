@@ -21,18 +21,22 @@ public class MemberSaveRequestDto {
     private String token;
     private String uid;
     private MemberType memberType;
+    private String shopIdNumber;
+    private String deliIdNumber;
 
 
     private long point;
 
     @Builder
-    public MemberSaveRequestDto(String nickName, String email, String phoneNum, String token, String uid, MemberType memberType) {
+    public MemberSaveRequestDto(String nickName, String email, String phoneNum, String token, String uid, MemberType memberType, String shopIdNumber, String deliIdNumber) {
         this.nickName = nickName;
         this.email = email;
         this.phoneNum = phoneNum;
         this.token = token;
         this.uid = uid;
         this.memberType = memberType;
+        this.shopIdNumber = shopIdNumber;
+        this.deliIdNumber = deliIdNumber;
     }
 
     public Member toEntity() {
@@ -43,6 +47,8 @@ public class MemberSaveRequestDto {
                 .token(token)
                 .uid(uid)
                 .memberType(memberType)
+                .shopIdNumber(shopIdNumber)
+                .deliIdNumber(deliIdNumber)
                 .build();
     }
 }
