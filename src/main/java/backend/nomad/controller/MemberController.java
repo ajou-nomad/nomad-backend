@@ -5,12 +5,14 @@ import backend.nomad.domain.member.Member;
 import backend.nomad.dto.member.MemberMainResponseDto;
 import backend.nomad.dto.member.MemberSaveRequestDto;
 import backend.nomad.service.MemberService;
+import com.google.api.Http;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -34,7 +36,7 @@ public class MemberController {
     }
 
     @GetMapping("/member")
-    public int authUser(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
+    public Result authUser(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
 
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
@@ -46,10 +48,10 @@ public class MemberController {
         for (Member member : findMembers) {
             System.out.println(member.getUid());
             if (member.getUid().equals(uid)) {
-                return 1;
+                return new Result(collect);
             }
         }
-        return 0;
+        return new Result(HttpStatus.SC_BAD_REQUEST);
     }
 
 
