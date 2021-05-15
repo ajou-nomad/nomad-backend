@@ -16,14 +16,12 @@ import java.util.Date;
 @NoArgsConstructor
 public class MemberSaveRequestDto {
     private String nickName;
-
     private String email;
-
     private String phoneNum;
-
     private String token;
     private String uid;
     private MemberType memberType;
+
 
     private long point;
 

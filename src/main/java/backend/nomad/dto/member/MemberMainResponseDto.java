@@ -14,7 +14,7 @@ public class MemberMainResponseDto {
     private String phoneNum;
     private String token;
     private String uid;
-    ;private MemberType memberType;
+    private MemberType memberType;
 
     public MemberMainResponseDto(Long memberId, String nickName, String email, String phoneNum, String token, String uid, MemberType memberType) {
         this.memberId = memberId;

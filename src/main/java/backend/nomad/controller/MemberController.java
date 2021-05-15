@@ -30,12 +30,11 @@ public class MemberController {
         return memberService.save(dto);
     }
 
-    @GetMapping("/auth/user")
-    public String authUser(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
-        System.out.println(header);
+    @GetMapping("/member")
+    public int authUser(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
+
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
-        System.out.println(uid);
 
         List<Member> findMembers = memberService.findMembers();
         List<MemberMainResponseDto> collect = findMembers.stream()
@@ -44,11 +43,13 @@ public class MemberController {
         for (Member member : findMembers) {
             System.out.println(member.getUid());
             if (member.getUid().equals(uid)) {
-                return "로그인 성공했습니다";
+                return 1;
             }
         }
-        return "회원 정보가 없습니다.";
+        return 0;
     }
+
+
     @GetMapping("/memberList")
     public Result findMembers() {
         List<Member> findMembers = memberService.findMembers();
