@@ -48,7 +48,8 @@ public class MemberController {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
         if (memberService.findByUid(uid) != null) {
-            return new Result(HttpStatus.SC_ACCEPTED);
+            Member member = memberService.findByUid(uid);
+            return new Result(member);
         }
 
         else {
