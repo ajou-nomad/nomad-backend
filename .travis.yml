@@ -21,3 +21,4 @@ notifications:
   email:
     recipients:
       - sskk713@ajou.ac.kr
+  slack: nomadsc21:UDDaW7zIFUEeMird5gUglzXV
