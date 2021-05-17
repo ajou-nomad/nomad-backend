@@ -23,27 +23,5 @@ public class MemberOrder {
     @JoinColumn(name = "member_id")
     private Member member;
 
-//    @OneToMany
-//    private DeliveryGroup deliveryGroup;
 
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "orderItems")
-//    private List<String> orderItems = new ArrayList<>();
-
-//    public void setMember(Member member) {
-//        this.member = member;
-//        member.getMemberOrder().add(this);
-//    }
-//    public static MemberOrder createMemberOrder(Member member) {
-//        MemberOrder memberOrder = new MemberOrder();
-//        memberOrder.setMember(member);
-////        for (OrderItem orderItem : orderItem)
-////        this.deliveryGroup = deliveryGroup;
-//        return memberOrder;
-//    }
-    @Builder
-    public MemberOrder(Member member) {
-        this.member = member;
-
-    }
 }

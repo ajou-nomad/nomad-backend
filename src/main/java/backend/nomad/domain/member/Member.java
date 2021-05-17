@@ -38,8 +38,8 @@ public class Member {
 //    @OneToOne(mappedBy = "member")
 //    private Store store;
 
-//    @OneToMany(mappedBy = "member")
-//    private List<MemberOrder> memberOrders = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<MemberOrder> memberOrder = new ArrayList<>();
 
 //    private MemberType memberType;
 //    private String storeNum;
