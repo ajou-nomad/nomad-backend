@@ -1,40 +1,72 @@
 package backend.nomad.domain.group;
 
 //import backend.nomad.domain.member.MemberOrder;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import backend.nomad.domain.member.Member;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Getter
+@Setter
 public class DeliveryGroup {
 
     @Id
     @GeneratedValue
     @Column(name = "group_id")
     private Long groupId;
-    private Long groupNum;
+    private String storeId;
+    private Double latitude;
+    private Double longitude;
+    private String address;
+    private String building;
+    private String time;
+    private String date;
+    private Integer current;
+    private Integer maxValue;
 
-    @Embedded
-    private Location location;
+//    @OneToMany(mappedBy = "deliveryGroup")
+//    @ElementCollection
+//    private List<String> memberList;
 
-    private String store;
+    @Enumerated(EnumType.STRING)
+    private GroupType groupType;
+
+    @OneToMany(mappedBy = "deliveryGroup")
+    private List<Member> memberList = new ArrayList<>();
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "member_id")
+//    private Member member;
+
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "memberOrder_id")
 //    private MemberOrder memberOrder;
 
-
-    @Builder
-    public DeliveryGroup(Long groupNum, Location location, String store) {
-        this.groupNum = groupNum;
-        this.location = location;
-        this.store = store;
+    public DeliveryGroup(String storeId, Double latitude, Double longitude, String address, String building, String time, String date, Integer current, Integer maxValue, GroupType groupType) {
+        this.storeId = storeId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
+        this.building = building;
+        this.time = time;
+        this.date = date;
+        this.current = current;
+        this.maxValue = maxValue;
+        this.groupType = groupType;
     }
+
+    public DeliveryGroup() {
+
+    }
+
+//    public int addCurrent(DeliveryGroup deliveryGroup) {
+//        this.current = current;
+//        ().add(this.member.getUid());
+//    }
 }

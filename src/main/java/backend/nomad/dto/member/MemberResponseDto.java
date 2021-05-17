@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
-public class MemberMainResponseDto {
+public class MemberResponseDto {
     private Long memberId;
     private String nickName;
     private String email;
@@ -19,7 +19,7 @@ public class MemberMainResponseDto {
     private String shopIdNumber;
     private String deliIdNumber;
 
-    public MemberMainResponseDto(Long memberId, String nickName, String email, String phoneNum, String token, String uid, MemberType memberType, Long point, String shopIdNumber, String deliIdNumber) {
+    public MemberResponseDto(Long memberId, String nickName, String email, String phoneNum, String token, String uid, MemberType memberType, Long point, String shopIdNumber, String deliIdNumber) {
         this.memberId = memberId;
         this.nickName = nickName;
         this.email = email;

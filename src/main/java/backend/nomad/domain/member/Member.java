@@ -1,9 +1,7 @@
 package backend.nomad.domain.member;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import backend.nomad.domain.group.DeliveryGroup;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @Entity
 public class Member {
 
@@ -34,8 +32,11 @@ public class Member {
     private String shopIdNumber;
     private String deliIdNumber;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DeliveryGroup deliveryGroup;
+
 //    @OneToOne(mappedBy = "member")
-//    private MemberOrder memberOrder;
+//    private Store store;
 
 //    @OneToMany(mappedBy = "member")
 //    private List<MemberOrder> memberOrders = new ArrayList<>();
@@ -45,8 +46,7 @@ public class Member {
 //    private String driveLicense;
 
 
-    @Builder
-    public Member(String email, String nickName, String phoneNum, String token, String uid, MemberType memberType, String shopIdNumber, String deliIdNumber, Long point) {
+    public Member(String email, String nickName, String phoneNum, String token, String uid, MemberType memberType, String shopIdNumber, String deliIdNumber, Long point, DeliveryGroup deliveryGroup) {
         this.email = email;
         this.nickName = nickName;
         this.phoneNum = phoneNum;
@@ -56,5 +56,18 @@ public class Member {
         this.shopIdNumber = shopIdNumber;
         this.deliIdNumber = deliIdNumber;
         this.point = point;
+        if (deliveryGroup != null) {
+            changeGroup(deliveryGroup);
+        }
+    }
+    public void changeGroup(DeliveryGroup deliveryGroup) {
+        this.deliveryGroup = deliveryGroup;
+        System.out.println("성공");
+        deliveryGroup.getMemberList().add(this);
+        deliveryGroup.setCurrent(deliveryGroup.getMemberList().size());
+    }
+
+    public Member() {
+
     }
 }

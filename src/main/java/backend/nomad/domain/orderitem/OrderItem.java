@@ -5,9 +5,7 @@
 //import lombok.Getter;
 //import lombok.NoArgsConstructor;
 //
-//import javax.persistence.Entity;
-//import javax.persistence.ManyToOne;
-//import javax.persistence.OneToMany;
+//import javax.persistence.*;
 //import java.util.List;
 //
 //@NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,6 +13,14 @@
 //@Entity
 //public class OrderItem {
 //
-//    @OneToMany(mappedBy = )
-//    private List<String> orderItems;
+//    @Id
+//    @GeneratedValue
+//    @Column(name = "order_item_id")
+//    private Long id;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "member_order_id")
+//    private MemberOrder memberOrder;
+//
+//    private static  orderItems;
 //}

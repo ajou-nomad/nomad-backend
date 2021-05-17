@@ -2,6 +2,8 @@
 //
 //import backend.nomad.domain.member.Member;
 ////import backend.nomad.domain.member.MemberOrder;
+//import backend.nomad.domain.member.MemberOrder;
+//import backend.nomad.domain.member.MemberRepository;
 //import backend.nomad.dto.member.MemberMainResponseDto;
 //import backend.nomad.dto.member.MemberOrderMainResponseDto;
 //import backend.nomad.dto.member.MemberOrderSaveRequestDto;
@@ -23,10 +25,15 @@
 //public class MemberOrderController {
 //
 //    private final MemberOrderService memberOrderService;
+//    private final MemberRepository memberRepository;
 //
 //    @PostMapping("/memberOrder")
 //    public Long saveMemberOrder(@RequestBody MemberOrderSaveRequestDto dto) {
-//        return memberOrderService.save(dto);
+//        Long id = dto.getMember().getMemberId();
+////        Member member = new Member();
+//        member.setMemberId(id);
+//        dto.setMember(member);
+//        return memberOrderService.save(member);
 //    }
 //
 //    @GetMapping("/memberOrderList")
