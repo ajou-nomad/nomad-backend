@@ -8,7 +8,9 @@ import backend.nomad.dto.group.DeliveryGroupResponseDto;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.service.DeliveryGroupService;
 import backend.nomad.service.MemberService;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +32,10 @@ public class DeliveryGroupController {
     private final DeliveryGroupService deliveryGroupService;
     private final MemberService memberService;
     @PostMapping("/groupData")
-    public Long SaveGroup(@RequestBody DeliveryGroupRequestDto dto) throws FirebaseAuthException {
-        String uid = "asd";
+    public Long SaveGroup(@RequestBody DeliveryGroupRequestDto dto, @RequestHeader String header) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
         DeliveryGroup deliveryGroup = new DeliveryGroup();
         deliveryGroup.setStoreId(dto.getStoreId());
         deliveryGroup.setLatitude(dto.getLatitude());
@@ -53,8 +57,10 @@ public class DeliveryGroupController {
     }
 
     @PostMapping("/participationGroup")
-    public Result addInGroup(@RequestBody DeliveryGroupRequestDto dto) throws FirebaseAuthException {
-        String uid = "random";
+    public Result addInGroup(@RequestBody DeliveryGroupRequestDto dto, @RequestHeader String header) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
         Member member = memberService.findByUid(uid);
         Optional<DeliveryGroup> deliveryGroup = deliveryGroupService.findById(dto.getGroupId());
         member.setDeliveryGroup(deliveryGroup.get());

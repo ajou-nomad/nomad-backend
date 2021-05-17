@@ -24,11 +24,10 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/member")
-//    public Long saveMember(@RequestHeader("Authorization") String header, @RequestBody MemberRequestDto dto) throws FirebaseAuthException {
-    public Long saveMember(@RequestBody MemberRequestDto dto) throws FirebaseAuthException {
-//        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
-//        String uid = decodedToken.getUid();
-        String uid = "asd";
+    public Long saveMember(@RequestHeader("Authorization") String header, @RequestBody MemberRequestDto dto) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
         Member member = new Member();
         member.setEmail(dto.getEmail());
         member.setNickName(dto.getNickName());
@@ -44,12 +43,10 @@ public class MemberController {
     }
 
     @GetMapping("/member")
-//    public Result authUser(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
-    public Result authUser() throws FirebaseAuthException {
+    public Result authUser(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
 
-//        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
-//        String uid = decodedToken.getUid();
-        String uid = "random";
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
         if (memberService.findByUid(uid) != null) {
             return new Result(HttpStatus.SC_ACCEPTED);
         }
