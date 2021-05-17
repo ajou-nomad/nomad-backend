@@ -39,7 +39,7 @@ public class MemberController {
         member.setDeliIdNumber(dto.getDeliIdNumber());
         member.setPoint(dto.getPoint());
 
-        return memberService.save(member);
+        return new Long(1);
     }
 
     @GetMapping("/member")

@@ -71,6 +71,7 @@ public class DeliveryGroupController {
         int current = deliveryGroup.get().getCurrent();
         int maxValue = deliveryGroup.get().getMaxValue();
         if (current == maxValue) {
+//            deliveryGroup.get().setGroupType();
             return new Result("MAX");
         }
 
