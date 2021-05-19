@@ -1,13 +1,13 @@
 package backend.nomad.domain.group;
 
 //import backend.nomad.domain.member.MemberOrder;
+
 import backend.nomad.domain.member.Member;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,7 +19,7 @@ public class DeliveryGroup {
     @GeneratedValue
     @Column(name = "group_id")
     private Long groupId;
-    private String storeId;
+    private Long storeId;
     private Double latitude;
     private Double longitude;
     private String address;
@@ -28,6 +28,7 @@ public class DeliveryGroup {
     private String date;
     private Integer current;
     private Integer maxValue;
+    private String orderStatus;
 
 //    @OneToMany(mappedBy = "deliveryGroup")
 //    @ElementCollection
@@ -48,7 +49,7 @@ public class DeliveryGroup {
 //    @JoinColumn(name = "memberOrder_id")
 //    private MemberOrder memberOrder;
 
-    public DeliveryGroup(String storeId, Double latitude, Double longitude, String address, String building, String time, String date, Integer current, Integer maxValue, GroupType groupType) {
+    public DeliveryGroup(Long storeId, Double latitude, Double longitude, String address, String building, String time, String date, Integer current, Integer maxValue, GroupType groupType) {
         this.storeId = storeId;
         this.latitude = latitude;
         this.longitude = longitude;

@@ -1,12 +1,12 @@
 package backend.nomad.domain.member;
 
 import backend.nomad.domain.group.DeliveryGroup;
-import lombok.*;
+import backend.nomad.domain.store.Store;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -35,11 +35,14 @@ public class Member {
     @ManyToOne(fetch = FetchType.LAZY)
     private DeliveryGroup deliveryGroup;
 
-//    @OneToOne(mappedBy = "member")
-//    private Store store;
+    @OneToMany(mappedBy = "member")
+    private List<Store> store = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberOrder> memberOrder = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "member")
-//    private List<MemberOrder> memberOrder = new ArrayList<>();
+//    private List<MemberOrder> memberOrders = new ArrayList<>();
 
 //    private MemberType memberType;
 //    private String storeNum;

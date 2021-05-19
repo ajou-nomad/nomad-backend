@@ -3,9 +3,6 @@ package backend.nomad.dto.member;
 import backend.nomad.domain.member.MemberType;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 @Getter
 public class MemberResponseDto {
     private Long memberId;

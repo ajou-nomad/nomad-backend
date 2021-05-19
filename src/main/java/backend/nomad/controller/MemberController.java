@@ -75,4 +75,10 @@ public class MemberController {
         private T data;
     }
 
+    @Data
+    @AllArgsConstructor
+    class ResultList<T, U> {
+        private T dataT;
+        private U dataU;
+    }
 }

@@ -1,4 +1,29 @@
-//package backend.nomad.dto.store;
-//
-//public class MenuResponseDto {
-//}
+package backend.nomad.dto.store;
+
+import backend.nomad.domain.orderitem.OrderItem;
+import backend.nomad.domain.store.Store;
+import lombok.Getter;
+
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+public class MenuResponseDto {
+
+    private Long menuId;
+    private String menuName;
+    private Integer cost;
+    private String description;
+//    detail?
+//    private String imgUrl;
+
+    public MenuResponseDto(Long menuId, String menuName, Integer cost, String description) {
+        this.menuId = menuId;
+        this.menuName = menuName;
+        this.cost = cost;
+        this.description = description;
+    }
+}

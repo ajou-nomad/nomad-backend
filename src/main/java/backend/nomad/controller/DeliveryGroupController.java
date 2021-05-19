@@ -1,13 +1,13 @@
 package backend.nomad.controller;
 
 import backend.nomad.domain.group.DeliveryGroup;
-//import backend.nomad.domain.group.uid;
 import backend.nomad.domain.member.Member;
-import backend.nomad.domain.member.MemberRepository;
-import backend.nomad.dto.group.DeliveryGroupResponseDto;
+import backend.nomad.domain.member.MemberOrder;
+import backend.nomad.domain.store.Menu;
+import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
-import backend.nomad.service.DeliveryGroupService;
-import backend.nomad.service.MemberService;
+import backend.nomad.dto.group.DeliveryGroupResponseDto;
+import backend.nomad.service.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -31,29 +31,56 @@ public class DeliveryGroupController {
     private Logger logger;
     private final DeliveryGroupService deliveryGroupService;
     private final MemberService memberService;
+    private final StoreService storeService;
+    private final MenuService menuService;
+    private final MemberOrderService memberOrderService;
+
     @PostMapping("/groupData")
-    public Long SaveGroup(@RequestBody DeliveryGroupRequestDto dto, @RequestHeader String header) throws FirebaseAuthException {
+    public void SaveGroup(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
         DeliveryGroup deliveryGroup = new DeliveryGroup();
-        deliveryGroup.setStoreId(dto.getStoreId());
-        deliveryGroup.setLatitude(dto.getLatitude());
-        deliveryGroup.setLongitude(dto.getLongitude());
-        deliveryGroup.setAddress(dto.getAddress());
-        deliveryGroup.setBuilding(dto.getBuilding());
-        deliveryGroup.setTime(dto.getTime());
-        deliveryGroup.setDate(dto.getDate());
+        deliveryGroup.setStoreId(deliveryGroupRequestDto.getStoreId());
+        deliveryGroup.setLatitude(deliveryGroupRequestDto.getLatitude());
+        deliveryGroup.setLongitude(deliveryGroupRequestDto.getLongitude());
+        deliveryGroup.setAddress(deliveryGroupRequestDto.getAddress());
+        deliveryGroup.setBuilding(deliveryGroupRequestDto.getBuilding());
+        deliveryGroup.setTime(deliveryGroupRequestDto.getTime());
+        deliveryGroup.setDate(deliveryGroupRequestDto.getDate());
         deliveryGroup.setCurrent(1);
-        deliveryGroup.setMaxValue(dto.getMaxValue());
-        deliveryGroup.setGroupType(dto.getGroupType());
+        deliveryGroup.setMaxValue(deliveryGroupRequestDto.getMaxValue());
+        deliveryGroup.setGroupType(deliveryGroupRequestDto.getGroupType());
+        deliveryGroup.setOrderStatus("recruiting");
+
+        deliveryGroupService.save(deliveryGroup);
 
         Member member = memberService.findByUid(uid);
         member.setDeliveryGroup(deliveryGroup);
         member.changeGroup(deliveryGroup);
         memberService.save(member);
 
-        return deliveryGroupService.save(deliveryGroup);
+        //주문 데이터
+        Store store = storeService.findByStoreId(deliveryGroupRequestDto.getStoreId());
+
+        MemberOrder memberOrder = new MemberOrder();
+        memberOrder.setUid(uid);
+        memberOrder.setStoreId(deliveryGroupRequestDto.getStoreId());
+
+        memberOrder.setStore(store);
+
+
+        Menu menu = menuService.findByMenuName(deliveryGroupRequestDto.getMenuName());
+
+        int totalCost = menu.getCost() * deliveryGroupRequestDto.getQuantity();
+
+        memberOrder.setTotalCost(totalCost);
+        memberOrder.setPayMethod(deliveryGroupRequestDto.getPayMethod());
+        memberOrder.setOrderTime(deliveryGroupRequestDto.getOrderTime());
+
+        memberOrder.setMember(member);
+
+        memberOrderService.save(memberOrder);
     }
 
     @PostMapping("/participationGroup")
@@ -62,19 +89,39 @@ public class DeliveryGroupController {
         String uid = decodedToken.getUid();
 
         Member member = memberService.findByUid(uid);
-        Optional<DeliveryGroup> deliveryGroup = deliveryGroupService.findById(dto.getGroupId());
-        member.setDeliveryGroup(deliveryGroup.get());
-        member.changeGroup(deliveryGroup.get());
-        memberService.save(member);
-        deliveryGroupService.save(deliveryGroup.get());
+        DeliveryGroup deliveryGroup = deliveryGroupService.findById(dto.getGroupId());
+        member.setDeliveryGroup(deliveryGroup);
+        member.changeGroup(deliveryGroup);
 
-        int current = deliveryGroup.get().getCurrent();
-        int maxValue = deliveryGroup.get().getMaxValue();
-        if (current == maxValue) {
-//            deliveryGroup.get().setGroupType();
+        //주문 데이터
+        MemberOrder memberOrder = new MemberOrder();
+
+        Store store = storeService.findByStoreId(dto.getStoreId());
+        memberOrder.setStore(store);
+
+        memberOrder.setUid(uid);
+        memberOrder.setStoreId(dto.getStoreId());
+
+        Menu menu = menuService.findByMenuName(dto.getMenuName());
+
+        int cost = menu.getCost() * dto.getQuantity();
+
+        memberOrder.setTotalCost(cost);
+        memberOrder.setPayMethod(memberOrder.getPayMethod());
+        memberOrder.setOrderTime(memberOrder.getOrderTime());
+        memberOrder.setMember(member);
+
+        memberOrderService.save(memberOrder);
+
+        if (deliveryGroup.getCurrent() == deliveryGroup.getMaxValue()) {
+            deliveryGroup.setOrderStatus("recruitmentDone");
+            memberService.save(member);
+            deliveryGroupService.save(deliveryGroup);
             return new Result("MAX");
         }
 
+        memberService.save(member);
+        deliveryGroupService.save(deliveryGroup);
 
         return new Result(HttpStatus.ACCEPTED);
     }
@@ -83,7 +130,7 @@ public class DeliveryGroupController {
     public Result findGroups() {
         List<DeliveryGroup> findGroups = deliveryGroupService.findGroups();
         List<DeliveryGroupResponseDto> collect = findGroups.stream()
-                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuilding(), m.getTime(), m.getDate(),m.getCurrent(),  m.getMaxValue(),m.getGroupType()))
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuilding(), m.getTime(), m.getDate(),m.getCurrent(),  m.getMaxValue(),m.getGroupType(), m.getOrderStatus()))
                 .collect(Collectors.toList());
 
         return new Result(collect);

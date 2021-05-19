@@ -3,8 +3,6 @@ package backend.nomad.service;
 
 import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.group.DeliveryGroupRepository;
-//import backend.nomad.domain.group.uid;
-import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +28,7 @@ public class DeliveryGroupService {
     }
 
     @Transactional
-    public Optional<DeliveryGroup> findById(Long id) {
-        return deliveryGroupRepository.findById(id);
+    public DeliveryGroup findById(Long id) {
+        return deliveryGroupRepository.findById(id).orElse(null);
     }
 }

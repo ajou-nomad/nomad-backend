@@ -1,10 +1,9 @@
 package backend.nomad.service;
 
 //import backend.nomad.domain.User;
+
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberRepository;
-import backend.nomad.dto.member.MemberRequestDto;
-//import backend.nomad.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
