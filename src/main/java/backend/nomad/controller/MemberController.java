@@ -1,9 +1,14 @@
 package backend.nomad.controller;
 
 
+import backend.nomad.domain.group.DeliveryGroup;
+import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
+import backend.nomad.dto.chat.ChatRequestDto;
 import backend.nomad.dto.member.MemberResponseDto;
 import backend.nomad.dto.member.MemberRequestDto;
+import backend.nomad.service.ChatService;
+import backend.nomad.service.DeliveryGroupService;
 import backend.nomad.service.MemberService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -22,6 +27,8 @@ import java.util.stream.Collectors;
 public class MemberController {
 
     private final MemberService memberService;
+    private final DeliveryGroupService deliveryGroupService;
+    private final ChatService chatService;
 
     @PostMapping("/member")
     public Long saveMember(@RequestHeader("Authorization") String header, @RequestBody MemberRequestDto dto) throws FirebaseAuthException {
@@ -69,6 +76,23 @@ public class MemberController {
 
         return new Result(collect);
     }
+
+    @PostMapping("/ChatId")
+    public void setChat(@RequestBody ChatRequestDto chatRequestDto) {
+        DeliveryGroup deliveryGroup = deliveryGroupService.findById(chatRequestDto.getGroupId());
+
+        Chat chat = new Chat();
+        chat.setChatName(chatRequestDto.getChatId());
+
+        chatService.save(chat);
+        List<Member> member = deliveryGroup.getMemberList();
+        for (Member x : member) {
+            chat.addChat(x);
+            memberService.save(x);
+        }
+
+    }
+
     @Data
     @AllArgsConstructor
     class Result<T> {

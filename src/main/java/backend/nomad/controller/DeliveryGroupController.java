@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class DeliveryGroupController {
 
-    private Logger logger;
     private final DeliveryGroupService deliveryGroupService;
     private final MemberService memberService;
     private final StoreService storeService;

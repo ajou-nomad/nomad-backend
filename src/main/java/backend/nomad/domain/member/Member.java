@@ -41,6 +41,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<MemberOrder> memberOrder = new ArrayList<>();
 
+    @OneToMany(mappedBy = "")
+    private List<Chat> chat = new ArrayList<>();
+
 //    @OneToMany(mappedBy = "member")
 //    private List<MemberOrder> memberOrders = new ArrayList<>();
 
