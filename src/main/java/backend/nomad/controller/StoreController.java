@@ -68,7 +68,7 @@ public class StoreController {
 
         Member member = memberService.findByUid(uid);
         Store store = member.getStore().get(0);
-        StoreResponseDto storeResponseDto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip());
+        StoreResponseDto storeResponseDto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl());
 //        List<Store> store = storeService.findStores();
 //        List<StoreResponseDto> storeList = store.stream()
 //                .map(m -> new StoreResponseDto(m.getStoreId(), m.getStoreName(), m.getPhoneNumber(), m.getAddress(), m.getLatitude(), m.getLongitude(), m.getOpenTime(), m.getCloseTime(), m.getDeliveryTip(), m.getMember()))

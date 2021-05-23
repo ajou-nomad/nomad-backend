@@ -10,7 +10,7 @@ public class StoreResponseDto {
     private Long storeId;
 
     private String storeName;
-    private String PhoneNumber;
+    private String phoneNumber;
 
     private String address;
     private Double latitude;
@@ -18,19 +18,20 @@ public class StoreResponseDto {
 
     private String openTime;
     private String closeTime;
-    private String deliveryTip;
-//    private String logoUrl;
+    private Integer deliveryTip;
+    private String logoUrl;
 
 
-    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, String deliveryTip) {
+    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl) {
         this.storeId = storeId;
         this.storeName = storeName;
-        this.PhoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.openTime = openTime;
         this.closeTime = closeTime;
         this.deliveryTip = deliveryTip;
+        this.logoUrl = logoUrl;
     }
 }

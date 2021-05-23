@@ -10,7 +10,7 @@ import lombok.Setter;
 public class StoreRequestDto {
 
     private String storeName;
-    private String PhoneNumber;
+    private String phoneNumber;
 
     private String address;
     private Double latitude;
@@ -18,7 +18,7 @@ public class StoreRequestDto {
 
     private String openTime;
     private String closeTime;
-    private String deliveryTip;
+    private Integer deliveryTip;
     private String logoUrl;
 
 }

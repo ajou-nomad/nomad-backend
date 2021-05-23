@@ -20,7 +20,7 @@ public class Store {
     private Long storeId;
 
     private String storeName;
-    private String PhoneNumber;
+    private String phoneNumber;
 
     private String address;
     private Double latitude;
@@ -28,7 +28,7 @@ public class Store {
 
     private String openTime;
     private String closeTime;
-    private String deliveryTip;
+    private Integer deliveryTip;
     private String logoUrl;
 
     @OneToMany(mappedBy = "store")
@@ -43,9 +43,9 @@ public class Store {
     public Store() {
     }
 
-    public Store(String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, String deliveryTip, String logoUrl, Member member) {
+    public Store(String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, Member member) {
         this.storeName = storeName;
-        this.PhoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
