@@ -4,6 +4,7 @@ package backend.nomad.controller;
 import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
+import backend.nomad.domain.member.MemberType;
 import backend.nomad.dto.chat.ChatRequestDto;
 import backend.nomad.dto.member.MemberResponseDto;
 import backend.nomad.dto.member.MemberRequestDto;
@@ -58,7 +59,8 @@ public class MemberController {
         String uid = decodedToken.getUid();
         if (memberService.findByUid(uid) != null) {
             Member member = memberService.findByUid(uid);
-            return new Result(member);
+            MemberResponseDto memberResponseDto = new MemberResponseDto( member.getMemberId(), member.getNickName(), member.getEmail(), member.getPhoneNum(), member.getToken(), member.getUid(), member.getMemberType(), member.getPoint(), member.getShopIdNumber(), member.getDeliIdNumber());
+            return new Result(memberResponseDto);
         }
 
         else {
