@@ -35,7 +35,7 @@ public class DeliveryGroupController {
     private final MemberOrderService memberOrderService;
 
     @PostMapping("/groupData")
-    public void SaveGroup(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader String header) throws FirebaseAuthException {
+    public void SaveGroup(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
@@ -83,7 +83,7 @@ public class DeliveryGroupController {
     }
 
     @PostMapping("/participationGroup")
-    public Result addInGroup(@RequestBody DeliveryGroupRequestDto dto, @RequestHeader String header) throws FirebaseAuthException {
+    public Result addInGroup(@RequestBody DeliveryGroupRequestDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 

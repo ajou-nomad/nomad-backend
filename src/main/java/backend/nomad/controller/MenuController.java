@@ -28,7 +28,7 @@ public class MenuController {
     private final StoreService storeService;
 
     @PostMapping("/menu")
-    public void savaStoreMenu(@RequestBody MenuRequestDto dto, @RequestHeader String header) throws FirebaseAuthException {
+    public void savaStoreMenu(@RequestBody MenuRequestDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 

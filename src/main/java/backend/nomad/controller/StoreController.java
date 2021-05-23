@@ -36,7 +36,7 @@ public class StoreController {
 
 
     @PostMapping("/store")
-    public void saveStore(@RequestBody StoreRequestDto dto, @RequestHeader String header) throws FirebaseAuthException {
+    public void saveStore(@RequestBody StoreRequestDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
@@ -62,7 +62,7 @@ public class StoreController {
     }
 
     @GetMapping("/storeList")
-    public ResultList getStoreList(@RequestHeader String header) throws FirebaseAuthException {
+    public ResultList getStoreList(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 

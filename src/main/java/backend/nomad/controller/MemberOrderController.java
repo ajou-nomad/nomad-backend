@@ -34,7 +34,7 @@ public class MemberOrderController {
 //    }
 
     @GetMapping("/memberOrderList")
-    public Result findMemberOrders(@RequestHeader String header) throws FirebaseAuthException {
+    public Result findMemberOrders(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
