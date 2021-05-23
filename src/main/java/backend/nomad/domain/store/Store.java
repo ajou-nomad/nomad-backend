@@ -29,7 +29,7 @@ public class Store {
     private String openTime;
     private String closeTime;
     private String deliveryTip;
-//    private String logoUrl;
+    private String logoUrl;
 
     @OneToMany(mappedBy = "store")
     private List<Menu> menu = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Store {
     public Store() {
     }
 
-    public Store(String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, String deliveryTip, Member member) {
+    public Store(String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, String deliveryTip, String logoUrl, Member member) {
         this.storeName = storeName;
         this.PhoneNumber = phoneNumber;
         this.address = address;
@@ -52,6 +52,7 @@ public class Store {
         this.openTime = openTime;
         this.closeTime = closeTime;
         this.deliveryTip = deliveryTip;
+        this.logoUrl = logoUrl;
         this.member = member;
     }
 

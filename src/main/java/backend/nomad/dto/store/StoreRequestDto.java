@@ -19,6 +19,6 @@ public class StoreRequestDto {
     private String openTime;
     private String closeTime;
     private String deliveryTip;
-//    private String logoUrl;
+    private String logoUrl;
 
 }

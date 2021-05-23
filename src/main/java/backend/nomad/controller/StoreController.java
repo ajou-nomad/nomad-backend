@@ -49,6 +49,7 @@ public class StoreController {
         store.setOpenTime(dto.getOpenTime());
         store.setCloseTime(dto.getCloseTime());
         store.setDeliveryTip(dto.getDeliveryTip());
+        store.setLogoUrl(dto.getLogoUrl());
 
         storeService.save(store);
         memberService.save(store.getMember());

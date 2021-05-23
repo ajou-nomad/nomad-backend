@@ -25,7 +25,7 @@ public class Menu {
     private Integer cost;
     private String description;
 //    detail?
-//    private String imgUrl;
+    private String imgUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
@@ -33,11 +33,12 @@ public class Menu {
     @OneToMany(mappedBy = "menu")
     private List<OrderItem> orderItem = new ArrayList<>();
 
-    public Menu(String menuName, Integer cost, String description, Store store) {
+    public Menu(String menuName, Integer cost, String description, Store store, String imgUrl) {
         this.menuName = menuName;
         this.cost = cost;
         this.description = description;
         this.store = store;
+        this.imgUrl = imgUrl;
     }
 
     public Menu() {
