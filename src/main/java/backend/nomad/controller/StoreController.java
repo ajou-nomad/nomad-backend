@@ -18,11 +18,13 @@ import com.google.firebase.auth.FirebaseToken;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class StoreController {
@@ -31,10 +33,14 @@ public class StoreController {
     private final MemberService memberService;
     private final MenuService menuService;
 
+
+
     @PostMapping("/store")
     public void saveStore(@RequestBody StoreRequestDto dto, @RequestHeader String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
+
+
 
         Member member = memberService.findByUid(uid);
         Store store = new Store();
