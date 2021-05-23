@@ -62,23 +62,35 @@ public class StoreController {
     }
 
     @GetMapping("/storeList")
-    public ResultList getStoreList(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
+    public Result getAllStoreList() {
+        List<Store> store = storeService.findStores();
+        List<StoreResponseDto> storeList = store.stream()
+                .map(m -> new StoreResponseDto(m.getStoreId(), m.getStoreName(), m.getPhoneNumber(), m.getAddress(), m.getLatitude(), m.getLongitude(), m.getOpenTime(), m.getCloseTime(), m.getDeliveryTip(), m.getLogoUrl(), m.getMenu()))
+                .collect(Collectors.toList());
+
+
+        return new Result(storeList);
+    }
+
+    @GetMapping("/allStoreList")
+    public Result getStoreList(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
         Member member = memberService.findByUid(uid);
         Store store = member.getStore().get(0);
-        StoreResponseDto storeResponseDto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl());
+        StoreResponseDto storeResponseDto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), store.getMenu());
 //        List<Store> store = storeService.findStores();
 //        List<StoreResponseDto> storeList = store.stream()
 //                .map(m -> new StoreResponseDto(m.getStoreId(), m.getStoreName(), m.getPhoneNumber(), m.getAddress(), m.getLatitude(), m.getLongitude(), m.getOpenTime(), m.getCloseTime(), m.getDeliveryTip(), m.getMember()))
 //                .collect(Collectors.toList());
 
-        List<Menu> menu = menuService.findAllMenu();
-        List<MenuResponseDto> menuList = menu.stream()
-                .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription()))
-                .collect(Collectors.toList());
-        return new ResultList(storeResponseDto, menuList);
+//        List<Menu> menu = menuService.findAllMenu();
+//        List<MenuResponseDto> menuList = menu.stream()
+//                .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription()))
+//                .collect(Collectors.toList());
+//        return new ResultList(storeResponseDto, menuList);
+        return new Result(storeResponseDto);
     }
     @Data
     @AllArgsConstructor

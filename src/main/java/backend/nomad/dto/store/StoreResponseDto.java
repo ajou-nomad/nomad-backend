@@ -4,6 +4,8 @@ import backend.nomad.domain.member.Member;
 import backend.nomad.domain.store.Menu;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class StoreResponseDto {
 
@@ -20,9 +22,10 @@ public class StoreResponseDto {
     private String closeTime;
     private Integer deliveryTip;
     private String logoUrl;
+    private List<Menu> menu;
 
 
-    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl) {
+    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<Menu> menu) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.phoneNumber = phoneNumber;
@@ -33,5 +36,6 @@ public class StoreResponseDto {
         this.closeTime = closeTime;
         this.deliveryTip = deliveryTip;
         this.logoUrl = logoUrl;
+        this.menu = menu;
     }
 }
