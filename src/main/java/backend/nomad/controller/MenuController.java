@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseToken;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.logging.Logger;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class MenuController {
@@ -34,7 +36,7 @@ public class MenuController {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
-        System.out.println("dto 값" + dto);
+        log.info("dto" + dto);
 
         Member member = memberService.findByUid(uid);
         Store store = member.getStore().get(0);
