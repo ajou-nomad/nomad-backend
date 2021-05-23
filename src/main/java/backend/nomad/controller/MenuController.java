@@ -32,23 +32,26 @@ public class MenuController {
     private final StoreService storeService;
 
     @PostMapping("/menu")
-    public void savaStoreMenu(@RequestBody MenuRequestDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
+    public void savaStoreMenu(@RequestBody MenuRequestDto[] dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
         log.info("dto" + dto);
 
+
         Member member = memberService.findByUid(uid);
         Store store = member.getStore().get(0);
-        Menu menu = new Menu();
-        menu.addMenu(store);
-        menu.setMenuName(dto.getMenuName());
-        menu.setCost(dto.getCost());
-        menu.setDescription(dto.getDescription());
-        menu.setImgUrl(dto.getImgUrl());
+        for (int i = 0; i < dto.length; i++) {
+            Menu menu = new Menu();
+            menu.addMenu(store);
+            menu.setMenuName(dto[i].getMenuName());
+            menu.setCost(dto[i].getCost());
+            menu.setDescription(dto[i].getDescription());
+            menu.setImgUrl(dto[i].getImgUrl());
 //        Member member = memberService.findByUid(uid);
-        menuService.save(menu);
-        storeService.save(store);
+            menuService.save(menu);
+            storeService.save(store);
+        }
 //        storeService.save(member.getStore());
     }
     @Data
