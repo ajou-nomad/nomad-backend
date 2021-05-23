@@ -135,6 +135,16 @@ public class DeliveryGroupController {
         return new Result(collect);
     }
 
+//    @GetMapping("/daliyGroupData")
+//    public Result findDaily() {
+//
+//    }
+//
+//    @GetMapping("/weeklyGroupData")
+//    public Result findWeekly() {
+//
+//    }
+
     @Data
     @AllArgsConstructor
     class Result<T> {
