@@ -11,5 +11,6 @@ public class MenuRequestDto {
     private String menuName;
     private Integer cost;
     private String description;
+    private String imgUrl;
 
 }

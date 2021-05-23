@@ -39,6 +39,7 @@ public class MenuController {
         menu.setMenuName(dto.getMenuName());
         menu.setCost(dto.getCost());
         menu.setDescription(dto.getDescription());
+        menu.setImgUrl(dto.getImgUrl());
 //        Member member = memberService.findByUid(uid);
         menuService.save(menu);
         storeService.save(store);
