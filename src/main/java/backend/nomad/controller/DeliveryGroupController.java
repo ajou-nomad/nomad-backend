@@ -1,16 +1,22 @@
 package backend.nomad.controller;
 
 import backend.nomad.domain.group.DeliveryGroup;
+import backend.nomad.domain.group.GroupType;
+import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.store.Menu;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.dto.group.DeliveryGroupResponseDto;
+import backend.nomad.dto.store.MenuResponseDto;
+import backend.nomad.dto.store.StoreResponseDto;
+import backend.nomad.firebase.FirebaseService;
 import backend.nomad.service.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import com.google.firebase.messaging.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -33,6 +40,7 @@ public class DeliveryGroupController {
     private final StoreService storeService;
     private final MenuService menuService;
     private final MemberOrderService memberOrderService;
+    private final FirebaseService firebaseService;
 
     @PostMapping("/groupData")
     public void SaveGroup(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
@@ -50,7 +58,7 @@ public class DeliveryGroupController {
         deliveryGroup.setCurrent(1);
         deliveryGroup.setMaxValue(deliveryGroupRequestDto.getMaxValue());
         deliveryGroup.setGroupType(deliveryGroupRequestDto.getGroupType());
-        deliveryGroup.setOrderStatus("recruiting");
+        deliveryGroup.setOrderStatus(OrderStatus.recruiting);
 
         deliveryGroupService.save(deliveryGroup);
 
@@ -83,7 +91,7 @@ public class DeliveryGroupController {
     }
 
     @PostMapping("/participationGroup")
-    public Result addInGroup(@RequestBody DeliveryGroupRequestDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
+    public Result addInGroup(@RequestBody DeliveryGroupRequestDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException, FirebaseMessagingException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
@@ -113,9 +121,26 @@ public class DeliveryGroupController {
         memberOrderService.save(memberOrder);
 
         if (deliveryGroup.getCurrent() == deliveryGroup.getMaxValue()) {
-            deliveryGroup.setOrderStatus("recruitmentDone");
+            deliveryGroup.setOrderStatus(OrderStatus.recruitmentDone);
             memberService.save(member);
             deliveryGroupService.save(deliveryGroup);
+
+            List<Member> fcmMember = deliveryGroup.getMemberList();;
+
+            for (Member x : fcmMember) {
+                Message message = Message.builder()
+                        .setNotification(Notification.builder()
+                                .setTitle("모집이 완료됐습니다!")
+                                .setBody(deliveryGroup.getAddress() + "로" + deliveryGroup.getTime() + "까지 배달해드리겠습니다")
+                                .build())
+                        // Device를 특정할 수 있는 토큰.
+                        .setToken(x.getToken())
+                        .build();
+
+                FirebaseMessaging.getInstance().send(message);
+            }
+
+
             return new Result("MAX");
         }
 
@@ -129,21 +154,58 @@ public class DeliveryGroupController {
     public Result findGroups() {
         List<DeliveryGroup> findGroups = deliveryGroupService.findGroups();
         List<DeliveryGroupResponseDto> collect = findGroups.stream()
-                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuilding(), m.getTime(), m.getDate(),m.getCurrent(),  m.getMaxValue(),m.getGroupType(), m.getOrderStatus()))
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuilding(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
                 .collect(Collectors.toList());
 
         return new Result(collect);
     }
 
-//    @GetMapping("/daliyGroupData")
-//    public Result findDaily() {
-//
-//    }
-//
-//    @GetMapping("/weeklyGroupData")
-//    public Result findWeekly() {
-//
-//    }
+
+    @GetMapping("/dailyGroupData")
+    public ResultList findDaily() {
+
+        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupType(GroupType.day);
+
+        List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuilding(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
+                .collect(Collectors.toList());
+
+//        List<Store> store = storeService.findStores();
+        List<StoreResponseDto> dtoList = new ArrayList<>();
+        for (DeliveryGroup x : deliveryGroup) {
+            Store store = storeService.findByStoreId(x.getStoreId());
+            List<Menu> menu = store.getMenu();
+            List<MenuResponseDto> menuList = menu.stream()
+                    .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription()))
+                    .collect(Collectors.toList());
+            StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList);
+            dtoList.add(dto);
+        }
+
+        return new ResultList(collect, dtoList);
+    }
+
+    @GetMapping("/weeklyGroupData")
+    public ResultList findWeekly() {
+        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupType(GroupType.weekly);
+
+        List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuilding(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
+                .collect(Collectors.toList());
+
+        List<StoreResponseDto> dtoList = new ArrayList<>();
+        for (DeliveryGroup x : deliveryGroup) {
+            Store store = storeService.findByStoreId(x.getStoreId());
+            List<Menu> menu = store.getMenu();
+            List<MenuResponseDto> menuList = menu.stream()
+                    .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription()))
+                    .collect(Collectors.toList());
+            StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList);
+            dtoList.add(dto);
+        }
+
+        return new ResultList(collect, dtoList);
+    }
 
     @Data
     @AllArgsConstructor

@@ -60,4 +60,5 @@ public class Store {
         this.member = member;
         member.getStore().add(this);
     }
+
 }

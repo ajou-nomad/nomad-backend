@@ -28,7 +28,9 @@ public class DeliveryGroup {
     private String date;
     private Integer current;
     private Integer maxValue;
-    private String orderStatus;
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
 
 //    @OneToMany(mappedBy = "deliveryGroup")
 //    @ElementCollection
@@ -49,7 +51,7 @@ public class DeliveryGroup {
 //    @JoinColumn(name = "memberOrder_id")
 //    private MemberOrder memberOrder;
 
-    public DeliveryGroup(Long storeId, Double latitude, Double longitude, String address, String building, String time, String date, Integer current, Integer maxValue, GroupType groupType) {
+    public DeliveryGroup(Long storeId, Double latitude, Double longitude, String address, String building, String time, String date, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
         this.storeId = storeId;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -60,6 +62,7 @@ public class DeliveryGroup {
         this.current = current;
         this.maxValue = maxValue;
         this.groupType = groupType;
+        this.orderStatus = orderStatus;
     }
 
     public DeliveryGroup() {

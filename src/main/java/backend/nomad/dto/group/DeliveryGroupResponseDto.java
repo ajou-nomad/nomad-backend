@@ -1,5 +1,7 @@
 package backend.nomad.dto.group;
 
+import backend.nomad.domain.group.GroupType;
+import backend.nomad.domain.group.OrderStatus;
 import lombok.Getter;
 
 @Getter
@@ -14,11 +16,11 @@ public class DeliveryGroupResponseDto {
     private String date;
     private Integer current;
     private Integer maxValue;
-    private Enum groupType;
-    private String orderStatus;
+    private GroupType groupType;
+    private OrderStatus orderStatus;
 
 
-    public DeliveryGroupResponseDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String building, String time, String date, Integer current, Integer maxValue, Enum groupType, String orderStatus) {
+    public DeliveryGroupResponseDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String building, String time, String date, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
         this.groupId = groupId;
         this.storeId = storeId;
         this.latitude = latitude;
