@@ -74,13 +74,10 @@ public class DeliveryGroupController {
         MemberOrder memberOrder = new MemberOrder();
         memberOrder.setUid(uid);
         memberOrder.setStoreId(deliveryGroupRequestDto.getStoreId());
-
         memberOrder.setStore(store);
-
 
         List<MenuRequestDto> menuList = deliveryGroupRequestDto.getMenu();
         for (MenuRequestDto x : menuList) {
-            Menu thisMenu = menuService.findByMenuName(x.getMenuName());
 
             OrderItem orderItem = new OrderItem();
             orderItem.setMenuName(x.getMenuName());
@@ -122,16 +119,26 @@ public class DeliveryGroupController {
         MemberOrder memberOrder = new MemberOrder();
 
         Store store = storeService.findByStoreId(dto.getStoreId());
-        memberOrder.setStore(store);
 
         memberOrder.setUid(uid);
         memberOrder.setStoreId(dto.getStoreId());
+        memberOrder.setStore(store);
 
-//        Menu menu = menuService.findByMenuName(dto.getMenuName());
+        List<MenuRequestDto> menuList = dto.getMenu();
+        for (MenuRequestDto x : menuList) {
 
-//        int cost = menu.getCost() * dto.getQuantity();
+            OrderItem orderItem = new OrderItem();
+            orderItem.setMenuName(x.getMenuName());
+            orderItem.setCost(x.getCost());
+            orderItem.setQuantity(x.getQuantity());
 
-//        memberOrder.setTotalCost(dto.getCost());
+            orderItem.addOrderItemToMemberOrder(memberOrder);
+
+            memberOrderService.save(memberOrder);
+            orderItemService.save(orderItem);
+
+        }
+
         memberOrder.setPayMethod(memberOrder.getPayMethod());
         memberOrder.setOrderTime(memberOrder.getOrderTime());
         memberOrder.setMember(member);
