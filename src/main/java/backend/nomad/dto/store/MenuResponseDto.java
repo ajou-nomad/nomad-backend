@@ -18,12 +18,20 @@ public class MenuResponseDto {
     private Integer cost;
     private String description;
 //    detail?
-//    private String imgUrl;
+    private String imgUrl;
 
     public MenuResponseDto(Long menuId, String menuName, Integer cost, String description) {
         this.menuId = menuId;
         this.menuName = menuName;
         this.cost = cost;
         this.description = description;
+    }
+
+    public MenuResponseDto(Long menuId, String menuName, Integer cost, String description, String imgUrl) {
+        this.menuId = menuId;
+        this.menuName = menuName;
+        this.cost = cost;
+        this.description = description;
+        this.imgUrl = imgUrl;
     }
 }

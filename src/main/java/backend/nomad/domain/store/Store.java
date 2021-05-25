@@ -40,10 +40,12 @@ public class Store {
     @OneToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    private Double rate;
+
     public Store() {
     }
 
-    public Store(String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, Member member) {
+    public Store(String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, Member member, Double rate) {
         this.storeName = storeName;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -54,6 +56,7 @@ public class Store {
         this.deliveryTip = deliveryTip;
         this.logoUrl = logoUrl;
         this.member = member;
+        this.rate = rate;
     }
 
     public void setMember(Member member) {
