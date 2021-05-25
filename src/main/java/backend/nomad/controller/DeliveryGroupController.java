@@ -91,6 +91,7 @@ public class DeliveryGroupController {
 
         }
 
+        memberOrder.setTotalCost(deliveryGroupRequestDto.getTotalCost());
         memberOrder.setPayMethod(deliveryGroupRequestDto.getPayMethod());
         memberOrder.setOrderTime(deliveryGroupRequestDto.getOrderTime());
 
@@ -138,9 +139,10 @@ public class DeliveryGroupController {
             orderItemService.save(orderItem);
 
         }
+        memberOrder.setTotalCost(dto.getTotalCost());
+        memberOrder.setPayMethod(dto.getPayMethod());
+        memberOrder.setOrderTime(dto.getOrderTime());
 
-        memberOrder.setPayMethod(memberOrder.getPayMethod());
-        memberOrder.setOrderTime(memberOrder.getOrderTime());
         memberOrder.setMember(member);
 
         memberOrderService.save(memberOrder);
