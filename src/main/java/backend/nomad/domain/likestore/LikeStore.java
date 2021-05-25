@@ -17,13 +17,24 @@ public class LikeStore {
     @Column(name = "likeStore_id")
     private Long likeStoreId;
 
+    private String uid;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
 
-    public LikeStore(Member member) {
+    public LikeStore() {
+    }
+
+    public void addLikeToMember(Member member) {
         this.member = member;
+        member.getLikeStore().add(this);
+    }
+
+    public void addLikeToStore(Store store) {
+        this.store = store;
+        store.getLikeStore().add(this);
     }
 }

@@ -160,7 +160,7 @@ public class DeliveryGroupController {
                 Message message = Message.builder()
                         .setNotification(Notification.builder()
                                 .setTitle("모집이 완료됐습니다!")
-                                .setBody("도착 시간: " + deliveryGroup.getBuildingName() + "배달 시간: " + deliveryGroup.getTime())
+                                .setBody("모집이 완료 되었습니다.\n" + "도착 시간: " + deliveryGroup.getBuildingName() + "\n" + "배달 시간: " + deliveryGroup.getTime())
                                 .build())
                         // Device를 특정할 수 있는 토큰.
                         .setToken(x.getToken())

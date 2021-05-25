@@ -24,4 +24,9 @@ public class LikeStoreService {
     public List<LikeStore> findAllMenu() {
         return likeStoreRepository.findAll();
     }
+
+    @Transactional
+    public List<LikeStore> findByUid(String uid) {
+        return likeStoreRepository.findByUid(uid);
+    }
 }

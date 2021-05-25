@@ -9,6 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StoreRequestDto {
 
+    private Long storeId;
     private String storeName;
     private String phoneNumber;
 
