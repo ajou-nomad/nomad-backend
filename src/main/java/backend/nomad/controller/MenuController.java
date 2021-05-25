@@ -36,9 +36,6 @@ public class MenuController {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
-        log.info("dto" + dto);
-
-
         Member member = memberService.findByUid(uid);
         Store store = member.getStore();
         for (int i = 0; i < dto.length; i++) {

@@ -5,6 +5,7 @@ import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.member.MemberRepository;
 import backend.nomad.dto.member.MemberOrderRequestDto;
+import backend.nomad.dto.member.MemberOrderResponseDto;
 import backend.nomad.service.MemberOrderService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -42,12 +43,11 @@ public class MemberOrderController {
 
         List<MemberOrder> memberOrder = member.getMemberOrder();
 
-//        List<MemberOrder> findMemberOrders = memberOrderService.findMemberOrders();
-//        List<MemberOrderMainResponseDto> collect = findMemberOrders.stream()
-//                .map(m -> new MemberOrderMainResponseDto(m.getMemberOrderId(), m.getMember()))
-//                .collect(Collectors.toList());
+        List<MemberOrderResponseDto> collect = memberOrder.stream()
+                .map(m -> new MemberOrderResponseDto(m.getStore().getStoreName(), m.getOrderItem(), m.getTotalCost(), m.getPayMethod(), m.getOrderTime()))
+                .collect(Collectors.toList());
 
-        return new Result(memberOrder);
+        return new Result(collect);
     }
     @Data
     @AllArgsConstructor

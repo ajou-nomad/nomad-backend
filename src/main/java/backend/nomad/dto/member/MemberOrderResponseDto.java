@@ -14,17 +14,15 @@ import java.util.List;
 @Getter
 public class MemberOrderResponseDto {
 
-    private Long memberOrderId;
-    private Store store;
-    private Member member;
+    private String storeName;
+    private List<OrderItem> orderItem;
     private Integer totalCost;
     private String payMethod;
     private String orderTime;
 
-    public MemberOrderResponseDto(Long memberOrderId, Store store, Member member, Integer totalCost, String payMethod, String orderTime) {
-        this.memberOrderId = memberOrderId;
-        this.store = store;
-        this.member = member;
+    public MemberOrderResponseDto(String storeName, List<OrderItem> orderItem, Integer totalCost, String payMethod, String orderTime) {
+        this.storeName = storeName;
+        this.orderItem = orderItem;
         this.totalCost = totalCost;
         this.payMethod = payMethod;
         this.orderTime = orderTime;

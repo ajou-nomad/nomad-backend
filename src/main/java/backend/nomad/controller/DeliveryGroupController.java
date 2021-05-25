@@ -196,7 +196,7 @@ public class DeliveryGroupController {
             Store store = storeService.findByStoreId(x.getStoreId());
             List<Menu> menu = store.getMenu();
             List<MenuResponseDto> menuList = menu.stream()
-                    .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription()))
+                    .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription(), m.getImgUrl()))
                     .collect(Collectors.toList());
             StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, store.getRate());
             dtoList.add(dto);
@@ -218,7 +218,7 @@ public class DeliveryGroupController {
             Store store = storeService.findByStoreId(x.getStoreId());
             List<Menu> menu = store.getMenu();
             List<MenuResponseDto> menuList = menu.stream()
-                    .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription()))
+                    .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription(), m.getImgUrl()))
                     .collect(Collectors.toList());
             StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, store.getRate());
             dtoList.add(dto);
