@@ -83,7 +83,7 @@ public class StoreController {
         String uid = decodedToken.getUid();
 
         Member member = memberService.findByUid(uid);
-        Store store = member.getStore().get(0);
+        Store store = member.getStore();
 
         List<Menu> menu = store.getMenu();
         List<MenuResponseDto> menuList = menu.stream()

@@ -35,7 +35,7 @@ public class Member {
     @ManyToOne(fetch = FetchType.LAZY)
     private DeliveryGroup deliveryGroup;
 
-    @OneToMany(mappedBy = "member")
+    @OneToOne(mappedBy = "member")
     private Store store;
 
     @OneToMany(mappedBy = "member")
