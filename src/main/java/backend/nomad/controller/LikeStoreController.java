@@ -40,8 +40,14 @@ public class LikeStoreController {
 
         LikeStore likeStore = new LikeStore();
         likeStore.setUid(uid);
+
         likeStore.addLikeToMember(member);
+        memberService.save(member);
+
         likeStore.addLikeToStore(store);
+        storeService.save(store);
+
+        likeStoreService.save(likeStore);
 
     }
 
