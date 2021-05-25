@@ -1,5 +1,6 @@
 package backend.nomad.domain.store;
 
+import backend.nomad.domain.likestore.LikeStore;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.review.Review;
@@ -45,6 +46,9 @@ public class Store {
 
     @OneToMany(mappedBy = "store")
     private List<Review> review = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store")
+    private List<LikeStore> likeStore = new ArrayList<>();
 
     public Store() {
     }

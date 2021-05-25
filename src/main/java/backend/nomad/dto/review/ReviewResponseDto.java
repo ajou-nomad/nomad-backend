@@ -1,10 +1,12 @@
 package backend.nomad.dto.review;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class ReviewResponseDto {
     private Long reviewId;
     private String contents;

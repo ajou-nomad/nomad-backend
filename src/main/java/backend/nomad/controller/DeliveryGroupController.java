@@ -115,6 +115,8 @@ public class DeliveryGroupController {
         DeliveryGroup deliveryGroup = deliveryGroupService.findById(dto.getGroupId());
         member.setDeliveryGroup(deliveryGroup);
         member.changeGroup(deliveryGroup);
+        memberService.save(member);
+
 
         //주문 데이터
         MemberOrder memberOrder = new MemberOrder();

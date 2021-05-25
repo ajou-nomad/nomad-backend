@@ -1,6 +1,7 @@
 package backend.nomad.domain.member;
 
 import backend.nomad.domain.group.DeliveryGroup;
+import backend.nomad.domain.likestore.LikeStore;
 import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Store;
 import lombok.Getter;
@@ -47,6 +48,10 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Review> review = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<LikeStore> likeStore = new ArrayList<>();
+
 
 //    @OneToMany(mappedBy = "member")
 //    private List<MemberOrder> memberOrders = new ArrayList<>();
