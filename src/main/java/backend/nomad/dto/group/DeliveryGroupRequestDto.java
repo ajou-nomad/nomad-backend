@@ -1,12 +1,15 @@
 package backend.nomad.dto.group;
 
 import backend.nomad.domain.group.GroupType;
+import backend.nomad.domain.store.Menu;
+import backend.nomad.dto.store.MenuRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,9 +26,10 @@ public class DeliveryGroupRequestDto {
     private Integer current;
     private Integer maxValue;
     private GroupType groupType;
-    private String menuName;
-    private Integer cost;
-    private Integer quantity;
+    private List<MenuRequestDto> menu;
+//    private String menuName;
+//    private Integer cost;
+//    private Integer quantity;
     private String payMethod;
     private String orderTime;
 }

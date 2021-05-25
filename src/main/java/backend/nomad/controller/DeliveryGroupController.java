@@ -5,10 +5,12 @@ import backend.nomad.domain.group.GroupType;
 import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
+import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.store.Menu;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.dto.group.DeliveryGroupResponseDto;
+import backend.nomad.dto.store.MenuRequestDto;
 import backend.nomad.dto.store.MenuResponseDto;
 import backend.nomad.dto.store.StoreResponseDto;
 import backend.nomad.firebase.FirebaseService;
@@ -41,6 +43,7 @@ public class DeliveryGroupController {
     private final MenuService menuService;
     private final MemberOrderService memberOrderService;
     private final FirebaseService firebaseService;
+    private final OrderItemService orderItemService;
 
     @PostMapping("/groupData")
     public void SaveGroup(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
@@ -77,15 +80,32 @@ public class DeliveryGroupController {
         memberOrder.setStore(store);
 
 
-        Menu menu = menuService.findByMenuName(deliveryGroupRequestDto.getMenuName());
+        List<MenuRequestDto> menuList = deliveryGroupRequestDto.getMenu();
+        for (MenuRequestDto x : menuList) {
+            Menu thisMenu = menuService.findByMenuName(x.getMenuName());
 
-        int totalCost = menu.getCost() * deliveryGroupRequestDto.getQuantity();
+            OrderItem orderItem = new OrderItem();
+            orderItem.setMenuName(x.getMenuName());
+            orderItem.setCost(x.getCost());
+            orderItem.setQuantity(x.getQuantity());
 
-        memberOrder.setTotalCost(totalCost);
+            orderItem.addOrderItemToMemberOrder(memberOrder);
+
+            memberOrderService.save(memberOrder);
+            orderItemService.save(orderItem);
+
+        }
+
         memberOrder.setPayMethod(deliveryGroupRequestDto.getPayMethod());
         memberOrder.setOrderTime(deliveryGroupRequestDto.getOrderTime());
 
         memberOrder.setMember(member);
+//        Menu menu = menuService.findByMenuName(deliveryGroupRequestDto.getMenu().getMenuName());
+
+
+//        int totalCost = menu.getCost() * deliveryGroupRequestDto.getQuantity();
+
+//        memberOrder.setTotalCost(deliveryGroupRequestDto.);
 
         memberOrderService.save(memberOrder);
     }
@@ -109,11 +129,11 @@ public class DeliveryGroupController {
         memberOrder.setUid(uid);
         memberOrder.setStoreId(dto.getStoreId());
 
-        Menu menu = menuService.findByMenuName(dto.getMenuName());
+//        Menu menu = menuService.findByMenuName(dto.getMenuName());
 
-        int cost = menu.getCost() * dto.getQuantity();
+//        int cost = menu.getCost() * dto.getQuantity();
 
-        memberOrder.setTotalCost(cost);
+//        memberOrder.setTotalCost(dto.getCost());
         memberOrder.setPayMethod(memberOrder.getPayMethod());
         memberOrder.setOrderTime(memberOrder.getOrderTime());
         memberOrder.setMember(member);
@@ -131,7 +151,7 @@ public class DeliveryGroupController {
                 Message message = Message.builder()
                         .setNotification(Notification.builder()
                                 .setTitle("모집이 완료됐습니다!")
-                                .setBody(deliveryGroup.getAddress() + "로" + deliveryGroup.getTime() + "까지 배달해드리겠습니다")
+                                .setBody("도착 시간: " + deliveryGroup.getBuilding() + "배달 시간: " + deliveryGroup.getTime())
                                 .build())
                         // Device를 특정할 수 있는 토큰.
                         .setToken(x.getToken())
@@ -216,7 +236,7 @@ public class DeliveryGroupController {
     @Data
     @AllArgsConstructor
     class ResultList<T, U> {
-        private T dataT;
-        private U dataU;
+        private T dailyGroupData;
+        private U storeData;
     }
 }

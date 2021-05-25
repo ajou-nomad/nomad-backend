@@ -30,8 +30,8 @@ public class Menu {
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
 
-    @OneToMany(mappedBy = "menu")
-    private List<OrderItem> orderItem = new ArrayList<>();
+//    @OneToMany(mappedBy = "menu")
+//    private List<OrderItem> orderItem = new ArrayList<>();
 
     public Menu(String menuName, Integer cost, String description, Store store, String imgUrl) {
         this.menuName = menuName;

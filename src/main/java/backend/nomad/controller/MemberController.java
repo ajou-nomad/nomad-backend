@@ -11,6 +11,7 @@ import backend.nomad.dto.member.MemberRequestDto;
 import backend.nomad.service.ChatService;
 import backend.nomad.service.DeliveryGroupService;
 import backend.nomad.service.MemberService;
+import backend.nomad.service.StoreService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,9 +59,11 @@ public class MemberController {
 
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
+
         if (memberService.findByUid(uid) != null) {
             Member member = memberService.findByUid(uid);
             MemberResponseDto memberResponseDto = new MemberResponseDto( member.getMemberId(), member.getNickName(), member.getEmail(), member.getPhoneNum(), member.getToken(), member.getUid(), member.getMemberType(), member.getPoint(), member.getShopIdNumber(), member.getDeliIdNumber());
+            memberResponseDto.setStoreId(member.getStore().get(0).getStoreId());
             return new Result(memberResponseDto);
         }
 
@@ -79,7 +83,7 @@ public class MemberController {
         return new Result(collect);
     }
 
-    @PostMapping("/ChatId")
+    @PostMapping("/chatId")
     public void setChat(@RequestBody ChatRequestDto chatRequestDto) {
         DeliveryGroup deliveryGroup = deliveryGroupService.findById(chatRequestDto.getGroupId());
 
@@ -92,7 +96,24 @@ public class MemberController {
             chat.addChat(x);
             memberService.save(x);
         }
+    }
 
+    @GetMapping("/chatId")
+    public Result chatList(@RequestHeader("Authorization") String header) throws FirebaseAuthException{
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+
+        List<String> chatIds = new ArrayList<>();
+
+        List<Chat> chatList = member.getChat();
+
+        for (Chat x : chatList) {
+            chatIds.add(x.getChatName());
+        }
+
+        return new Result(chatIds);
     }
 
     @Data

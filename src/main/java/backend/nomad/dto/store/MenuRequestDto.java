@@ -10,6 +10,7 @@ import lombok.Setter;
 public class MenuRequestDto {
     private String menuName;
     private Integer cost;
+    private Integer quantity;
     private String description;
     private String imgUrl;
 
