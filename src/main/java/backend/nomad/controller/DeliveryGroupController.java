@@ -28,8 +28,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -55,7 +53,7 @@ public class DeliveryGroupController {
         deliveryGroup.setLatitude(deliveryGroupRequestDto.getLatitude());
         deliveryGroup.setLongitude(deliveryGroupRequestDto.getLongitude());
         deliveryGroup.setAddress(deliveryGroupRequestDto.getAddress());
-        deliveryGroup.setBuilding(deliveryGroupRequestDto.getBuilding());
+        deliveryGroup.setBuildingName(deliveryGroupRequestDto.getBuildingName());
         deliveryGroup.setTime(deliveryGroupRequestDto.getTime());
         deliveryGroup.setDate(deliveryGroupRequestDto.getDate());
         deliveryGroup.setCurrent(1);
@@ -151,7 +149,7 @@ public class DeliveryGroupController {
                 Message message = Message.builder()
                         .setNotification(Notification.builder()
                                 .setTitle("모집이 완료됐습니다!")
-                                .setBody("도착 시간: " + deliveryGroup.getBuilding() + "배달 시간: " + deliveryGroup.getTime())
+                                .setBody("도착 시간: " + deliveryGroup.getBuildingName() + "배달 시간: " + deliveryGroup.getTime())
                                 .build())
                         // Device를 특정할 수 있는 토큰.
                         .setToken(x.getToken())
@@ -174,7 +172,7 @@ public class DeliveryGroupController {
     public Result findGroups() {
         List<DeliveryGroup> findGroups = deliveryGroupService.findGroups();
         List<DeliveryGroupResponseDto> collect = findGroups.stream()
-                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuilding(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
                 .collect(Collectors.toList());
 
         return new Result(collect);
@@ -187,7 +185,7 @@ public class DeliveryGroupController {
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupType(GroupType.day);
 
         List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
-                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuilding(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
                 .collect(Collectors.toList());
 
 //        List<Store> store = storeService.findStores();
@@ -210,7 +208,7 @@ public class DeliveryGroupController {
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupType(GroupType.weekly);
 
         List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
-                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuilding(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
                 .collect(Collectors.toList());
 
         List<StoreResponseDto> dtoList = new ArrayList<>();

@@ -11,7 +11,7 @@ public class DeliveryGroupResponseDto {
     private Double latitude;
     private Double longitude;
     private String address;
-    private String building;
+    private String buildingName;
     private String time;
     private String date;
     private Integer current;
@@ -20,13 +20,13 @@ public class DeliveryGroupResponseDto {
     private OrderStatus orderStatus;
 
 
-    public DeliveryGroupResponseDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String building, String time, String date, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
+    public DeliveryGroupResponseDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String buildingName, String time, String date, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
         this.groupId = groupId;
         this.storeId = storeId;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
-        this.building = building;
+        this.buildingName = buildingName;
         this.time = time;
         this.date = date;
         this.current = current;

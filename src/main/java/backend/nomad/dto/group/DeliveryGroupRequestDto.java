@@ -20,7 +20,7 @@ public class DeliveryGroupRequestDto {
     private Double latitude;
     private Double longitude;
     private String address;
-    private String building;
+    private String buildingName;
     private String time;
     private String date;
     private Integer current;
