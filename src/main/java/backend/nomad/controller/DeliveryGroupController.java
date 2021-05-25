@@ -121,7 +121,7 @@ public class DeliveryGroupController {
         //주문 데이터
         MemberOrder memberOrder = new MemberOrder();
 
-        Store store = storeService.findByStoreId(dto.getStoreId());
+        Store store = storeService.findByStoreId(deliveryGroup.getStoreId());
 
         memberOrder.setUid(uid);
         memberOrder.setStoreId(dto.getStoreId());

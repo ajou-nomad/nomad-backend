@@ -17,9 +17,13 @@ public class LikeStore {
     @Column(name = "likeStore_id")
     private Long likeStoreId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
+
+    public LikeStore(Member member) {
+        this.member = member;
+    }
 }
