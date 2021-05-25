@@ -36,7 +36,7 @@ public class Member {
     private DeliveryGroup deliveryGroup;
 
     @OneToMany(mappedBy = "member")
-    private List<Store> store = new ArrayList<>();
+    private Store store;
 
     @OneToMany(mappedBy = "member")
     private List<MemberOrder> memberOrder = new ArrayList<>();

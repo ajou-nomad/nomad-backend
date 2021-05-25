@@ -37,7 +37,7 @@ public class Store {
     @OneToMany(mappedBy = "store")
     private List<MemberOrder> memberOrder = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Member member;
 
     public Store() {
@@ -58,7 +58,7 @@ public class Store {
 
     public void setMember(Member member) {
         this.member = member;
-        member.getStore().add(this);
+        member.setStore(this);
     }
 
 }

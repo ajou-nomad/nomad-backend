@@ -40,7 +40,7 @@ public class MenuController {
 
 
         Member member = memberService.findByUid(uid);
-        Store store = member.getStore().get(0);
+        Store store = member.getStore();
         for (int i = 0; i < dto.length; i++) {
             Menu menu = new Menu();
             menu.addMenu(store);
