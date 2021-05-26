@@ -55,7 +55,7 @@ public class DeliveryGroupController {
 
         log.info("그룹주문 시간 탐색");
         for (DeliveryGroup x : deliveryGroups) {
-            if (x.getLocalDateTime().isBefore(LocalDateTime.now())) {
+            if (x.getLocalDateTime() != null && x.getLocalDateTime().isBefore(LocalDateTime.now())) {
                 // 멀티쓰레드 이슈 로 CopyOnWriteArrayList 이용
                 List<Member> memberList = new CopyOnWriteArrayList<>();
 
