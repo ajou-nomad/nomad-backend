@@ -2,11 +2,14 @@ package backend.nomad.domain.group;
 
 //import backend.nomad.domain.member.MemberOrder;
 
+import backend.nomad.domain.TimeEntity;
 import backend.nomad.domain.member.Member;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +31,7 @@ public class DeliveryGroup {
     private String date;
     private Integer current;
     private Integer maxValue;
+    private LocalDateTime localDateTime;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -68,6 +72,10 @@ public class DeliveryGroup {
     public DeliveryGroup() {
 
     }
+
+//    public DeliveryGroup(LocalDateTime localDateTime) {
+//        this.localDateTime = LocalDateTime.now();
+//    }
 
 //    public int addCurrent(DeliveryGroup deliveryGroup) {
 //        this.current = current;

@@ -26,8 +26,10 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,6 +46,17 @@ public class DeliveryGroupController {
     private final MemberOrderService memberOrderService;
     private final FirebaseService firebaseService;
     private final OrderItemService orderItemService;
+
+    @Scheduled(fixedDelay = 60000)
+    public void manageGroupState() {
+        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findGroups();
+
+        for (DeliveryGroup x : deliveryGroups) {
+            if (x.getLocalDateTime().isAfter(LocalDateTime.now())) {
+                deliveryGroupService.delete(x);
+            }
+        }
+    }
 
     @PostMapping("/groupData")
     public void SaveGroup(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
@@ -62,6 +75,8 @@ public class DeliveryGroupController {
         deliveryGroup.setMaxValue(deliveryGroupRequestDto.getMaxValue());
         deliveryGroup.setGroupType(deliveryGroupRequestDto.getGroupType());
         deliveryGroup.setOrderStatus(OrderStatus.recruiting);
+
+        deliveryGroup.setLocalDateTime(LocalDateTime.now());
 
         deliveryGroupService.save(deliveryGroup);
 

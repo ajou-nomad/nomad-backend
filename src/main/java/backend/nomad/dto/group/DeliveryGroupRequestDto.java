@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -27,6 +28,8 @@ public class DeliveryGroupRequestDto {
     private Integer maxValue;
     private GroupType groupType;
     private List<MenuRequestDto> menu;
+
+    private LocalDateTime localDateTime;
 //    private String menuName;
 //    private Integer cost;
 //    private Integer quantity;
