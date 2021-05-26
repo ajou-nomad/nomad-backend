@@ -259,7 +259,7 @@ public class DeliveryGroupController {
     @Data
     @AllArgsConstructor
     class ResultList<T, U> {
-        private T dailyGroupData;
+        private T groupData;
         private U storeData;
     }
 }
