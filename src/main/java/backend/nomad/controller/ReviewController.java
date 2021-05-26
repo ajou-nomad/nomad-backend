@@ -34,7 +34,8 @@ public class ReviewController {
         String uid = decodedToken.getUid();
 
         Member member = memberService.findByUid(uid);
-        Store store = member.getStore();
+//        Store store = member.getStore();
+        Store store = storeService.findByStoreId(reviewRequestDto.getStoreId());
 
         Review review = new Review();
         review.setContents(reviewRequestDto.getContents());

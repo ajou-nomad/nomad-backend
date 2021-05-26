@@ -18,6 +18,7 @@ import java.util.List;
 @Getter
 public class MemberOrderResponseDto {
 
+    private Long storeId;
     private String storeName;
     private List<OrderItemResponseDto> orderItemList;
     private List<ReviewResponseDto> reviewList;
@@ -25,7 +26,8 @@ public class MemberOrderResponseDto {
     private String payMethod;
     private String orderTime;
 
-    public MemberOrderResponseDto(String storeName, List<OrderItemResponseDto> orderItemList, List<ReviewResponseDto> reviewList, Integer totalCost, String payMethod, String orderTime) {
+    public MemberOrderResponseDto(Long storeId, String storeName, List<OrderItemResponseDto> orderItemList, List<ReviewResponseDto> reviewList, Integer totalCost, String payMethod, String orderTime) {
+        this.storeId = storeId;
         this.storeName = storeName;
         this.orderItemList = orderItemList;
         this.reviewList = reviewList;

@@ -70,7 +70,7 @@ public class MemberOrderController {
                     .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                     .collect(Collectors.toList());
 
-            MemberOrderResponseDto dto = new MemberOrderResponseDto(store.getStoreName(), orderItemList, reviewList, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
+            MemberOrderResponseDto dto = new MemberOrderResponseDto(store.getStoreId(), store.getStoreName(), orderItemList, reviewList, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
 
             dtoList.add(dto);
         }
