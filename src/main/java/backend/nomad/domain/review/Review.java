@@ -5,8 +5,10 @@ import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.store.Store;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,9 @@ public class Review {
     private String uid;
     private String imgUrl;
     private Double rate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
+    private LocalDateTime localDateTime;
 
 //    private List<OrderItem> orderItem = new ArrayList<>();
 

@@ -6,6 +6,7 @@ import backend.nomad.domain.TimeEntity;
 import backend.nomad.domain.member.Member;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,6 +32,8 @@ public class DeliveryGroup {
     private String date;
     private Integer current;
     private Integer maxValue;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime localDateTime;
 
     @Enumerated(EnumType.STRING)

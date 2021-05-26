@@ -40,6 +40,7 @@ public class ReviewController {
         review.setContents(reviewRequestDto.getContents());
         review.setRate(reviewRequestDto.getRate());
         review.setImgUrl(reviewRequestDto.getImgUrl());
+        review.setLocalDateTime(reviewRequestDto.getLocalDateTime());
 
         review.setStore(store);
         storeService.save(store);
@@ -58,7 +59,7 @@ public class ReviewController {
         Member member = memberService.findByUid(uid);
         List<Review> review = member.getReview();
         List<ReviewResponseDto> collect = review.stream()
-                .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate()))
+                .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                 .collect(Collectors.toList());
 
         return new Result(collect);
@@ -75,7 +76,7 @@ public class ReviewController {
         List<Review> review = store.getReview();
 
         List<ReviewResponseDto> collect = review.stream()
-                .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate()))
+                .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                 .collect(Collectors.toList());
         return new Result(store.getReview());
     }
