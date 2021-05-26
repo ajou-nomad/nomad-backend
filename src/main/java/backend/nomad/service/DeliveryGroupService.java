@@ -36,8 +36,8 @@ public class DeliveryGroupService {
     }
 
     @Transactional
-    public List<DeliveryGroup> findByGroupType(GroupType groupType) {
-        return deliveryGroupRepository.findByGroupType(groupType);
+    public List<DeliveryGroup> findByGroupTypeAndOrderStatus(GroupType groupType, OrderStatus orderStatus) {
+        return deliveryGroupRepository.findByGroupTypeAndOrderStatus(groupType, orderStatus);
     }
 
     @Transactional

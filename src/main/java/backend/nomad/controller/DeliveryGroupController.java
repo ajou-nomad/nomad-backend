@@ -195,7 +195,7 @@ public class DeliveryGroupController {
     @GetMapping("/dailyGroupData")
     public ResultList findDaily() {
 
-        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupType(GroupType.day);
+        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupTypeAndOrderStatus(GroupType.day, OrderStatus.recruiting);
 
         List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
                 .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
@@ -224,7 +224,7 @@ public class DeliveryGroupController {
 
     @GetMapping("/weeklyGroupData")
     public ResultList findWeekly() {
-        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupType(GroupType.weekly);
+        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupTypeAndOrderStatus(GroupType.weekly, OrderStatus.recruiting);
 
         List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
                 .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))

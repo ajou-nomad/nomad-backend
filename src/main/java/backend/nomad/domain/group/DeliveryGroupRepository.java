@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DeliveryGroupRepository extends JpaRepository<DeliveryGroup, Long> {
 
-    List<DeliveryGroup> findByGroupType(GroupType groupType);
+    List<DeliveryGroup> findByGroupTypeAndOrderStatus(GroupType groupType, OrderStatus orderStatus);
     List<DeliveryGroup> findByStoreId(Long storeId);
     List<DeliveryGroup> findByOrderStatus(OrderStatus orderStatus);
 
