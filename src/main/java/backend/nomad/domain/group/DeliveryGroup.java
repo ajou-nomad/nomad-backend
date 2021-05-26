@@ -46,7 +46,7 @@ public class DeliveryGroup {
     @Enumerated(EnumType.STRING)
     private GroupType groupType;
 
-    @OneToMany(mappedBy = "deliveryGroup")
+    @OneToMany(mappedBy = "deliveryGroup", fetch = FetchType.EAGER)
     private List<Member> memberList = new ArrayList<>();
 
 //    @ManyToOne(fetch = FetchType.LAZY)
