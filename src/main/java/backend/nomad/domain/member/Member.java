@@ -60,6 +60,8 @@ public class Member {
 //    private String storeNum;
 //    private String driveLicense;
 
+    public Member() {
+    }
 
     public Member(String email, String nickName, String phoneNum, String token, String uid, MemberType memberType, String shopIdNumber, String deliIdNumber, Long point, DeliveryGroup deliveryGroup) {
         this.email = email;
@@ -82,7 +84,9 @@ public class Member {
         deliveryGroup.setCurrent(deliveryGroup.getMemberList().size());
     }
 
-    public Member() {
-
+    public void deleteGroup(DeliveryGroup deliveryGroup) {
+        this.deliveryGroup = deliveryGroup;
+        deliveryGroup.getMemberList().remove(this);
     }
+
 }

@@ -29,6 +29,7 @@ public class DeliveryGroupService {
     public void delete(DeliveryGroup deliveryGroup) {
         deliveryGroupRepository.deleteById(deliveryGroup.getGroupId());
     }
+
     @Transactional
     public List<DeliveryGroup> findGroups() {
         return deliveryGroupRepository.findAll();

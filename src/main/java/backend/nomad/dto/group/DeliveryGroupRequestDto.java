@@ -6,6 +6,7 @@ import backend.nomad.dto.store.MenuRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,6 +30,7 @@ public class DeliveryGroupRequestDto {
     private GroupType groupType;
     private List<MenuRequestDto> menu;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime localDateTime;
 //    private String menuName;
 //    private Integer cost;
