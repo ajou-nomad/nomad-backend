@@ -1,5 +1,6 @@
 package backend.nomad.service;
 
+import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.store.StoreRepository;
 import lombok.RequiredArgsConstructor;

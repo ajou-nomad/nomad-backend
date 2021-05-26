@@ -6,10 +6,12 @@ import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.orderitem.OrderItem;
+import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Menu;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.dto.group.DeliveryGroupResponseDto;
+import backend.nomad.dto.review.ReviewResponseDto;
 import backend.nomad.dto.store.MenuRequestDto;
 import backend.nomad.dto.store.MenuResponseDto;
 import backend.nomad.dto.store.StoreResponseDto;
@@ -207,7 +209,13 @@ public class DeliveryGroupController {
             List<MenuResponseDto> menuList = menu.stream()
                     .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription(), m.getImgUrl()))
                     .collect(Collectors.toList());
-            StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, store.getRate());
+
+            List<Review> review = store.getReview();
+            List<ReviewResponseDto> reviewList = review.stream()
+                    .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate()))
+                    .collect(Collectors.toList());
+
+            StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, reviewList, store.getRate());
             dtoList.add(dto);
         }
 
@@ -229,7 +237,13 @@ public class DeliveryGroupController {
             List<MenuResponseDto> menuList = menu.stream()
                     .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription(), m.getImgUrl()))
                     .collect(Collectors.toList());
-            StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, store.getRate());
+
+            List<Review> review = store.getReview();
+            List<ReviewResponseDto> reviewList = review.stream()
+                    .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate()))
+                    .collect(Collectors.toList());
+
+            StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, reviewList, store.getRate());
             dtoList.add(dto);
         }
 

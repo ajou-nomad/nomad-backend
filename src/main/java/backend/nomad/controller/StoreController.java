@@ -1,14 +1,22 @@
 package backend.nomad.controller;
 
+import backend.nomad.domain.group.DeliveryGroup;
+import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
+import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Menu;
 import backend.nomad.domain.store.Store;
+import backend.nomad.dto.group.DeliveryGroupRequestDto;
+import backend.nomad.dto.group.DeliveryGroupResponseDto;
+import backend.nomad.dto.group.GroupOrderResponseDto;
 import backend.nomad.dto.member.MemberOrderResponseDto;
 import backend.nomad.dto.member.MemberResponseDto;
+import backend.nomad.dto.review.ReviewResponseDto;
 import backend.nomad.dto.store.MenuResponseDto;
 import backend.nomad.dto.store.StoreRequestDto;
 import backend.nomad.dto.store.StoreResponseDto;
+import backend.nomad.service.DeliveryGroupService;
 import backend.nomad.service.MemberService;
 import backend.nomad.service.MenuService;
 import backend.nomad.service.StoreService;
@@ -33,9 +41,11 @@ public class StoreController {
     private final StoreService storeService;
     private final MemberService memberService;
     private final MenuService menuService;
+    private final DeliveryGroupService deliveryGroupService;
 
 
 
+    // 매장 생성
     @PostMapping("/store")
     public void saveStore(@RequestBody StoreRequestDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
@@ -62,6 +72,7 @@ public class StoreController {
         memberService.save(store.getMember());
     }
 
+    // 배달 그룹에서 모든 매장 조회
     @GetMapping("/storeList")
     public Result getAllStoreList() {
         List<Store> store = storeService.findStores();
@@ -71,12 +82,19 @@ public class StoreController {
             List<MenuResponseDto> menuList = menu.stream()
                     .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription(), m.getImgUrl()))
                     .collect(Collectors.toList());
-            StoreResponseDto dto = new StoreResponseDto(x.getStoreId(), x.getStoreName(), x.getPhoneNumber(), x.getAddress(), x.getLatitude(), x.getLongitude(), x.getOpenTime(), x.getCloseTime(), x.getDeliveryTip(), x.getLogoUrl(), menuList, x.getRate());
+
+            List<Review> review = x.getReview();
+            List<ReviewResponseDto> reviewList = review.stream()
+                    .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate()))
+                    .collect(Collectors.toList());
+
+            StoreResponseDto dto = new StoreResponseDto(x.getStoreId(), x.getStoreName(), x.getPhoneNumber(), x.getAddress(), x.getLatitude(), x.getLongitude(), x.getOpenTime(), x.getCloseTime(), x.getDeliveryTip(), x.getLogoUrl(), menuList, reviewList, x.getRate());
             dtoList.add(dto);
         }
         return new Result(dtoList);
     }
 
+    // 관리하는 매장리스트
     @GetMapping("/myStoreList")
     public Result getStoreList(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
@@ -90,10 +108,47 @@ public class StoreController {
                 .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription()))
                 .collect(Collectors.toList());
 
-        StoreResponseDto storeResponseDto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, store.getRate());
+        List<Review> review = store.getReview();
+        List<ReviewResponseDto> reviewList = review.stream()
+                .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate()))
+                .collect(Collectors.toList());
+
+        StoreResponseDto storeResponseDto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, reviewList, store.getRate());
         return new Result(storeResponseDto);
 //        return new Result(storeResponseDto);
     }
+
+    // 그룹주문 가져오기
+    @GetMapping("/groupOrder")
+    public Result orderList(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+        Store store = member.getStore();
+
+        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.recruitmentDone, store.getStoreId());
+        List<GroupOrderResponseDto> collect = deliveryGroup.stream()
+                .map(m -> new GroupOrderResponseDto())
+                .collect(Collectors.toList());
+
+        return new Result(collect);
+    }
+
+    @PostMapping("/groupOrder")
+    public void orderConfirm(@RequestHeader("Authorization") String header, @RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+
+
+        Member member = memberService.findByUid(uid);
+        Store store = member.getStore();
+
+        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.recruitmentDone, store.getStoreId());
+    }
+
+
     @Data
     @AllArgsConstructor
     class Result<T> {

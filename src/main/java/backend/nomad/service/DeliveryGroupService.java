@@ -4,6 +4,8 @@ package backend.nomad.service;
 import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.group.DeliveryGroupRepository;
 import backend.nomad.domain.group.GroupType;
+import backend.nomad.domain.group.OrderStatus;
+import backend.nomad.domain.store.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,20 @@ public class DeliveryGroupService {
     @Transactional
     public List<DeliveryGroup> findByGroupType(GroupType groupType) {
         return deliveryGroupRepository.findByGroupType(groupType);
+    }
+
+    @Transactional
+    public List<DeliveryGroup> findByStoreId(Long storeId) {
+        return deliveryGroupRepository.findByStoreId(storeId);
+    }
+
+    @Transactional
+    public List<DeliveryGroup> findByOrderStatus(OrderStatus orderStatus) {
+        return deliveryGroupRepository.findByOrderStatus(orderStatus);
+    }
+    @Transactional
+    public List<DeliveryGroup> findByOrderStatusAndStoreId(OrderStatus orderStatus, Long storeId) {
+        return deliveryGroupRepository.findByOrderStatusAndStoreId(orderStatus,storeId);
     }
 
 }

@@ -1,7 +1,9 @@
 package backend.nomad.dto.store;
 
 import backend.nomad.domain.member.Member;
+import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Menu;
+import backend.nomad.dto.review.ReviewResponseDto;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -24,10 +26,11 @@ public class StoreResponseDto {
     private Integer deliveryTip;
     private String logoUrl;
     private List<MenuResponseDto> menu;
+    private List<ReviewResponseDto> reviewResponseDto;
     private Double rate;
 
 
-    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, Double rate) {
+    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, List<ReviewResponseDto> reviewResponseDto, Double rate) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.phoneNumber = phoneNumber;
@@ -40,6 +43,7 @@ public class StoreResponseDto {
         this.logoUrl = logoUrl;
         this.menu = menu;
         this.rate = rate;
+        this.reviewResponseDto = reviewResponseDto;
     }
 
 }
