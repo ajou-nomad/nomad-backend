@@ -26,7 +26,7 @@ public class StoreResponseDto {
     private Integer deliveryTip;
     private String logoUrl;
     private List<MenuResponseDto> menu;
-    private List<ReviewResponseDto> reviewResponseDto;
+    private List<ReviewResponseDto> reviewList;
     private Double rate;
 
     private String notice;
@@ -34,7 +34,7 @@ public class StoreResponseDto {
     private String category;
 
 
-    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, List<ReviewResponseDto> reviewResponseDto, Double rate) {
+    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, List<ReviewResponseDto> reviewList, Double rate) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.phoneNumber = phoneNumber;
@@ -47,10 +47,10 @@ public class StoreResponseDto {
         this.logoUrl = logoUrl;
         this.menu = menu;
         this.rate = rate;
-        this.reviewResponseDto = reviewResponseDto;
+        this.reviewList = reviewList;
     }
 
-    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, List<ReviewResponseDto> reviewResponseDto, Double rate, String notice, String storeIntro, String category) {
+    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, List<ReviewResponseDto> reviewList, Double rate, String notice, String storeIntro, String category) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.phoneNumber = phoneNumber;
@@ -63,7 +63,7 @@ public class StoreResponseDto {
         this.logoUrl = logoUrl;
         this.menu = menu;
         this.rate = rate;
-        this.reviewResponseDto = reviewResponseDto;
+        this.reviewList = reviewList;
         this.notice = notice;
         this.storeIntro = storeIntro;
         this.category = category;
