@@ -50,6 +50,13 @@ public class Store {
     @OneToMany(mappedBy = "store")
     private List<LikeStore> likeStore = new ArrayList<>();
 
+    //공지사항
+    //매장설명
+    //카테고리 추가
+    private String notice;
+    private String storeIntro;
+    private String category;
+
     public Store() {
     }
 

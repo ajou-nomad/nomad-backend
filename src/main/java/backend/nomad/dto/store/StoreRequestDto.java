@@ -22,4 +22,8 @@ public class StoreRequestDto {
     private Integer deliveryTip;
     private String logoUrl;
 
+    private String notice;
+    private String storeIntro;
+    private String category;
+
 }

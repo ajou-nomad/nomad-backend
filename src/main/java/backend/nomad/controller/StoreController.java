@@ -67,6 +67,9 @@ public class StoreController {
         store.setCloseTime(dto.getCloseTime());
         store.setDeliveryTip(dto.getDeliveryTip());
         store.setLogoUrl(dto.getLogoUrl());
+        store.setNotice(dto.getNotice());
+        store.setStoreIntro(dto.getStoreIntro());
+        store.setCategory(dto.getCategory());
 
         storeService.save(store);
         memberService.save(store.getMember());
