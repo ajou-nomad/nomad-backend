@@ -3,6 +3,7 @@ package backend.nomad.dto.store;
 import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.store.Store;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 public class MenuResponseDto {
 
     private Long menuId;

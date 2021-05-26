@@ -1,11 +1,22 @@
 package backend.nomad.controller;
 
+import backend.nomad.domain.group.DeliveryGroup;
+import backend.nomad.domain.likestore.LikeStore;
 import backend.nomad.domain.member.Member;
 //import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.member.MemberRepository;
+import backend.nomad.domain.orderitem.OrderItem;
+import backend.nomad.domain.review.Review;
+import backend.nomad.domain.store.Menu;
+import backend.nomad.domain.store.Store;
+import backend.nomad.dto.group.DeliveryGroupResponseDto;
 import backend.nomad.dto.member.MemberOrderRequestDto;
 import backend.nomad.dto.member.MemberOrderResponseDto;
+import backend.nomad.dto.orderItem.OrderItemResponseDto;
+import backend.nomad.dto.review.ReviewResponseDto;
+import backend.nomad.dto.store.MenuResponseDto;
+import backend.nomad.dto.store.StoreResponseDto;
 import backend.nomad.service.MemberOrderService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -15,6 +26,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,13 +53,29 @@ public class MemberOrderController {
 
         Member member = memberRepository.findByUid(uid);
 
+        List<MemberOrderResponseDto> dtoList = new ArrayList<>();
+
         List<MemberOrder> memberOrder = member.getMemberOrder();
 
-        List<MemberOrderResponseDto> collect = memberOrder.stream()
-                .map(m -> new MemberOrderResponseDto(m.getStore().getStoreName(), m.getOrderItem(), m.getTotalCost(), m.getPayMethod(), m.getOrderTime()))
-                .collect(Collectors.toList());
+        for (MemberOrder x : memberOrder) {
+            Store store = x.getStore();
 
-        return new Result(collect);
+            List<OrderItem> orderItems = x.getOrderItem();
+            List<OrderItemResponseDto> orderItemList = orderItems.stream()
+                    .map(m -> new OrderItemResponseDto(m.getMenuName(), m.getCost(), m.getQuantity()))
+                    .collect(Collectors.toList());
+
+            List<Review> review = member.getReview();
+            List<ReviewResponseDto> reviewList = review.stream()
+                    .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
+                    .collect(Collectors.toList());
+
+            MemberOrderResponseDto dto = new MemberOrderResponseDto(store.getStoreName(), orderItemList, reviewList, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
+
+            dtoList.add(dto);
+        }
+
+        return new Result(dtoList);
     }
     @Data
     @AllArgsConstructor
