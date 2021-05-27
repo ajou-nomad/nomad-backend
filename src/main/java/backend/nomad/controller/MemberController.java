@@ -71,6 +71,7 @@ public class MemberController {
             if (store != null) {
                 memberResponseDto.setStoreId(store.getStoreId());
             }
+
             return new Result(memberResponseDto);
         }
 
