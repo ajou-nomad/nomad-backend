@@ -107,6 +107,8 @@ public class DeliveryGroupController {
         memberOrder.setUid(uid);
         memberOrder.setStoreId(deliveryGroupRequestDto.getStoreId());
         memberOrder.setStore(store);
+        memberOrder.setDeliveryGroup(deliveryGroup);
+        deliveryGroupService.save(deliveryGroup);
 
         List<MenuRequestDto> menuList = deliveryGroupRequestDto.getMenu();
         for (MenuRequestDto x : menuList) {
@@ -158,6 +160,8 @@ public class DeliveryGroupController {
         memberOrder.setUid(uid);
         memberOrder.setStoreId(store.getStoreId());
         memberOrder.setStore(store);
+        memberOrder.setDeliveryGroup(deliveryGroup);
+        deliveryGroupService.save(deliveryGroup);
 
         List<MenuRequestDto> menuList = dto.getMenu();
         for (MenuRequestDto x : menuList) {

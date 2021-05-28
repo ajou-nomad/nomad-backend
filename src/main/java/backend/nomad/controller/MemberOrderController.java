@@ -67,12 +67,12 @@ public class MemberOrderController {
                     .map(m -> new OrderItemResponseDto(m.getOrderItemId(),m.getMenuName(), m.getCost(), m.getQuantity()))
                     .collect(Collectors.toList());
 
-//            List<Review> review = member.getReview();
-//            List<ReviewResponseDto> reviewList = review.stream()
-//                    .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
-//                    .collect(Collectors.toList());
+            List<Review> review = member.getReview();
+            List<ReviewResponseDto> reviewList = review.stream()
+                    .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
+                    .collect(Collectors.toList());
 
-            MemberOrderResponseDto dto = new MemberOrderResponseDto(x.getMemberOrderId(), store.getStoreId(), store.getStoreName(), x.getDeliveryGroup().getOrderStatus(), orderItemList, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
+            MemberOrderResponseDto dto = new MemberOrderResponseDto(x.getMemberOrderId(), store.getStoreId(), store.getStoreName(), x.getDeliveryGroup().getOrderStatus(), orderItemList, reviewList, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
 
             dtoList.add(dto);
         }

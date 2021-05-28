@@ -79,7 +79,6 @@ public class Member {
     }
     public void changeGroup(DeliveryGroup deliveryGroup) {
         this.deliveryGroup = deliveryGroup;
-        System.out.println("성공");
         deliveryGroup.getMemberList().add(this);
         deliveryGroup.setCurrent(deliveryGroup.getMemberList().size());
     }

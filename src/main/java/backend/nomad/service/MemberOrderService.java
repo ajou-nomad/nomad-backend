@@ -31,4 +31,8 @@ public class MemberOrderService {
     public MemberOrder findByStoreId(Long storeId) {
         return memberOrderRepository.findByStoreId(storeId);
     }
+
+    public List<MemberOrder> findByStoreIdAndUid(Long storeId, String uid) {
+        return memberOrderRepository.findByStoreIdAndUid(storeId, uid);
+    }
 }
