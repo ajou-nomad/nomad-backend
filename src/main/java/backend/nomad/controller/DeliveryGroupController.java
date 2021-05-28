@@ -48,32 +48,32 @@ public class DeliveryGroupController {
     private final FirebaseService firebaseService;
     private final OrderItemService orderItemService;
 
-    @Scheduled(fixedDelay = 120000)
-    public void manageGroupState() {
-        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findGroups();
-
-
-        log.info("그룹주문 시간 탐색");
-        for (DeliveryGroup x : deliveryGroups) {
-            if (x.getDeliveryDateTime() != null && x.getDeliveryDateTime().isBefore(LocalDateTime.now())) {
-                // 멀티쓰레드 이슈 로 CopyOnWriteArrayList 이용
-                List<Member> memberList = new CopyOnWriteArrayList<>();
-
-                memberList.addAll(x.getMemberList());
-
-                for (Member y : memberList) {
-                    log.info("member: " + y);
-                    y.deleteGroup(x);
-                    y.setDeliveryGroup(null);
-                    deliveryGroupService.save(x);
-                    memberService.save(y);
-                }
-                deliveryGroupService.delete(x);
-                log.info("삭제");
-
-            }
-        }
-    }
+//    @Scheduled(fixedDelay = 120000)
+//    public void manageGroupState() {
+//        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findGroups();
+//
+//
+//        log.info("그룹주문 시간 탐색");
+//        for (DeliveryGroup x : deliveryGroups) {
+//            if (x.getDeliveryDateTime() != null && x.getDeliveryDateTime().isBefore(LocalDateTime.now())) {
+//                // 멀티쓰레드 이슈 로 CopyOnWriteArrayList 이용
+//                List<Member> memberList = new CopyOnWriteArrayList<>();
+//
+//                memberList.addAll(x.getMemberList());
+//
+//                for (Member y : memberList) {
+//                    log.info("member: " + y);
+//                    y.deleteGroup(x);
+//                    y.setDeliveryGroup(null);
+//                    deliveryGroupService.save(x);
+//                    memberService.save(y);
+//                }
+//                deliveryGroupService.delete(x);
+//                log.info("삭제");
+//
+//            }
+//        }
+//    }
 
     @PostMapping("/groupData")
     public void SaveGroup(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
