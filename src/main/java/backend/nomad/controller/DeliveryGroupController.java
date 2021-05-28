@@ -91,7 +91,7 @@ public class DeliveryGroupController {
         deliveryGroup.setGroupType(deliveryGroupRequestDto.getGroupType());
         deliveryGroup.setOrderStatus(OrderStatus.recruiting);
 
-        deliveryGroup.setDeliveryDateTime(LocalDateTime.now());
+        deliveryGroup.setDeliveryDateTime(deliveryGroupRequestDto.getDeliveryDateTime());
 
         deliveryGroupService.save(deliveryGroup);
 

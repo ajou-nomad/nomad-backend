@@ -4,6 +4,7 @@ import backend.nomad.domain.group.GroupType;
 import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.dto.orderItem.OrderItemResponseDto;
 import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +21,8 @@ public class DeliveryGroupResponseDto {
     private Integer maxValue;
     private GroupType groupType;
     private OrderStatus orderStatus;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime deliveryDateTime;
 
     private OrderItemResponseDto orderItemList;

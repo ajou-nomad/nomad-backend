@@ -48,12 +48,13 @@ public class DeliveryGroup {
     private List<MemberOrder> memberOrders = new ArrayList<>();
 
 
-    public DeliveryGroup(Long storeId, Double latitude, Double longitude, String address, String buildingName, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
+    public DeliveryGroup(Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
         this.storeId = storeId;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
         this.buildingName = buildingName;
+        this.deliveryDateTime = deliveryDateTime;
         this.current = current;
         this.maxValue = maxValue;
         this.groupType = groupType;
