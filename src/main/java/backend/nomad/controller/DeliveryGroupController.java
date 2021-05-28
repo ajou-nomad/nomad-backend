@@ -48,7 +48,7 @@ public class DeliveryGroupController {
     private final FirebaseService firebaseService;
     private final OrderItemService orderItemService;
 
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(fixedDelay = 120000)
     public void manageGroupState() {
         List<DeliveryGroup> deliveryGroups = deliveryGroupService.findGroups();
 

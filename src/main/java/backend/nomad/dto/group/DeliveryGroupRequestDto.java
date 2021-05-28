@@ -23,8 +23,6 @@ public class DeliveryGroupRequestDto {
     private Double longitude;
     private String address;
     private String buildingName;
-    private String time;
-    private String date;
     private Integer current;
     private Integer maxValue;
     private GroupType groupType;
