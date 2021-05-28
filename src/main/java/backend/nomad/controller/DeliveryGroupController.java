@@ -109,6 +109,8 @@ public class DeliveryGroupController {
         memberOrder.setStore(store);
         memberOrder.setDeliveryGroup(deliveryGroup);
         deliveryGroupService.save(deliveryGroup);
+        memberOrderService.save(memberOrder);
+        memberService.save(member);
 
         List<MenuRequestDto> menuList = deliveryGroupRequestDto.getMenu();
         for (MenuRequestDto x : menuList) {
@@ -162,6 +164,7 @@ public class DeliveryGroupController {
         memberOrder.setStore(store);
         memberOrder.setDeliveryGroup(deliveryGroup);
         deliveryGroupService.save(deliveryGroup);
+        memberOrderService.save(memberOrder);
 
         List<MenuRequestDto> menuList = dto.getMenu();
         for (MenuRequestDto x : menuList) {
