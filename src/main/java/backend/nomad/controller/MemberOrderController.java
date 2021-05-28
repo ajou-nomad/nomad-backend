@@ -17,7 +17,9 @@ import backend.nomad.dto.orderItem.OrderItemResponseDto;
 import backend.nomad.dto.review.ReviewResponseDto;
 import backend.nomad.dto.store.MenuResponseDto;
 import backend.nomad.dto.store.StoreResponseDto;
+import backend.nomad.service.DeliveryGroupService;
 import backend.nomad.service.MemberOrderService;
+import backend.nomad.service.MemberService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -35,7 +37,8 @@ import java.util.stream.Collectors;
 public class MemberOrderController {
 
     private final MemberOrderService memberOrderService;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
+    private final DeliveryGroupService deliveryGroupService;
 
 //    @PostMapping("/memberOrder")
 //    public Long saveMemberOrder(@RequestBody MemberOrderRequestDto memberOrderRequestDto) {
@@ -51,7 +54,7 @@ public class MemberOrderController {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
-        Member member = memberRepository.findByUid(uid);
+        Member member = memberService.findByUid(uid);
 
         List<MemberOrderResponseDto> dtoList = new ArrayList<>();
 
@@ -59,10 +62,9 @@ public class MemberOrderController {
 
         for (MemberOrder x : memberOrder) {
             Store store = x.getStore();
-
             List<OrderItem> orderItems = x.getOrderItem();
             List<OrderItemResponseDto> orderItemList = orderItems.stream()
-                    .map(m -> new OrderItemResponseDto(m.getMenuName(), m.getCost(), m.getQuantity()))
+                    .map(m -> new OrderItemResponseDto(m.getOrderItemId(),m.getMenuName(), m.getCost(), m.getQuantity()))
                     .collect(Collectors.toList());
 
             List<Review> review = member.getReview();
@@ -70,7 +72,7 @@ public class MemberOrderController {
                     .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                     .collect(Collectors.toList());
 
-            MemberOrderResponseDto dto = new MemberOrderResponseDto(store.getStoreId(), store.getStoreName(), orderItemList, reviewList, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
+            MemberOrderResponseDto dto = new MemberOrderResponseDto(x.getMemberOrderId(), store.getStoreId(), store.getStoreName(), x.getDeliveryGroup().getOrderStatus(), orderItemList, reviewList, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
 
             dtoList.add(dto);
         }

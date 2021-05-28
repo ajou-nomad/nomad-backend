@@ -1,5 +1,7 @@
 package backend.nomad.domain.member;
 
+import backend.nomad.domain.group.DeliveryGroup;
+import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.store.Store;
 import lombok.Getter;
@@ -30,6 +32,9 @@ public class MemberOrder {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DeliveryGroup deliveryGroup;
+
     private Integer totalCost;
     private String payMethod;
 
@@ -57,5 +62,10 @@ public class MemberOrder {
     public void setStore(Store store) {
         this.store = store;
         store.getMemberOrder().add(this);
+    }
+
+    public void setDeliveryGroup(DeliveryGroup deliveryGroup) {
+        this.deliveryGroup = deliveryGroup;
+        deliveryGroup.getMemberOrders().add(this);
     }
 }

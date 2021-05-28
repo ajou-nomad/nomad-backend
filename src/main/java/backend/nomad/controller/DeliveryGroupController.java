@@ -48,14 +48,14 @@ public class DeliveryGroupController {
     private final FirebaseService firebaseService;
     private final OrderItemService orderItemService;
 
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelay = 5000)
     public void manageGroupState() {
         List<DeliveryGroup> deliveryGroups = deliveryGroupService.findGroups();
 
 
         log.info("그룹주문 시간 탐색");
         for (DeliveryGroup x : deliveryGroups) {
-            if (x.getLocalDateTime() != null && x.getLocalDateTime().isBefore(LocalDateTime.now())) {
+            if (x.getDeliveryDateTime() != null && x.getDeliveryDateTime().isBefore(LocalDateTime.now())) {
                 // 멀티쓰레드 이슈 로 CopyOnWriteArrayList 이용
                 List<Member> memberList = new CopyOnWriteArrayList<>();
 
@@ -86,14 +86,12 @@ public class DeliveryGroupController {
         deliveryGroup.setLongitude(deliveryGroupRequestDto.getLongitude());
         deliveryGroup.setAddress(deliveryGroupRequestDto.getAddress());
         deliveryGroup.setBuildingName(deliveryGroupRequestDto.getBuildingName());
-        deliveryGroup.setTime(deliveryGroupRequestDto.getTime());
-        deliveryGroup.setDate(deliveryGroupRequestDto.getDate());
         deliveryGroup.setCurrent(1);
         deliveryGroup.setMaxValue(deliveryGroupRequestDto.getMaxValue());
         deliveryGroup.setGroupType(deliveryGroupRequestDto.getGroupType());
         deliveryGroup.setOrderStatus(OrderStatus.recruiting);
 
-        deliveryGroup.setLocalDateTime(LocalDateTime.now());
+        deliveryGroup.setDeliveryDateTime(LocalDateTime.now());
 
         deliveryGroupService.save(deliveryGroup);
 
@@ -194,7 +192,7 @@ public class DeliveryGroupController {
                 Message message = Message.builder()
                         .setNotification(Notification.builder()
                                 .setTitle("모집이 완료됐습니다!")
-                                .setBody("모집이 완료 되었습니다.\n" + "도착 시간: " + deliveryGroup.getBuildingName() + "\n" + "배달 시간: " + deliveryGroup.getTime())
+                                .setBody("모집이 완료 되었습니다.\n" + "도착 시간: " + deliveryGroup.getBuildingName() + "\n" + "배달 시간: " + deliveryGroup.getDeliveryDateTime())
                                 .build())
                         // Device를 특정할 수 있는 토큰.
                         .setToken(x.getToken())
@@ -217,7 +215,7 @@ public class DeliveryGroupController {
     public Result findGroups() {
         List<DeliveryGroup> findGroups = deliveryGroupService.findGroups();
         List<DeliveryGroupResponseDto> collect = findGroups.stream()
-                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
                 .collect(Collectors.toList());
 
         return new Result(collect);
@@ -230,7 +228,7 @@ public class DeliveryGroupController {
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupTypeAndOrderStatus(GroupType.day, OrderStatus.recruiting);
 
         List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
-                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
                 .collect(Collectors.toList());
 
 //        List<Store> store = storeService.findStores();
@@ -259,7 +257,7 @@ public class DeliveryGroupController {
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupTypeAndOrderStatus(GroupType.weekly, OrderStatus.recruiting);
 
         List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
-                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getTime(), m.getDate(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
                 .collect(Collectors.toList());
 
         List<StoreResponseDto> dtoList = new ArrayList<>();

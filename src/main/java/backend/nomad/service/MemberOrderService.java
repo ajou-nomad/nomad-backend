@@ -27,4 +27,8 @@ public class MemberOrderService {
         return memberOrderRepository.findAll();
     }
 
+    @Transactional
+    public MemberOrder findByStoreId(Long storeId) {
+        return memberOrderRepository.findByStoreId(storeId);
+    }
 }

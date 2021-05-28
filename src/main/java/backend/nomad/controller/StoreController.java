@@ -1,9 +1,11 @@
 package backend.nomad.controller;
 
 import backend.nomad.domain.group.DeliveryGroup;
+import backend.nomad.domain.group.GroupType;
 import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
+import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Menu;
 import backend.nomad.domain.store.Store;
@@ -12,6 +14,7 @@ import backend.nomad.dto.group.DeliveryGroupResponseDto;
 import backend.nomad.dto.group.GroupOrderResponseDto;
 import backend.nomad.dto.member.MemberOrderResponseDto;
 import backend.nomad.dto.member.MemberResponseDto;
+import backend.nomad.dto.orderItem.OrderItemResponseDto;
 import backend.nomad.dto.review.ReviewResponseDto;
 import backend.nomad.dto.store.MenuResponseDto;
 import backend.nomad.dto.store.StoreRequestDto;
@@ -29,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -121,7 +125,7 @@ public class StoreController {
 //        return new Result(storeResponseDto);
     }
 
-    // 그룹주문 가져오기
+    //모집 완료된 주문 불러오기 및 접수
     @GetMapping("/groupOrder")
     public Result orderList(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
@@ -131,8 +135,23 @@ public class StoreController {
         Store store = member.getStore();
 
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.recruitmentDone, store.getStoreId());
-        List<GroupOrderResponseDto> collect = deliveryGroup.stream()
-                .map(m -> new GroupOrderResponseDto())
+        OrderItemResponseDto orderItemList = new OrderItemResponseDto();
+
+        for (DeliveryGroup x : deliveryGroup) {
+            List<MemberOrder> memberOrder = x.getMemberOrders();
+
+            for (MemberOrder y : memberOrder) {
+                List<OrderItem> orderItems = y.getOrderItem();
+                List<OrderItemResponseDto> orderItem = orderItems.stream()
+                        .map(m -> new OrderItemResponseDto(m.getOrderItemId(), m.getMenuName(), m.getCost(), m.getQuantity()))
+                        .collect(Collectors.toList());
+
+                orderItem.add(orderItemList);
+            }
+        }
+
+        List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getCurrent(), m.getMaxValue(), m.getGroupType(), m.getOrderStatus(), orderItemList))
                 .collect(Collectors.toList());
 
         return new Result(collect);
@@ -140,16 +159,14 @@ public class StoreController {
 
     @PostMapping("/groupOrder")
     public void orderConfirm(@RequestHeader("Authorization") String header, @RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto) throws FirebaseAuthException {
-        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
-        String uid = decodedToken.getUid();
 
+        DeliveryGroup deliveryGroup = deliveryGroupService.findById(deliveryGroupRequestDto.getGroupId());
+        deliveryGroup.setOrderStatus(OrderStatus.waitingForDelivery);
 
+        deliveryGroupService.save(deliveryGroup);
 
-        Member member = memberService.findByUid(uid);
-        Store store = member.getStore();
-
-        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.recruitmentDone, store.getStoreId());
     }
+
 
 
     @Data

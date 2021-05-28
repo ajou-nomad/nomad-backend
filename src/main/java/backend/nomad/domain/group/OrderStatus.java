@@ -1,5 +1,5 @@
 package backend.nomad.domain.group;
 
 public enum OrderStatus {
-    recruiting, recruitmentDone, delivering, deliveryDone
+    recruiting, recruitmentDone, waitingForDelivery, delivering, deliveryDone
 }

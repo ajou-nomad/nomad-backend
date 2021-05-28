@@ -31,7 +31,7 @@ public class DeliveryGroupRequestDto {
     private List<MenuRequestDto> menu;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
-    private LocalDateTime localDateTime;
+    private LocalDateTime deliveryDateTime;
 //    private String menuName;
 //    private Integer cost;
 //    private Integer quantity;

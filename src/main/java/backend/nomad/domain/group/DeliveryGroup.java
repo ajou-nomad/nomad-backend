@@ -4,6 +4,7 @@ package backend.nomad.domain.group;
 
 import backend.nomad.domain.TimeEntity;
 import backend.nomad.domain.member.Member;
+import backend.nomad.domain.member.MemberOrder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,20 +29,14 @@ public class DeliveryGroup {
     private Double longitude;
     private String address;
     private String buildingName;
-    private String time;
-    private String date;
     private Integer current;
     private Integer maxValue;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
-    private LocalDateTime localDateTime;
+    private LocalDateTime deliveryDateTime;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
-
-//    @OneToMany(mappedBy = "deliveryGroup")
-//    @ElementCollection
-//    private List<String> memberList;
 
     @Enumerated(EnumType.STRING)
     private GroupType groupType;
@@ -49,23 +44,16 @@ public class DeliveryGroup {
     @OneToMany(mappedBy = "deliveryGroup", fetch = FetchType.EAGER)
     private List<Member> memberList = new ArrayList<>();
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private Member member;
+    @OneToMany(mappedBy = "deliveryGroup" , fetch = FetchType.LAZY)
+    private List<MemberOrder> memberOrders = new ArrayList<>();
 
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "memberOrder_id")
-//    private MemberOrder memberOrder;
-
-    public DeliveryGroup(Long storeId, Double latitude, Double longitude, String address, String buildingName, String time, String date, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
+    public DeliveryGroup(Long storeId, Double latitude, Double longitude, String address, String buildingName, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
         this.storeId = storeId;
         this.latitude = latitude;
         this.longitude = longitude;
         this.address = address;
         this.buildingName = buildingName;
-        this.time = time;
-        this.date = date;
         this.current = current;
         this.maxValue = maxValue;
         this.groupType = groupType;
