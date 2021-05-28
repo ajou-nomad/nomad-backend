@@ -156,7 +156,7 @@ public class DeliveryGroupController {
         Store store = storeService.findByStoreId(deliveryGroup.getStoreId());
 
         memberOrder.setUid(uid);
-        memberOrder.setStoreId(dto.getStoreId());
+        memberOrder.setStoreId(store.getStoreId());
         memberOrder.setStore(store);
 
         List<MenuRequestDto> menuList = dto.getMenu();
