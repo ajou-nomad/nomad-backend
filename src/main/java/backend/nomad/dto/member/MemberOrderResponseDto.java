@@ -39,13 +39,13 @@ public class MemberOrderResponseDto {
         this.orderTime = orderTime;
     }
 
-    public MemberOrderResponseDto(Long memberOrderId, Long storeId, String storeName, OrderStatus orderStatus, List<OrderItemResponseDto> orderItemList, List<ReviewResponseDto> reviewList, Integer totalCost, String payMethod, String orderTime) {
+    public MemberOrderResponseDto(Long memberOrderId, Long storeId, String storeName, OrderStatus orderStatus, List<OrderItemResponseDto> orderItemList, Integer totalCost, String payMethod, String orderTime) {
         this.memberOrderId = memberOrderId;
         this.storeId = storeId;
         this.storeName = storeName;
         this.orderStatus = orderStatus;
         this.orderItemList = orderItemList;
-        this.reviewList = reviewList;
+//        this.reviewList = reviewList;
         this.totalCost = totalCost;
         this.payMethod = payMethod;
         this.orderTime = orderTime;
