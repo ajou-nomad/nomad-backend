@@ -27,6 +27,12 @@ public class OrderItemResponseDto {
         this.quantity = quantity;
     }
 
+    public OrderItemResponseDto(String menuName, Integer cost, Integer quantity) {
+        this.menuName = menuName;
+        this.cost = cost;
+        this.quantity = quantity;
+    }
+
     public OrderItemResponseDto(List<OrderItemResponseDto> orderItemList) {
         this.orderItemList = orderItemList;
     }

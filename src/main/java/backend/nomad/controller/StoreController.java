@@ -145,7 +145,7 @@ public class StoreController {
 
                 List<OrderItem> orders = orderItems.getOrderItem();
                 List<OrderItemResponseDto> ordersDto = orders.stream()
-                        .map(m -> new OrderItemResponseDto(m.getOrderItemId(), m.getMenuName(), m.getCost(), m.getQuantity()))
+                        .map(m -> new OrderItemResponseDto(m.getMenuName(), m.getCost(), m.getQuantity()))
                         .collect(Collectors.toList());
 
                 MemberOrderResponseDto orderItem = new MemberOrderResponseDto(orderItems.getMemberOrderId(), ordersDto);

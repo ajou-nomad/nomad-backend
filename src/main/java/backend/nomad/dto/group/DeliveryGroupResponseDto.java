@@ -57,4 +57,16 @@ public class DeliveryGroupResponseDto {
         this.orderStatus = orderStatus;
         this.orderItemList = orderItemList;
     }
+
+    public DeliveryGroupResponseDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, OrderStatus orderStatus, List<MemberOrderResponseDto> orderItemList) {
+        this.groupId = groupId;
+        this.storeId = storeId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
+        this.buildingName = buildingName;
+        this.deliveryDateTime = deliveryDateTime;
+        this.orderStatus = orderStatus;
+        this.orderItemList = orderItemList;
+    }
 }
