@@ -22,9 +22,9 @@ public class DeliveryGroupDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime deliveryDateTime;
 
-    private List<MemberOrderDto> orderItemList;
+    private List<List<OrderItemDto>> orderItemList;
 
-    public DeliveryGroupDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, OrderStatus orderStatus, List<MemberOrderDto> orderItemList) {
+    public DeliveryGroupDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, OrderStatus orderStatus, List<List<OrderItemDto>> orderItemList) {
         this.groupId = groupId;
         this.storeId = storeId;
         this.latitude = latitude;

@@ -38,6 +38,7 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    private String MemberName;
 
     public Review() {
 

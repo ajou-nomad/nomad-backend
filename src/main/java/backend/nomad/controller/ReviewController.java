@@ -42,6 +42,7 @@ public class ReviewController {
         review.setRate(reviewRequestDto.getRate());
         review.setImgUrl(reviewRequestDto.getImgUrl());
         review.setLocalDateTime(reviewRequestDto.getLocalDateTime());
+        review.setMemberName(member.getNickName());
 
         review.setStore(store);
         storeService.save(store);

@@ -129,31 +129,24 @@ public class StoreController {
         List<List<DeliveryGroupDto>> dtoList = new ArrayList<>();
 
         for (DeliveryGroup x : deliveryGroup) {
-            List<MemberOrderDto> orderItemList = new ArrayList<>();
+            List<List<OrderItemDto>> orderItemList = new ArrayList<>();
 
             List<MemberOrder> memberOrder = x.getMemberOrders();
 
-            Long groupId = x.getGroupId();
 
             for (MemberOrder y : memberOrder) {
-                Long memberOrderGroupId = y.getDeliveryGroup().getGroupId();
 
-                log.info(groupId + " " + memberOrderGroupId);
-                if (memberOrderGroupId != groupId){
-                    log.info("같습니다");
-                    continue;
-                }
                 List<OrderItem> orderItems = y.getOrderItem();
                 List<OrderItemDto> ordersDto = orderItems.stream()
                         .map(m -> new OrderItemDto(m.getMenuName(), m.getCost(), m.getQuantity()))
                         .collect(Collectors.toList());
 
-                MemberOrderDto orderItem = new MemberOrderDto(y.getMemberOrderId(), ordersDto);
+//                MemberOrderDto orderItem = new MemberOrderDto(y.getMemberOrderId(), ordersDto);
 
-                orderItemList.add(orderItem);
+                orderItemList.add(ordersDto);
             }
             List<DeliveryGroupDto> collect = deliveryGroup.stream()
-                    .map(m -> new DeliveryGroupDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getOrderStatus(), orderItemList))
+                    .map(m -> new DeliveryGroupDto(x.getGroupId(), x.getStoreId(), x.getLatitude(), x.getLongitude(), x.getAddress(), x.getBuildingName(), x.getDeliveryDateTime(), x.getOrderStatus(), orderItemList))
                     .collect(Collectors.toList());
 
             dtoList.add(collect);
