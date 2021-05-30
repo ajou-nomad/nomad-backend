@@ -69,6 +69,7 @@ public class MenuController {
         promotionMenu.setDescription(dto.getDescription());
         promotionMenu.setPromotionDescription(dto.getPromotionDescription());
         promotionMenu.setImgUrl(dto.getImgUrl());
+        promotionMenu.setStore(store);
 
         promotionMenuService.save(promotionMenu);
         storeService.save(store);
