@@ -101,8 +101,9 @@ public class DeliveryGroupController {
         member.setDeliveryGroup(deliveryGroup);
         member.changeGroup(deliveryGroup);
         memberService.save(member);
+        Promotion promotion = deliveryGroupRequestDto.getPromotion();
 
-        if (deliveryGroupRequestDto.getPromotion().equals(Promotion.Off)) {
+        if (promotion.equals(Promotion.Off)) {
 
             //일반 주문 데이터
             Store store = storeService.findByStoreId(deliveryGroupRequestDto.getStoreId());
