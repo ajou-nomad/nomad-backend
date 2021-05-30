@@ -67,7 +67,7 @@ public class MemberOrderController {
                     .map(m -> new OrderItemResponseDto(m.getOrderItemId(),m.getMenuName(), m.getCost(), m.getQuantity()))
                     .collect(Collectors.toList());
 
-            List<Review> review = member.getReview();
+            List<Review> review = x.getMember().getReview();
             List<ReviewResponseDto> reviewList = review.stream()
                     .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                     .collect(Collectors.toList());
