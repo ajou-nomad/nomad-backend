@@ -23,11 +23,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -43,13 +45,13 @@ public class StoreController {
 
 
 //    @Scheduled(fixedDelay = 120000)
-//    public void manageGroupState() {
+//    public void manageChatRoom() {
 //        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findGroups();
 //
 //
-//        log.info("그룹주문 시간 탐색");
+//        log.info("배달 완료된 주문 탐색");
 //        for (DeliveryGroup x : deliveryGroups) {
-//            if (x.getDeliveryDateTime() != null && x.getDeliveryDateTime().isBefore(LocalDateTime.now())) {
+//            if (x.getDeliveryDateTime() != null && x.getOrderStatus().equals(OrderStatus.deliveryDone) && x.getDeliveryDateTime().isBefore(LocalDateTime.now())) {
 //                // 멀티쓰레드 이슈 로 CopyOnWriteArrayList 이용
 //                List<Member> memberList = new CopyOnWriteArrayList<>();
 //
@@ -154,7 +156,7 @@ public class StoreController {
         Member member = memberService.findByUid(uid);
         Store store = member.getStore();
 
-        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusOrOrderStatusOrOrderStatusAndStoreId(OrderStatus.recruitmentDone, OrderStatus.recruitmentAccept, OrderStatus.delivering, store.getStoreId());
+        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatusAndStoreId(OrderStatus.recruitmentDone, OrderStatus.recruitmentAccept, OrderStatus.delivering, OrderStatus.waitingForDelivery, store.getStoreId());
 
         List<DeliveryGroupDto> dtoList = new ArrayList<>();
 

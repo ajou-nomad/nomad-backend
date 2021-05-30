@@ -26,9 +26,13 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -51,7 +55,7 @@ public class DeliveryGroupController {
 //
 //        log.info("그룹주문 시간 탐색");
 //        for (DeliveryGroup x : deliveryGroups) {
-//            if (x.getDeliveryDateTime() != null && x.getDeliveryDateTime().isBefore(LocalDateTime.now())) {
+//            if (x.getDeliveryDateTime() != null && x.getOrderStatus().equals(OrderStatus.recruiting) && x.getDeliveryDateTime().isBefore(LocalDateTime.now())) {
 //                // 멀티쓰레드 이슈 로 CopyOnWriteArrayList 이용
 //                List<Member> memberList = new CopyOnWriteArrayList<>();
 //
@@ -70,9 +74,6 @@ public class DeliveryGroupController {
 //            }
 //        }
 //    }
-
-
-
 
     @PostMapping("/groupData")
     public void SaveGroup(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
