@@ -4,7 +4,6 @@ package backend.nomad.controller;
 import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
-import backend.nomad.domain.member.MemberType;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.chat.ChatRequestDto;
 import backend.nomad.dto.member.MemberResponseDto;
@@ -12,7 +11,6 @@ import backend.nomad.dto.member.MemberRequestDto;
 import backend.nomad.service.ChatService;
 import backend.nomad.service.DeliveryGroupService;
 import backend.nomad.service.MemberService;
-import backend.nomad.service.StoreService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

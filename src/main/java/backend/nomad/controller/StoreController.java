@@ -23,6 +23,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -82,7 +84,7 @@ public class StoreController {
 
             List<Review> review = x.getReview();
             List<ReviewResponseDto> reviewList = review.stream()
-                    .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
+                    .map(m -> new ReviewResponseDto(m.getReviewId(), m.getNickName(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                     .collect(Collectors.toList());
 
             StoreResponseDto dto = new StoreResponseDto(x.getStoreId(), x.getStoreName(), x.getPhoneNumber(), x.getAddress(), x.getLatitude(), x.getLongitude(), x.getOpenTime(), x.getCloseTime(), x.getDeliveryTip(), x.getLogoUrl(), menuList, reviewList, x.getRate(), x.getNotice(), x.getStoreIntro(), x.getCategory());
@@ -107,7 +109,7 @@ public class StoreController {
 
         List<Review> review = store.getReview();
         List<ReviewResponseDto> reviewList = review.stream()
-                .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
+                .map(m -> new ReviewResponseDto(m.getReviewId(), m.getNickName(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                 .collect(Collectors.toList());
 
         StoreResponseDto storeResponseDto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, reviewList, store.getRate(), store.getNotice(), store.getStoreIntro(), store.getCategory());
@@ -129,6 +131,9 @@ public class StoreController {
         List<DeliveryGroupDto> dtoList = new ArrayList<>();
 
         for (DeliveryGroup x : deliveryGroup) {
+            if (x.getDeliveryDateTime().getDayOfMonth() != LocalDateTime.now().getDayOfMonth()) {
+                continue;
+            }
             List<List<OrderItemDto>> orderItemList = new ArrayList<>();
 
             List<MemberOrder> memberOrder = x.getMemberOrders();
@@ -140,8 +145,6 @@ public class StoreController {
                 List<OrderItemDto> ordersDto = orderItems.stream()
                         .map(m -> new OrderItemDto(m.getMenuName(), m.getCost(), m.getQuantity()))
                         .collect(Collectors.toList());
-
-//                MemberOrderDto orderItem = new MemberOrderDto(y.getMemberOrderId(), ordersDto);
 
                 orderItemList.add(ordersDto);
             }

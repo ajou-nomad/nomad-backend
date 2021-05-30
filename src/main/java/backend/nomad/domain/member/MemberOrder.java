@@ -3,6 +3,7 @@ package backend.nomad.domain.member;
 import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.orderitem.OrderItem;
+import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Store;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,9 @@ public class MemberOrder {
     private String payMethod;
 
     private String orderTime;
+
+    @OneToOne(mappedBy = "memberOrder")
+    private Review review;
 
     public MemberOrder(Store store, String uid, Long storeId, Member member, Integer totalCost, String payMethod, String orderTime) {
         this.store = store;

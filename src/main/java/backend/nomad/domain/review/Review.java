@@ -1,6 +1,7 @@
 package backend.nomad.domain.review;
 
 import backend.nomad.domain.member.Member;
+import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.store.Store;
 import lombok.Getter;
@@ -38,7 +39,10 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    private String MemberName;
+    @OneToOne(fetch = FetchType.LAZY)
+    private MemberOrder memberOrder;
+
+    private String nickName;
 
     public Review() {
 
@@ -61,4 +65,5 @@ public class Review {
         this.store = store;
         store.getReview().add(this);
     }
+
 }

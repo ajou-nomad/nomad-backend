@@ -1,6 +1,5 @@
 package backend.nomad.controller;
 
-
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.store.Menu;
 import backend.nomad.domain.store.Store;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.logging.Logger;
 
 @Slf4j
 @RestController

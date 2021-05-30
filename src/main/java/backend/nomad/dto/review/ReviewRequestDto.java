@@ -15,6 +15,7 @@ public class ReviewRequestDto {
     private Double rate;
     private String imgUrl;
     private Long storeId;
+    private Long memberOrderId;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime localDateTime;

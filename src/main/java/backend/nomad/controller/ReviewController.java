@@ -1,11 +1,13 @@
 package backend.nomad.controller;
 
 import backend.nomad.domain.member.Member;
+import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.member.MemberOrderResponseDto;
 import backend.nomad.dto.review.ReviewRequestDto;
 import backend.nomad.dto.review.ReviewResponseDto;
+import backend.nomad.service.MemberOrderService;
 import backend.nomad.service.MemberService;
 import backend.nomad.service.ReviewService;
 import backend.nomad.service.StoreService;
@@ -27,6 +29,8 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final MemberService memberService;
     private final StoreService storeService;
+    private final MemberOrderService memberOrderService;
+
 
     @PostMapping("/review")
     public void saveReview(@RequestHeader("Authorization") String header, @RequestBody ReviewRequestDto reviewRequestDto) throws FirebaseAuthException {
@@ -36,18 +40,20 @@ public class ReviewController {
         Member member = memberService.findByUid(uid);
 //        Store store = member.getStore();
         Store store = storeService.findByStoreId(reviewRequestDto.getStoreId());
+        MemberOrder memberOrder = memberOrderService.findById(reviewRequestDto.getMemberOrderId());
 
         Review review = new Review();
         review.setContents(reviewRequestDto.getContents());
         review.setRate(reviewRequestDto.getRate());
         review.setImgUrl(reviewRequestDto.getImgUrl());
         review.setLocalDateTime(reviewRequestDto.getLocalDateTime());
-        review.setMemberName(member.getNickName());
+        review.setNickName(member.getNickName());
+        review.setMemberOrder(memberOrder);
 
-        review.setStore(store);
+        review.addStore(store);
         storeService.save(store);
 
-        review.setMember(member);
+        review.addMember(member);
         memberService.save(member);
 
         reviewService.save(review);
@@ -61,7 +67,7 @@ public class ReviewController {
         Member member = memberService.findByUid(uid);
         List<Review> review = member.getReview();
         List<ReviewResponseDto> collect = review.stream()
-                .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
+                .map(m -> new ReviewResponseDto(m.getReviewId(), m.getNickName(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                 .collect(Collectors.toList());
 
         return new Result(collect);
@@ -78,7 +84,7 @@ public class ReviewController {
         List<Review> review = store.getReview();
 
         List<ReviewResponseDto> collect = review.stream()
-                .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
+                .map(m -> new ReviewResponseDto(m.getReviewId(), m.getNickName(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                 .collect(Collectors.toList());
         return new Result(store.getReview());
     }

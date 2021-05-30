@@ -32,7 +32,13 @@ public class MemberOrderService {
         return memberOrderRepository.findByStoreId(storeId);
     }
 
+    @Transactional
     public List<MemberOrder> findByStoreIdAndUid(Long storeId, String uid) {
         return memberOrderRepository.findByStoreIdAndUid(storeId, uid);
+    }
+
+    @Transactional
+    public MemberOrder findById(Long storeId) {
+        return memberOrderRepository.findById(storeId).orElse(null);
     }
 }
