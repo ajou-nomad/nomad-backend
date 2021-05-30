@@ -3,11 +3,13 @@ package backend.nomad.dto.store;
 import backend.nomad.domain.group.GroupType;
 import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.dto.member.MemberOrderResponseDto;
+import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Getter
 public class DeliveryGroupDto {
     private Long groupId;
     private Long storeId;
