@@ -50,6 +50,13 @@ public class Store {
     @OneToMany(mappedBy = "store")
     private List<LikeStore> likeStore = new ArrayList<>();
 
+    @OneToOne(mappedBy = "store")
+    private PromotionMenu promotionMenu;
+
+    @Enumerated(EnumType.STRING)
+    private Promotion promotion;
+
+
     //공지사항
     //매장설명
     //카테고리 추가

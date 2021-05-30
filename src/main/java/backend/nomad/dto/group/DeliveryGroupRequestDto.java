@@ -2,6 +2,7 @@ package backend.nomad.dto.group;
 
 import backend.nomad.domain.group.GroupType;
 import backend.nomad.domain.store.Menu;
+import backend.nomad.domain.store.Promotion;
 import backend.nomad.dto.store.MenuRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,4 +37,6 @@ public class DeliveryGroupRequestDto {
     private Integer totalCost;
     private String payMethod;
     private String orderTime;
+
+    private Promotion promotion;
 }

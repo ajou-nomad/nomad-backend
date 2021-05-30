@@ -19,6 +19,8 @@ public class MemberRequestDto {
     private String deliIdNumber;
 
 
+
+
     private long point;
 
 }

@@ -8,6 +8,7 @@ import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Menu;
+import backend.nomad.domain.store.Promotion;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.dto.group.GroupOrderRequestDto;
@@ -100,6 +101,8 @@ public class StoreController {
         store.setNotice(dto.getNotice());
         store.setStoreIntro(dto.getStoreIntro());
         store.setCategory(dto.getCategory());
+//        store.setPromotion(dto.getPromotion());
+        store.setPromotion(Promotion.Off);
 
         storeService.save(store);
         memberService.save(store.getMember());
@@ -109,7 +112,7 @@ public class StoreController {
     @GetMapping("/storeList")
     public Result getAllStoreList() {
         List<Store> store = storeService.findStores();
-        List<StoreResponseDto> dtoList = new ArrayList<>();
+        List<StoreListDto> dtoList = new ArrayList<>();
         for (Store x : store) {
             List<Menu> menu = x.getMenu();
             List<MenuResponseDto> menuList = menu.stream()
@@ -121,7 +124,7 @@ public class StoreController {
                     .map(m -> new ReviewResponseDto(m.getReviewId(), m.getNickName(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                     .collect(Collectors.toList());
 
-            StoreResponseDto dto = new StoreResponseDto(x.getStoreId(), x.getStoreName(), x.getPhoneNumber(), x.getAddress(), x.getLatitude(), x.getLongitude(), x.getOpenTime(), x.getCloseTime(), x.getDeliveryTip(), x.getLogoUrl(), menuList, reviewList, x.getRate(), x.getNotice(), x.getStoreIntro(), x.getCategory());
+            StoreListDto dto = new StoreListDto(x.getStoreId(), x.getStoreName(), x.getPhoneNumber(), x.getAddress(), x.getLatitude(), x.getLongitude(), x.getOpenTime(), x.getCloseTime(), x.getDeliveryTip(), x.getLogoUrl(), menuList, reviewList, x.getRate(), x.getNotice(), x.getStoreIntro(), x.getCategory(), x.getPromotion());
             dtoList.add(dto);
         }
         return new Result(dtoList);
@@ -201,6 +204,41 @@ public class StoreController {
 
     }
 
+    @GetMapping("/deliveryComplete")
+    public Result getDeliveryComplete(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+        Store store = member.getStore();
+
+        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.deliveryDone, store.getStoreId());
+
+        List<DeliveryGroupDto> dtoList = new ArrayList<>();
+
+        for (DeliveryGroup x : deliveryGroup) {
+            List<List<OrderItemDto>> orderItemList = new ArrayList<>();
+
+            List<MemberOrder> memberOrder = x.getMemberOrders();
+
+
+            for (MemberOrder y : memberOrder) {
+
+                List<OrderItem> orderItems = y.getOrderItem();
+                List<OrderItemDto> ordersDto = orderItems.stream()
+                        .map(m -> new OrderItemDto(m.getMenuName(), m.getCost(), m.getQuantity()))
+                        .collect(Collectors.toList());
+
+                orderItemList.add(ordersDto);
+            }
+
+            DeliveryGroupDto collect = new DeliveryGroupDto(x.getGroupId(), x.getStoreId(), x.getLatitude(), x.getLongitude(), x.getAddress(), x.getBuildingName(), x.getDeliveryDateTime(), x.getOrderStatus(), orderItemList);
+            dtoList.add(collect);
+
+        }
+
+        return new Result(dtoList);
+    }
 
 
     @Data

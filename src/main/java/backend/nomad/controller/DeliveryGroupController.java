@@ -100,6 +100,8 @@ public class DeliveryGroupController {
         member.changeGroup(deliveryGroup);
         memberService.save(member);
 
+
+
         //주문 데이터
         Store store = storeService.findByStoreId(deliveryGroupRequestDto.getStoreId());
 

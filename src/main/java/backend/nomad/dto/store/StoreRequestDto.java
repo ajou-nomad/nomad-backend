@@ -1,5 +1,6 @@
 package backend.nomad.dto.store;
 
+import backend.nomad.domain.store.Promotion;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,4 +27,5 @@ public class StoreRequestDto {
     private String storeIntro;
     private String category;
 
+    private Promotion promotion;
 }

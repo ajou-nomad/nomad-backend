@@ -2,10 +2,13 @@ package backend.nomad.controller;
 
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.store.Menu;
+import backend.nomad.domain.store.Promotion;
+import backend.nomad.domain.store.PromotionMenu;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.store.MenuRequestDto;
 import backend.nomad.service.MemberService;
 import backend.nomad.service.MenuService;
+import backend.nomad.service.PromotionMenuService;
 import backend.nomad.service.StoreService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -27,6 +30,7 @@ public class MenuController {
     private final MenuService menuService;
     private final MemberService memberService;
     private final StoreService storeService;
+    private final PromotionMenuService promotionMenuService;
 
     @PostMapping("/menu")
     public void savaStoreMenu(@RequestBody MenuRequestDto[] dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
@@ -48,6 +52,28 @@ public class MenuController {
         }
 //        storeService.save(member.getStore());
     }
+
+    @PostMapping("/promotionMenu")
+    public void savePromotion(@RequestBody MenuRequestDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException{
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+        Store store = member.getStore();
+
+        store.setPromotion(Promotion.On);
+
+        PromotionMenu promotionMenu = new PromotionMenu();
+        promotionMenu.setPromotionMenuName(dto.getMenuName());
+        promotionMenu.setCost(dto.getCost());
+        promotionMenu.setDescription(dto.getDescription());
+        promotionMenu.setPromotionDescription(dto.getPromotionDescription());
+        promotionMenu.setImgUrl(dto.getImgUrl());
+
+        promotionMenuService.save(promotionMenu);
+        storeService.save(store);
+    }
+
     @Data
     @AllArgsConstructor
     class Result<T> {

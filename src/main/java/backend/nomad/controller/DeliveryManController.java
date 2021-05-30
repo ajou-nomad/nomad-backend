@@ -100,42 +100,6 @@ public class DeliveryManController {
         deliveryGroupService.save(deliveryGroup);
     }
 
-    @GetMapping("/deliveryComplete")
-    public Result getDeliveryComplete(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
-        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
-        String uid = decodedToken.getUid();
-
-        Member member = memberService.findByUid(uid);
-        Store store = member.getStore();
-
-        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.deliveryDone, store.getStoreId());
-
-        List<DeliveryGroupDto> dtoList = new ArrayList<>();
-
-        for (DeliveryGroup x : deliveryGroup) {
-            List<List<OrderItemDto>> orderItemList = new ArrayList<>();
-
-            List<MemberOrder> memberOrder = x.getMemberOrders();
-
-
-            for (MemberOrder y : memberOrder) {
-
-                List<OrderItem> orderItems = y.getOrderItem();
-                List<OrderItemDto> ordersDto = orderItems.stream()
-                        .map(m -> new OrderItemDto(m.getMenuName(), m.getCost(), m.getQuantity()))
-                        .collect(Collectors.toList());
-
-                orderItemList.add(ordersDto);
-            }
-
-            DeliveryGroupDto collect = new DeliveryGroupDto(x.getGroupId(), x.getStoreId(), x.getLatitude(), x.getLongitude(), x.getAddress(), x.getBuildingName(), x.getDeliveryDateTime(), x.getOrderStatus(), orderItemList);
-            dtoList.add(collect);
-
-        }
-
-        return new Result(dtoList);
-    }
-
     @Data
     @AllArgsConstructor
     class Result<T> {
