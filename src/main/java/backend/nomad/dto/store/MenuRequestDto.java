@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class MenuRequestDto {
-    private String menuName;
+    private String promotionMenuName;
     private Integer cost;
     private Integer quantity;
     private String description;
