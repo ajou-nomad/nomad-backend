@@ -6,6 +6,7 @@ import backend.nomad.domain.store.Promotion;
 import backend.nomad.domain.store.PromotionMenu;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.store.MenuRequestDto;
+import backend.nomad.dto.store.PromotionMenuDto;
 import backend.nomad.service.MemberService;
 import backend.nomad.service.MenuService;
 import backend.nomad.service.PromotionMenuService;
@@ -54,7 +55,7 @@ public class MenuController {
     }
 
     @PostMapping("/promotionMenu")
-    public void savePromotion(@RequestBody MenuRequestDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException{
+    public void savePromotion(@RequestBody PromotionMenuDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException{
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
@@ -64,7 +65,7 @@ public class MenuController {
         store.setPromotion(Promotion.On);
 
         PromotionMenu promotionMenu = new PromotionMenu();
-        promotionMenu.setPromotionMenuName(dto.getMenuName());
+        promotionMenu.setPromotionMenuName(dto.getPromotionMenuName());
         promotionMenu.setCost(dto.getCost());
         promotionMenu.setDescription(dto.getDescription());
         promotionMenu.setPromotionDescription(dto.getPromotionDescription());
