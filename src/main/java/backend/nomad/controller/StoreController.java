@@ -9,6 +9,7 @@ import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Menu;
 import backend.nomad.domain.store.Promotion;
+import backend.nomad.domain.store.PromotionMenu;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.dto.group.GroupOrderRequestDto;
@@ -124,7 +125,10 @@ public class StoreController {
                     .map(m -> new ReviewResponseDto(m.getReviewId(), m.getNickName(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                     .collect(Collectors.toList());
 
-            StoreListDto dto = new StoreListDto(x.getStoreId(), x.getStoreName(), x.getPhoneNumber(), x.getAddress(), x.getLatitude(), x.getLongitude(), x.getOpenTime(), x.getCloseTime(), x.getDeliveryTip(), x.getLogoUrl(), menuList, reviewList, x.getRate(), x.getNotice(), x.getStoreIntro(), x.getCategory(), x.getPromotion());
+            PromotionMenu promotionMenu = x.getPromotionMenu();
+            PromotionMenuDto promotionMenuDto = new PromotionMenuDto(promotionMenu.getPromotionMenuId(), promotionMenu.getPromotionMenuName(), promotionMenu.getCost(), promotionMenu.getDescription(), promotionMenu.getPromotionDescription(), promotionMenu.getImgUrl());
+
+            StoreListDto dto = new StoreListDto(x.getStoreId(), x.getStoreName(), x.getPhoneNumber(), x.getAddress(), x.getLatitude(), x.getLongitude(), x.getOpenTime(), x.getCloseTime(), x.getDeliveryTip(), x.getLogoUrl(), menuList, reviewList, x.getRate(), x.getNotice(), x.getStoreIntro(), x.getCategory(), promotionMenuDto);
             dtoList.add(dto);
         }
         return new Result(dtoList);

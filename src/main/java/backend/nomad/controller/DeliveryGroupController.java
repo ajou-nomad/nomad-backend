@@ -8,6 +8,8 @@ import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Menu;
+import backend.nomad.domain.store.Promotion;
+import backend.nomad.domain.store.PromotionMenu;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.dto.group.DeliveryGroupResponseDto;
@@ -100,40 +102,40 @@ public class DeliveryGroupController {
         member.changeGroup(deliveryGroup);
         memberService.save(member);
 
+        if (deliveryGroupRequestDto.getPromotion().equals(Promotion.Off)) {
 
+            //일반 주문 데이터
+            Store store = storeService.findByStoreId(deliveryGroupRequestDto.getStoreId());
 
-        //주문 데이터
-        Store store = storeService.findByStoreId(deliveryGroupRequestDto.getStoreId());
-
-        MemberOrder memberOrder = new MemberOrder();
-        memberOrder.setUid(uid);
-        memberOrder.setStoreId(deliveryGroupRequestDto.getStoreId());
-        memberOrder.setStore(store);
-        memberOrder.setDeliveryGroup(deliveryGroup);
-        deliveryGroupService.save(deliveryGroup);
-        memberOrderService.save(memberOrder);
-        memberService.save(member);
-
-        List<MenuRequestDto> menuList = deliveryGroupRequestDto.getMenu();
-        for (MenuRequestDto x : menuList) {
-
-            OrderItem orderItem = new OrderItem();
-            orderItem.setMenuName(x.getMenuName());
-            orderItem.setCost(x.getCost());
-            orderItem.setQuantity(x.getQuantity());
-
-            orderItem.addOrderItemToMemberOrder(memberOrder);
-
+            MemberOrder memberOrder = new MemberOrder();
+            memberOrder.setUid(uid);
+            memberOrder.setStoreId(deliveryGroupRequestDto.getStoreId());
+            memberOrder.setStore(store);
+            memberOrder.setDeliveryGroup(deliveryGroup);
+            deliveryGroupService.save(deliveryGroup);
             memberOrderService.save(memberOrder);
-            orderItemService.save(orderItem);
+            memberService.save(member);
 
-        }
+            List<MenuRequestDto> menuList = deliveryGroupRequestDto.getMenu();
+            for (MenuRequestDto x : menuList) {
 
-        memberOrder.setTotalCost(deliveryGroupRequestDto.getTotalCost());
-        memberOrder.setPayMethod(deliveryGroupRequestDto.getPayMethod());
-        memberOrder.setOrderTime(deliveryGroupRequestDto.getOrderTime());
+                OrderItem orderItem = new OrderItem();
+                orderItem.setMenuName(x.getMenuName());
+                orderItem.setCost(x.getCost());
+                orderItem.setQuantity(x.getQuantity());
 
-        memberOrder.setMember(member);
+                orderItem.addOrderItemToMemberOrder(memberOrder);
+
+                memberOrderService.save(memberOrder);
+                orderItemService.save(orderItem);
+
+            }
+
+            memberOrder.setTotalCost(deliveryGroupRequestDto.getTotalCost());
+            memberOrder.setPayMethod(deliveryGroupRequestDto.getPayMethod());
+            memberOrder.setOrderTime(deliveryGroupRequestDto.getOrderTime());
+
+            memberOrder.setMember(member);
 //        Menu menu = menuService.findByMenuName(deliveryGroupRequestDto.getMenu().getMenuName());
 
 
@@ -141,7 +143,46 @@ public class DeliveryGroupController {
 
 //        memberOrder.setTotalCost(deliveryGroupRequestDto.);
 
-        memberOrderService.save(memberOrder);
+            memberOrderService.save(memberOrder);
+        }
+        else {
+            //프로모션 주문 데이터
+            Store store = storeService.findByStoreId(deliveryGroupRequestDto.getStoreId());
+            PromotionMenu promotionMenu = store.getPromotionMenu();
+
+            MemberOrder memberOrder = new MemberOrder();
+            memberOrder.setUid(uid);
+            memberOrder.setStoreId(deliveryGroupRequestDto.getStoreId());
+            memberOrder.setStore(store);
+            memberOrder.setDeliveryGroup(deliveryGroup);
+            deliveryGroupService.save(deliveryGroup);
+            memberOrderService.save(memberOrder);
+            memberService.save(member);
+
+            OrderItem orderItem = new OrderItem();
+            orderItem.setMenuName(promotionMenu.getPromotionMenuName());
+            orderItem.setCost(promotionMenu.getCost());
+            orderItem.setQuantity(1);
+            orderItem.addOrderItemToMemberOrder(memberOrder);
+
+            memberOrderService.save(memberOrder);
+            orderItemService.save(orderItem);
+
+
+            memberOrder.setTotalCost(deliveryGroupRequestDto.getTotalCost());
+            memberOrder.setPayMethod(deliveryGroupRequestDto.getPayMethod());
+            memberOrder.setOrderTime(deliveryGroupRequestDto.getOrderTime());
+
+            memberOrder.setMember(member);
+//        Menu menu = menuService.findByMenuName(deliveryGroupRequestDto.getMenu().getMenuName());
+
+
+//        int totalCost = menu.getCost() * deliveryGroupRequestDto.getQuantity();
+
+//        memberOrder.setTotalCost(deliveryGroupRequestDto.);
+
+            memberOrderService.save(memberOrder);
+        }
     }
 
     @PostMapping("/participationGroup")
