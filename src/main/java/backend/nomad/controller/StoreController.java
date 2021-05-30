@@ -1,7 +1,6 @@
 package backend.nomad.controller;
 
 import backend.nomad.domain.group.DeliveryGroup;
-import backend.nomad.domain.group.GroupType;
 import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
@@ -10,15 +9,8 @@ import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Menu;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
-import backend.nomad.dto.group.DeliveryGroupResponseDto;
-import backend.nomad.dto.group.GroupOrderResponseDto;
-import backend.nomad.dto.member.MemberOrderResponseDto;
-import backend.nomad.dto.member.MemberResponseDto;
-import backend.nomad.dto.orderItem.OrderItemResponseDto;
 import backend.nomad.dto.review.ReviewResponseDto;
-import backend.nomad.dto.store.MenuResponseDto;
-import backend.nomad.dto.store.StoreRequestDto;
-import backend.nomad.dto.store.StoreResponseDto;
+import backend.nomad.dto.store.*;
 import backend.nomad.service.DeliveryGroupService;
 import backend.nomad.service.MemberService;
 import backend.nomad.service.MenuService;
@@ -31,8 +23,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -135,26 +125,29 @@ public class StoreController {
         Store store = member.getStore();
 
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.recruitmentDone, store.getStoreId());
-        List<MemberOrderResponseDto> orderItemList = new ArrayList<>();
+        List<MemberOrderDto> orderItemList = new ArrayList<>();
 
         for (DeliveryGroup x : deliveryGroup) {
             List<MemberOrder> memberOrder = x.getMemberOrders();
 
             for (MemberOrder y : memberOrder) {
+                if (y.getDeliveryGroup().getGroupId() != x.getGroupId()){
+                    continue;
+                }
                 MemberOrder orderItems = y;
 
                 List<OrderItem> orders = orderItems.getOrderItem();
-                List<OrderItemResponseDto> ordersDto = orders.stream()
-                        .map(m -> new OrderItemResponseDto(m.getMenuName(), m.getCost(), m.getQuantity()))
+                List<OrderItemDto> ordersDto = orders.stream()
+                        .map(m -> new OrderItemDto(m.getMenuName(), m.getCost(), m.getQuantity()))
                         .collect(Collectors.toList());
 
-                MemberOrderResponseDto orderItem = new MemberOrderResponseDto(y.getMemberOrderId(), ordersDto);
+                MemberOrderDto orderItem = new MemberOrderDto(y.getMemberOrderId(), ordersDto);
 
                 orderItemList.add(orderItem);
             }
         }
-        List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
-                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getOrderStatus(), orderItemList))
+        List<DeliveryGroupDto> collect = deliveryGroup.stream()
+                .map(m -> new DeliveryGroupDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getOrderStatus(), orderItemList))
                 .collect(Collectors.toList());
 
         return new Result(collect);
