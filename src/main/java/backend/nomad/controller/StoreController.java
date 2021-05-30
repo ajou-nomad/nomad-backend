@@ -125,10 +125,14 @@ public class StoreController {
         Store store = member.getStore();
 
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.recruitmentDone, store.getStoreId());
-        List<MemberOrderDto> orderItemList = new ArrayList<>();
+
+        List<List<DeliveryGroupDto>> dtoList = new ArrayList<>();
 
         for (DeliveryGroup x : deliveryGroup) {
+            List<MemberOrderDto> orderItemList = new ArrayList<>();
+
             List<MemberOrder> memberOrder = x.getMemberOrders();
+
             Long groupId = x.getGroupId();
 
             for (MemberOrder y : memberOrder) {
@@ -150,12 +154,14 @@ public class StoreController {
 
                 orderItemList.add(orderItem);
             }
-        }
-        List<DeliveryGroupDto> collect = deliveryGroup.stream()
-                .map(m -> new DeliveryGroupDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getOrderStatus(), orderItemList))
-                .collect(Collectors.toList());
+            List<DeliveryGroupDto> collect = deliveryGroup.stream()
+                    .map(m -> new DeliveryGroupDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getOrderStatus(), orderItemList))
+                    .collect(Collectors.toList());
 
-        return new Result(collect);
+            dtoList.add(collect);
+        }
+
+        return new Result(dtoList);
     }
 
     @PostMapping("/groupOrder")
