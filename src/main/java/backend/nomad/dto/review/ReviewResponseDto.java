@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class ReviewResponseDto {
     private Long reviewId;
     private String nickName;
@@ -28,5 +27,9 @@ public class ReviewResponseDto {
         this.imgUrl = imgUrl;
         this.rate = rate;
         this.localDateTime = localDateTime;
+    }
+
+    public ReviewResponseDto() {
+
     }
 }

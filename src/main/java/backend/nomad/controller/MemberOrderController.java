@@ -60,7 +60,10 @@ public class MemberOrderController {
 
 
             Review review = x.getReview();
-            ReviewResponseDto reviewResponseDto = new ReviewResponseDto(review.getReviewId(), review.getNickName(), review.getContents(), review.getImgUrl(), review.getRate(), review.getLocalDateTime());
+            ReviewResponseDto reviewResponseDto = new ReviewResponseDto();
+            if (x.getReview() != null) {
+                reviewResponseDto = new ReviewResponseDto(review.getReviewId(), review.getNickName(), review.getContents(), review.getImgUrl(), review.getRate(), review.getLocalDateTime());
+            }
 
             if (x.getDeliveryGroup() != null) {
                 MemberOrderResponseDto dto = new MemberOrderResponseDto(x.getMemberOrderId(), store.getStoreId(), store.getStoreName(), x.getDeliveryGroup().getOrderStatus(), orderItemList, reviewResponseDto, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
