@@ -59,4 +59,9 @@ public class DeliveryGroupService {
         return deliveryGroupRepository.findByOrderStatusAndStoreId(orderStatus,storeId);
     }
 
+    @Transactional
+    public List<DeliveryGroup> findByOrderStatusOrOrderStatusOrOrderStatusAndStoreId(OrderStatus orderStatusA, OrderStatus orderStatusB, OrderStatus orderStatusC, Long storeId) {
+        return deliveryGroupRepository.findByOrderStatusOrOrderStatusOrOrderStatusAndStoreId(orderStatusA, orderStatusB, orderStatusC, storeId);
+    }
+
 }

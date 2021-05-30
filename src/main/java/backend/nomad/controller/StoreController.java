@@ -9,6 +9,7 @@ import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Menu;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
+import backend.nomad.dto.group.GroupOrderRequestDto;
 import backend.nomad.dto.review.ReviewResponseDto;
 import backend.nomad.dto.store.*;
 import backend.nomad.service.DeliveryGroupService;
@@ -40,6 +41,33 @@ public class StoreController {
     private final DeliveryGroupService deliveryGroupService;
 
 
+
+//    @Scheduled(fixedDelay = 120000)
+//    public void manageGroupState() {
+//        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findGroups();
+//
+//
+//        log.info("그룹주문 시간 탐색");
+//        for (DeliveryGroup x : deliveryGroups) {
+//            if (x.getDeliveryDateTime() != null && x.getDeliveryDateTime().isBefore(LocalDateTime.now())) {
+//                // 멀티쓰레드 이슈 로 CopyOnWriteArrayList 이용
+//                List<Member> memberList = new CopyOnWriteArrayList<>();
+//
+//                memberList.addAll(x.getMemberList());
+//
+//                for (Member y : memberList) {
+//                    log.info("member: " + y);
+//                    y.deleteGroup(x);
+//                    y.setDeliveryGroup(null);
+//                    deliveryGroupService.save(x);
+//                    memberService.save(y);
+//                }
+//                deliveryGroupService.delete(x);
+//                log.info("삭제");
+//
+//            }
+//        }
+//    }
 
     // 매장 생성
     @PostMapping("/store")
@@ -126,7 +154,7 @@ public class StoreController {
         Member member = memberService.findByUid(uid);
         Store store = member.getStore();
 
-        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.recruitmentDone, store.getStoreId());
+        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusOrOrderStatusOrOrderStatusAndStoreId(OrderStatus.recruitmentDone, OrderStatus.recruitmentAccept, OrderStatus.delivering, store.getStoreId());
 
         List<DeliveryGroupDto> dtoList = new ArrayList<>();
 
@@ -159,10 +187,10 @@ public class StoreController {
     }
 
     @PostMapping("/groupOrder")
-    public void orderConfirm(@RequestHeader("Authorization") String header, @RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto) throws FirebaseAuthException {
+    public void orderConfirm(@RequestHeader("Authorization") String header, @RequestBody GroupOrderRequestDto groupOrderRequestDto) throws FirebaseAuthException {
 
-        DeliveryGroup deliveryGroup = deliveryGroupService.findById(deliveryGroupRequestDto.getGroupId());
-        deliveryGroup.setOrderStatus(OrderStatus.waitingForDelivery);
+        DeliveryGroup deliveryGroup = deliveryGroupService.findById(groupOrderRequestDto.getGroupId());
+        deliveryGroup.setOrderStatus(groupOrderRequestDto.getOrderStatus());
 
         deliveryGroupService.save(deliveryGroup);
 

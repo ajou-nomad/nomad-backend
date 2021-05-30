@@ -6,6 +6,7 @@ import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.dto.group.DeliveryGroupResponseDto;
+import backend.nomad.dto.group.GroupOrderRequestDto;
 import backend.nomad.service.ChatService;
 import backend.nomad.service.DeliveryGroupService;
 import backend.nomad.service.MemberService;
@@ -29,7 +30,7 @@ public class DeliveryManController {
     private final MemberService memberService;
     private final ChatService chatService;
 
-    @GetMapping("/deliveringGroupData")
+    @GetMapping("/delivery")
     public Result getDeliveryGroupData() {
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatus(OrderStatus.waitingForDelivery);
 
@@ -40,14 +41,14 @@ public class DeliveryManController {
         return new Result(deliveryGroup);
     }
 
-    @PostMapping("/deliveringGroupData")
-    public Result setDeliveryGroupData(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
+    @PostMapping("/delivery")
+    public Result setDeliveryGroupData(@RequestBody GroupOrderRequestDto groupOrderRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
         Member member = memberService.findByUid(uid);
 
-        DeliveryGroup deliveryGroup = deliveryGroupService.findById(deliveryGroupRequestDto.getGroupId());
+        DeliveryGroup deliveryGroup = deliveryGroupService.findById(groupOrderRequestDto.getGroupId());
         member.setDeliveryGroup(deliveryGroup);
         member.changeGroup(deliveryGroup);
         memberService.save(member);
