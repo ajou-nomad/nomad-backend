@@ -134,6 +134,7 @@ public class StoreController {
             for (MemberOrder y : memberOrder) {
                 Long memberOrderGroupId = y.getDeliveryGroup().getGroupId();
 
+                log.info(groupId + " " + memberOrderGroupId);
                 if (memberOrderGroupId != groupId){
                     log.info("같습니다");
                     continue;
