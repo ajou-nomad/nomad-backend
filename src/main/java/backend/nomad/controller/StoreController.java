@@ -148,13 +148,13 @@ public class StoreController {
                         .map(m -> new OrderItemResponseDto(m.getMenuName(), m.getCost(), m.getQuantity()))
                         .collect(Collectors.toList());
 
-                MemberOrderResponseDto orderItem = new MemberOrderResponseDto(orderItems.getMemberOrderId(), ordersDto);
+                MemberOrderResponseDto orderItem = new MemberOrderResponseDto(y.getMemberOrderId(), ordersDto);
 
                 orderItemList.add(orderItem);
             }
         }
         List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
-                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getCurrent(), m.getMaxValue(), m.getGroupType(), m.getOrderStatus(), orderItemList))
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getOrderStatus(), orderItemList))
                 .collect(Collectors.toList());
 
         return new Result(collect);
