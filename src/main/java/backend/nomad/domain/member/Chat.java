@@ -1,5 +1,6 @@
 package backend.nomad.domain.member;
 
+import backend.nomad.domain.group.DeliveryGroup;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,8 +21,16 @@ public class Chat {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    @OneToOne(mappedBy = "chat")
+    private DeliveryGroup deliveryGroup;
+
     public void addChat(Member member) {
         this.member = member;
         member.getChat().add(this);
+    }
+
+    public void deleteMember(Member member) {
+        this.member = member;
+        member.getChat().remove(this);
     }
 }

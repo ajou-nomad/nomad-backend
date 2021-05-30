@@ -2,6 +2,7 @@ package backend.nomad.dto.group;
 
 import backend.nomad.domain.group.GroupType;
 import backend.nomad.domain.group.OrderStatus;
+import backend.nomad.dto.member.MemberOrderResponseDto;
 import backend.nomad.dto.orderItem.OrderItemResponseDto;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,7 +26,7 @@ public class DeliveryGroupResponseDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime deliveryDateTime;
 
-    private OrderItemResponseDto orderItemList;
+    private List<MemberOrderResponseDto> orderItemList;
 
 
     public DeliveryGroupResponseDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
@@ -42,7 +43,7 @@ public class DeliveryGroupResponseDto {
         this.orderStatus = orderStatus;
     }
 
-    public DeliveryGroupResponseDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus, OrderItemResponseDto orderItemList) {
+    public DeliveryGroupResponseDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus, List<MemberOrderResponseDto> orderItemList) {
         this.groupId = groupId;
         this.storeId = storeId;
         this.latitude = latitude;

@@ -2,18 +2,22 @@ package backend.nomad.controller;
 
 import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.group.OrderStatus;
+import backend.nomad.domain.member.Chat;
+import backend.nomad.domain.member.Member;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.dto.group.DeliveryGroupResponseDto;
-import backend.nomad.dto.group.GroupOrderResponseDto;
+import backend.nomad.service.ChatService;
 import backend.nomad.service.DeliveryGroupService;
+import backend.nomad.service.MemberService;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +26,8 @@ import java.util.stream.Collectors;
 public class DeliveryManController {
 
     private final DeliveryGroupService deliveryGroupService;
+    private final MemberService memberService;
+    private final ChatService chatService;
 
     @GetMapping("/deliveringGroupData")
     public Result getDeliveryGroupData() {
@@ -35,15 +41,52 @@ public class DeliveryManController {
     }
 
     @PostMapping("/deliveringGroupData")
-    public void setDeliveryGroupData(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto) {
+    public Result setDeliveryGroupData(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+
         DeliveryGroup deliveryGroup = deliveryGroupService.findById(deliveryGroupRequestDto.getGroupId());
+        member.setDeliveryGroup(deliveryGroup);
+        member.changeGroup(deliveryGroup);
+        memberService.save(member);
+
+        Chat chat = new Chat();
+        deliveryGroup.setChat(chat);
+        chatService.save(chat);
+
         deliveryGroup.setOrderStatus(OrderStatus.delivering);
         deliveryGroupService.save(deliveryGroup);
+
+        List<Member> memberList = deliveryGroup.getMemberList();
+
+        List<String> uidList = new ArrayList<>();
+
+        for (Member x : memberList) {
+            uidList.add(x.getUid());
+        }
+
+        return new Result(uidList);
     }
 
     @PostMapping("/deliveryComplete")
     public void deliveryComplete(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto) {
         DeliveryGroup deliveryGroup = deliveryGroupService.findById(deliveryGroupRequestDto.getGroupId());
+        Chat chat = deliveryGroup.getChat();
+
+        List<Member> memberList = deliveryGroup.getMemberList();
+
+        for (Member m : memberList) {
+            m.deleteGroup(deliveryGroup);
+            m.setDeliveryGroup(null);
+            memberService.save(m);
+
+            chat.deleteMember(m);
+        }
+
+        chatService.delete(chat);
+
         deliveryGroup.setOrderStatus(OrderStatus.deliveryDone);
         deliveryGroupService.save(deliveryGroup);
     }

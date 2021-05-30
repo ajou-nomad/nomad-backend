@@ -95,10 +95,10 @@ public class MemberController {
     public void setChat(@RequestBody ChatRequestDto chatRequestDto) {
         DeliveryGroup deliveryGroup = deliveryGroupService.findById(chatRequestDto.getGroupId());
 
-        Chat chat = new Chat();
+        Chat chat = deliveryGroup.getChat();
         chat.setChatName(chatRequestDto.getChatId());
-
         chatService.save(chat);
+
         List<Member> member = deliveryGroup.getMemberList();
         for (Member x : member) {
             chat.addChat(x);

@@ -135,21 +135,24 @@ public class StoreController {
         Store store = member.getStore();
 
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.recruitmentDone, store.getStoreId());
-        OrderItemResponseDto orderItemList = new OrderItemResponseDto();
+        List<MemberOrderResponseDto> orderItemList = new ArrayList<>();
 
         for (DeliveryGroup x : deliveryGroup) {
             List<MemberOrder> memberOrder = x.getMemberOrders();
 
             for (MemberOrder y : memberOrder) {
-                List<OrderItem> orderItems = y.getOrderItem();
-                List<OrderItemResponseDto> orderItem = orderItems.stream()
+                MemberOrder orderItems = y;
+
+                List<OrderItem> orders = orderItems.getOrderItem();
+                List<OrderItemResponseDto> ordersDto = orders.stream()
                         .map(m -> new OrderItemResponseDto(m.getOrderItemId(), m.getMenuName(), m.getCost(), m.getQuantity()))
                         .collect(Collectors.toList());
 
-                orderItem.add(orderItemList);
+                MemberOrderResponseDto orderItem = new MemberOrderResponseDto(orderItems.getMemberOrderId(), ordersDto);
+
+                orderItemList.add(orderItem);
             }
         }
-
         List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
                 .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getCurrent(), m.getMaxValue(), m.getGroupType(), m.getOrderStatus(), orderItemList))
                 .collect(Collectors.toList());

@@ -3,6 +3,7 @@ package backend.nomad.domain.group;
 //import backend.nomad.domain.member.MemberOrder;
 
 import backend.nomad.domain.TimeEntity;
+import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
 import lombok.Getter;
@@ -47,6 +48,9 @@ public class DeliveryGroup {
     @OneToMany(mappedBy = "deliveryGroup" , fetch = FetchType.LAZY)
     private List<MemberOrder> memberOrders = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private Chat chat;
+
 
     public DeliveryGroup(Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
         this.storeId = storeId;
@@ -63,6 +67,10 @@ public class DeliveryGroup {
 
     public DeliveryGroup() {
 
+    }
+    public void setChat(Chat chat) {
+        this.chat = chat;
+        chat.setDeliveryGroup(this);
     }
 
 //    public DeliveryGroup(LocalDateTime localDateTime) {

@@ -50,4 +50,9 @@ public class MemberOrderResponseDto {
         this.payMethod = payMethod;
         this.orderTime = orderTime;
     }
+
+    public MemberOrderResponseDto(Long memberOrderId, List<OrderItemResponseDto> orderItemList) {
+        this.memberOrderId = memberOrderId;
+        this.orderItemList = orderItemList;
+    }
 }
