@@ -60,8 +60,8 @@ public class DeliveryGroupService {
     }
 
     @Transactional
-    public List<DeliveryGroup> findByOrderStatusOrOrderStatusOrOrderStatusAndStoreId(OrderStatus orderStatusA, OrderStatus orderStatusB, OrderStatus orderStatusC, Long storeId) {
-        return deliveryGroupRepository.findByOrderStatusOrOrderStatusOrOrderStatusAndStoreId(orderStatusA, orderStatusB, orderStatusC, storeId);
+    public List<DeliveryGroup> findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatusAndStoreId(OrderStatus orderStatusA, OrderStatus orderStatusB, OrderStatus orderStatusC, OrderStatus orderStatusD, Long storeId) {
+        return deliveryGroupRepository.findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatusAndStoreId(orderStatusA, orderStatusB, orderStatusC, orderStatusD, storeId);
     }
 
 }
