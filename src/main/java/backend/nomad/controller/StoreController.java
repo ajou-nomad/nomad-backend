@@ -129,24 +129,25 @@ public class StoreController {
 
         for (DeliveryGroup x : deliveryGroup) {
             List<MemberOrder> memberOrder = x.getMemberOrders();
+            Long groupId = x.getGroupId();
 
             for (MemberOrder y : memberOrder) {
-                if (y.getDeliveryGroup().getGroupId() != x.getGroupId()) {
+                Long memberOrderGroupId = y.getDeliveryGroup().getGroupId();
+
+                if (memberOrderGroupId != groupId){
+                    log.info("같습니다");
                     continue;
                 }
-                else {
-                    MemberOrder orderItems = y;
+                MemberOrder orderItems = y;
 
-                    List<OrderItem> orders = orderItems.getOrderItem();
-                    List<OrderItemDto> ordersDto = orders.stream()
-                            .map(m -> new OrderItemDto(m.getMenuName(), m.getCost(), m.getQuantity()))
-                            .collect(Collectors.toList());
+                List<OrderItem> orders = orderItems.getOrderItem();
+                List<OrderItemDto> ordersDto = orders.stream()
+                        .map(m -> new OrderItemDto(m.getMenuName(), m.getCost(), m.getQuantity()))
+                        .collect(Collectors.toList());
 
-                    MemberOrderDto orderItem = new MemberOrderDto(y.getMemberOrderId(), ordersDto);
+                MemberOrderDto orderItem = new MemberOrderDto(y.getMemberOrderId(), ordersDto);
 
-                    orderItemList.add(orderItem);
-
-                }
+                orderItemList.add(orderItem);
             }
         }
         List<DeliveryGroupDto> collect = deliveryGroup.stream()
