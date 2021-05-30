@@ -35,7 +35,7 @@ public class StoreListDto {
     private Promotion promotion;
     private PromotionMenuDto promotionMenuDto;
 
-    public StoreListDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, List<ReviewResponseDto> reviewList, Double rate, String notice, String storeIntro, String category, PromotionMenuDto promotionMenuDto) {
+    public StoreListDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, List<ReviewResponseDto> reviewList, Double rate, String notice, String storeIntro, String category, Promotion promotion, PromotionMenuDto promotionMenuDto) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.phoneNumber = phoneNumber;
@@ -52,6 +52,7 @@ public class StoreListDto {
         this.notice = notice;
         this.storeIntro = storeIntro;
         this.category = category;
+        this.promotion = promotion;
         this.promotionMenuDto = promotionMenuDto;
     }
 }
