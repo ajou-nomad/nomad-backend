@@ -126,7 +126,7 @@ public class StoreController {
 
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.recruitmentDone, store.getStoreId());
 
-        List<List<DeliveryGroupDto>> dtoList = new ArrayList<>();
+        List<DeliveryGroupDto> dtoList = new ArrayList<>();
 
         for (DeliveryGroup x : deliveryGroup) {
             List<List<OrderItemDto>> orderItemList = new ArrayList<>();
@@ -145,13 +145,11 @@ public class StoreController {
 
                 orderItemList.add(ordersDto);
             }
-            List<DeliveryGroupDto> collect = deliveryGroup.stream()
-                    .map(m -> new DeliveryGroupDto(x.getGroupId(), x.getStoreId(), x.getLatitude(), x.getLongitude(), x.getAddress(), x.getBuildingName(), x.getDeliveryDateTime(), x.getOrderStatus(), orderItemList))
-                    .collect(Collectors.toList());
+
+            DeliveryGroupDto collect = new DeliveryGroupDto(x.getGroupId(), x.getStoreId(), x.getLatitude(), x.getLongitude(), x.getAddress(), x.getBuildingName(), x.getDeliveryDateTime(), x.getOrderStatus(), orderItemList);
 
             dtoList.add(collect);
 
-            orderItemList.clear();
         }
 
         return new Result(dtoList);
