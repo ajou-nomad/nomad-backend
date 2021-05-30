@@ -71,6 +71,7 @@ public class MemberOrderController {
             List<ReviewResponseDto> reviewList = review.stream()
                     .map(m -> new ReviewResponseDto(m.getReviewId(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                     .collect(Collectors.toList());
+
             if (x.getDeliveryGroup() != null) {
                 MemberOrderResponseDto dto = new MemberOrderResponseDto(x.getMemberOrderId(), store.getStoreId(), store.getStoreName(), x.getDeliveryGroup().getOrderStatus(), orderItemList, reviewList, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
                 dtoList.add(dto);

@@ -157,6 +157,8 @@ public class StoreController {
                     .collect(Collectors.toList());
 
             dtoList.add(collect);
+
+            orderItemList.clear();
         }
 
         return new Result(dtoList);
