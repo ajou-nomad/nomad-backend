@@ -2,6 +2,7 @@ package backend.nomad.controller;
 
 import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.group.OrderStatus;
+import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.orderitem.OrderItem;
@@ -12,10 +13,7 @@ import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.dto.group.GroupOrderRequestDto;
 import backend.nomad.dto.review.ReviewResponseDto;
 import backend.nomad.dto.store.*;
-import backend.nomad.service.DeliveryGroupService;
-import backend.nomad.service.MemberService;
-import backend.nomad.service.MenuService;
-import backend.nomad.service.StoreService;
+import backend.nomad.service.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -41,6 +39,7 @@ public class StoreController {
     private final MemberService memberService;
     private final MenuService menuService;
     private final DeliveryGroupService deliveryGroupService;
+    private final ChatService chatService;
 
 
 
@@ -51,8 +50,10 @@ public class StoreController {
 //
 //        log.info("배달 완료된 주문 탐색");
 //        for (DeliveryGroup x : deliveryGroups) {
-//            if (x.getDeliveryDateTime() != null && x.getOrderStatus().equals(OrderStatus.deliveryDone) && x.getDeliveryDateTime().isBefore(LocalDateTime.now())) {
+//            if (x.getDeliveryDateTime() != null && x.getOrderStatus().equals(OrderStatus.deliveryDone) && x.getDeliveryDateTime().getDayOfMonth() != (LocalDateTime.now().getDayOfMonth())) {
 //                // 멀티쓰레드 이슈 로 CopyOnWriteArrayList 이용
+//                Chat chat = x.getChat();
+//
 //                List<Member> memberList = new CopyOnWriteArrayList<>();
 //
 //                memberList.addAll(x.getMemberList());
@@ -61,11 +62,15 @@ public class StoreController {
 //                    log.info("member: " + y);
 //                    y.deleteGroup(x);
 //                    y.setDeliveryGroup(null);
+//
 //                    deliveryGroupService.save(x);
+//                    chat.deleteMember(y);
+//
 //                    memberService.save(y);
+//
 //                }
-//                deliveryGroupService.delete(x);
-//                log.info("삭제");
+//                x.setChat(null);
+//                chatService.delete(chat);
 //
 //            }
 //        }
@@ -83,7 +88,6 @@ public class StoreController {
         Store store = new Store();
         store.setMember(member);
 
-//        member.getStore().setMember(member);
         store.setStoreName(dto.getStoreName());
         store.setPhoneNumber(dto.getPhoneNumber());
         store.setAddress(dto.getAddress());
@@ -144,7 +148,6 @@ public class StoreController {
 
         StoreResponseDto storeResponseDto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, reviewList, store.getRate(), store.getNotice(), store.getStoreIntro(), store.getCategory());
         return new Result(storeResponseDto);
-//        return new Result(storeResponseDto);
     }
 
     //모집 완료된 주문 불러오기 및 접수

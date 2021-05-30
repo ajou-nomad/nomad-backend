@@ -92,6 +92,17 @@ public class DeliveryManController {
         deliveryGroupService.save(deliveryGroup);
     }
 
+    @GetMapping("/deliveryComplete")
+    public Result getDeliveryComplete() {
+        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatus(OrderStatus.deliveryDone);
+
+        List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
+                .collect(Collectors.toList());
+
+        return new Result(deliveryGroup);
+    }
+
     @Data
     @AllArgsConstructor
     class Result<T> {
