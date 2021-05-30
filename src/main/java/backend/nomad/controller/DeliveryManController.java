@@ -4,6 +4,7 @@ import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
+import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.dto.group.DeliveryGroupResponseDto;
 import backend.nomad.dto.group.GroupOrderRequestDto;
@@ -93,8 +94,15 @@ public class DeliveryManController {
     }
 
     @GetMapping("/deliveryComplete")
-    public Result getDeliveryComplete() {
-        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatus(OrderStatus.deliveryDone);
+    public Result getDeliveryComplete(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+
+        Store store = member.getStore();
+
+        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.deliveryDone, store.getStoreId());
 
         List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
                 .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
