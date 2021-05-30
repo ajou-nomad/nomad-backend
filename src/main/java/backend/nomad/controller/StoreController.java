@@ -143,10 +143,8 @@ public class StoreController {
                     log.info("같습니다");
                     continue;
                 }
-                MemberOrder orderItems = y;
-
-                List<OrderItem> orders = orderItems.getOrderItem();
-                List<OrderItemDto> ordersDto = orders.stream()
+                List<OrderItem> orderItems = y.getOrderItem();
+                List<OrderItemDto> ordersDto = orderItems.stream()
                         .map(m -> new OrderItemDto(m.getMenuName(), m.getCost(), m.getQuantity()))
                         .collect(Collectors.toList());
 
