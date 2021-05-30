@@ -4,10 +4,16 @@ import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
+import backend.nomad.domain.member.MemberOrder;
+import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
 import backend.nomad.dto.group.DeliveryGroupResponseDto;
 import backend.nomad.dto.group.GroupOrderRequestDto;
+import backend.nomad.dto.member.MemberOrderResponseDto;
+import backend.nomad.dto.orderItem.OrderItemResponseDto;
+import backend.nomad.dto.store.DeliveryGroupDto;
+import backend.nomad.dto.store.OrderItemDto;
 import backend.nomad.service.ChatService;
 import backend.nomad.service.DeliveryGroupService;
 import backend.nomad.service.MemberService;
@@ -19,6 +25,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -99,16 +106,34 @@ public class DeliveryManController {
         String uid = decodedToken.getUid();
 
         Member member = memberService.findByUid(uid);
-
         Store store = member.getStore();
 
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.deliveryDone, store.getStoreId());
 
-        List<DeliveryGroupResponseDto> collect = deliveryGroup.stream()
-                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus()))
-                .collect(Collectors.toList());
+        List<DeliveryGroupDto> dtoList = new ArrayList<>();
 
-        return new Result(collect);
+        for (DeliveryGroup x : deliveryGroup) {
+            List<List<OrderItemDto>> orderItemList = new ArrayList<>();
+
+            List<MemberOrder> memberOrder = x.getMemberOrders();
+
+
+            for (MemberOrder y : memberOrder) {
+
+                List<OrderItem> orderItems = y.getOrderItem();
+                List<OrderItemDto> ordersDto = orderItems.stream()
+                        .map(m -> new OrderItemDto(m.getMenuName(), m.getCost(), m.getQuantity()))
+                        .collect(Collectors.toList());
+
+                orderItemList.add(ordersDto);
+            }
+
+            DeliveryGroupDto collect = new DeliveryGroupDto(x.getGroupId(), x.getStoreId(), x.getLatitude(), x.getLongitude(), x.getAddress(), x.getBuildingName(), x.getDeliveryDateTime(), x.getOrderStatus(), orderItemList);
+            dtoList.add(collect);
+
+        }
+
+        return new Result(dtoList);
     }
 
     @Data
