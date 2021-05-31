@@ -14,9 +14,9 @@ public class Chat {
     @Id
     @GeneratedValue
     @Column(name = "chat_id")
-    private Long ChatId;
+    private Long chatId;
 
-    private String ChatName;
+    private String chatToken;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
