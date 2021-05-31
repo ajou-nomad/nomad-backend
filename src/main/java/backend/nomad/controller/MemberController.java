@@ -93,7 +93,7 @@ public class MemberController {
         DeliveryGroup deliveryGroup = deliveryGroupService.findById(chatRequestDto.getGroupId());
 
         Chat chat = deliveryGroup.getChat();
-        chat.setChatName(chatRequestDto.getChatId());
+        chat.setChatToken(chatRequestDto.getChatId());
         chatService.save(chat);
 
         List<Member> member = deliveryGroup.getMemberList();
@@ -115,7 +115,7 @@ public class MemberController {
         List<Chat> chatList = member.getChat();
 
         for (Chat x : chatList) {
-            chatIds.add(x.getChatName());
+            chatIds.add(x.getChatToken());
         }
 
         return new Result(chatIds);
