@@ -28,7 +28,7 @@
 - deliIdNumber: 배달원 가입시 필요 운전면허번호
 
 #### 개인주문
-![](img/memberOrder.PNG)
+![](img/memberOrder.png)
 - memberOrderId: memberOrder 엔티티의 primary key
 - storeId: 연관관계 매핑을 해놨지만 좀 더 간편하게 조회할 필요가 있어서 추가 등록
 - totalCost: 주문 상품의 총 가격
