@@ -77,7 +77,7 @@ public class DeliveryGroupController {
 //        }
 //    }
 
-    @PostMapping("/groupData")
+    @PostMapping("/deliveryGroup")
     public void SaveGroup(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
@@ -186,7 +186,7 @@ public class DeliveryGroupController {
         }
     }
 
-    @PostMapping("/participationGroup")
+    @PostMapping("/deliveryGroupJoin")
     public Result addInGroup(@RequestBody DeliveryGroupRequestDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException, FirebaseMessagingException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
@@ -273,7 +273,7 @@ public class DeliveryGroupController {
     }
 
 
-    @GetMapping("/dailyGroupData")
+    @GetMapping("/dailyGroupList")
     public ResultList findDaily() {
 
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupTypeAndOrderStatus(GroupType.day, OrderStatus.recruiting);
@@ -303,7 +303,7 @@ public class DeliveryGroupController {
         return new ResultList(collect, dtoList);
     }
 
-    @GetMapping("/weeklyGroupData")
+    @GetMapping("/weeklyGroupList")
     public ResultList findWeekly() {
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByGroupTypeAndOrderStatus(GroupType.weekly, OrderStatus.recruiting);
 

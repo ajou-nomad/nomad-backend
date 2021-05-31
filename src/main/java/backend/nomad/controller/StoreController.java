@@ -158,7 +158,7 @@ public class StoreController {
     }
 
     //모집 완료된 주문 불러오기 및 접수
-    @GetMapping("/groupOrder")
+    @GetMapping("/deliveryGroupOrder")
     public Result orderList(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
@@ -198,7 +198,7 @@ public class StoreController {
         return new Result(dtoList);
     }
 
-    @PostMapping("/groupOrder")
+    @PostMapping("/deliveryGroupOrder")
     public void orderConfirm(@RequestHeader("Authorization") String header, @RequestBody GroupOrderRequestDto groupOrderRequestDto) throws FirebaseAuthException {
 
         DeliveryGroup deliveryGroup = deliveryGroupService.findById(groupOrderRequestDto.getGroupId());
