@@ -3,6 +3,7 @@ package backend.nomad.dto.store;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Menu;
+import backend.nomad.domain.store.Promotion;
 import backend.nomad.dto.review.ReviewResponseDto;
 import lombok.Getter;
 
@@ -32,6 +33,7 @@ public class StoreResponseDto {
     private String notice;
     private String storeIntro;
     private String category;
+    private Promotion promotion;
 
 
     public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, List<ReviewResponseDto> reviewList, Double rate) {
@@ -50,7 +52,7 @@ public class StoreResponseDto {
         this.reviewList = reviewList;
     }
 
-    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, List<ReviewResponseDto> reviewList, Double rate, String notice, String storeIntro, String category) {
+    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, List<ReviewResponseDto> reviewList, Double rate, String notice, String storeIntro, String category, Promotion promotion) {
         this.storeId = storeId;
         this.storeName = storeName;
         this.phoneNumber = phoneNumber;
@@ -67,6 +69,7 @@ public class StoreResponseDto {
         this.notice = notice;
         this.storeIntro = storeIntro;
         this.category = category;
+        this.promotion = promotion;
     }
 
 }

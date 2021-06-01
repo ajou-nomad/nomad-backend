@@ -2,6 +2,7 @@ package backend.nomad.dto.group;
 
 import backend.nomad.domain.group.GroupType;
 import backend.nomad.domain.group.OrderStatus;
+import backend.nomad.domain.store.Promotion;
 import backend.nomad.dto.member.MemberOrderResponseDto;
 import backend.nomad.dto.orderItem.OrderItemResponseDto;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class DeliveryGroupResponseDto {
     private Integer maxValue;
     private GroupType groupType;
     private OrderStatus orderStatus;
+    private Promotion promotion;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime deliveryDateTime;
@@ -29,7 +31,7 @@ public class DeliveryGroupResponseDto {
     private List<MemberOrderResponseDto> orderItemList;
 
 
-    public DeliveryGroupResponseDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
+    public DeliveryGroupResponseDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus, Promotion promotion) {
         this.groupId = groupId;
         this.storeId = storeId;
         this.latitude = latitude;
@@ -41,6 +43,7 @@ public class DeliveryGroupResponseDto {
         this.maxValue = maxValue;
         this.groupType = groupType;
         this.orderStatus = orderStatus;
+        this.promotion = promotion;
     }
 
     public DeliveryGroupResponseDto(Long groupId, Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus, List<MemberOrderResponseDto> orderItemList) {

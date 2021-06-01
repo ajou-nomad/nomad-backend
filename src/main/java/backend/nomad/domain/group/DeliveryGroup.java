@@ -6,6 +6,7 @@ import backend.nomad.domain.TimeEntity;
 import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
+import backend.nomad.domain.store.Promotion;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -50,6 +51,9 @@ public class DeliveryGroup {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Chat chat;
+
+    @Enumerated(EnumType.STRING)
+    private Promotion promotion;
 
 
     public DeliveryGroup(Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
