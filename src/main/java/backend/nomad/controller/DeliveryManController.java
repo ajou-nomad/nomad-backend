@@ -4,6 +4,7 @@ import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
+import backend.nomad.domain.member.MemberChat;
 import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.store.Store;
@@ -16,6 +17,7 @@ import backend.nomad.dto.store.DeliveryGroupDto;
 import backend.nomad.dto.store.OrderItemDto;
 import backend.nomad.service.ChatService;
 import backend.nomad.service.DeliveryGroupService;
+import backend.nomad.service.MemberChatService;
 import backend.nomad.service.MemberService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -37,6 +39,7 @@ public class DeliveryManController {
     private final DeliveryGroupService deliveryGroupService;
     private final MemberService memberService;
     private final ChatService chatService;
+    private final MemberChatService memberChatService;
 
     @GetMapping("/delivery")
     public Result getDeliveryGroupData() {
@@ -61,7 +64,12 @@ public class DeliveryManController {
         member.changeGroup(deliveryGroup);
         memberService.save(member);
 
+//        MemberChat memberChat = new MemberChat();
         Chat chat = new Chat();
+//        memberChat.setChat(chat);
+//        memberChat.addMemberChatToChat(chat);
+//        memberChatService.save(memberChat);
+//
         deliveryGroup.setChat(chat);
         chatService.save(chat);
 
@@ -73,6 +81,10 @@ public class DeliveryManController {
         List<String> uidList = new ArrayList<>();
 
         for (Member x : memberList) {
+//            memberChat.setMember(x);
+//            memberChat.addMemberChatToMember(x);
+//            memberChatService.save(memberChat);
+
             uidList.add(x.getUid());
         }
 

@@ -2,13 +2,22 @@ package backend.nomad.controller;
 
 
 import backend.nomad.domain.group.DeliveryGroup;
+import backend.nomad.domain.likestore.LikeStore;
 import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberChat;
+import backend.nomad.domain.orderitem.OrderItem;
+import backend.nomad.domain.review.Review;
+import backend.nomad.domain.store.Menu;
 import backend.nomad.domain.store.Store;
+import backend.nomad.dto.chat.ChatDto;
 import backend.nomad.dto.chat.ChatRequestDto;
 import backend.nomad.dto.member.MemberResponseDto;
 import backend.nomad.dto.member.MemberRequestDto;
+import backend.nomad.dto.orderItem.OrderItemResponseDto;
+import backend.nomad.dto.review.ReviewResponseDto;
+import backend.nomad.dto.store.MenuResponseDto;
+import backend.nomad.dto.store.StoreResponseDto;
 import backend.nomad.service.ChatService;
 import backend.nomad.service.DeliveryGroupService;
 import backend.nomad.service.MemberChatService;
@@ -99,18 +108,23 @@ public class MemberController {
         chat.setChatToken(chatRequestDto.getChatId());
         chatService.save(chat);
 
-        MemberChat memberChat = new MemberChat();
-        memberChat.setChat(chat);
-        memberChat.addMemberChatToChat(chat);
-        chatService.save(chat);
-        memberChatService.save(memberChat);
+//        List<MemberChat> memberChat = chat.getMemberChat();
+
+//        memberChat.setChat(chat);
+//        memberChat.addMemberChatToChat(chat);
+//        chatService.save(chat);
+//        memberChatService.save(memberChat);
 
         List<Member> member = deliveryGroup.getMemberList();
         for (Member x : member) {
+            MemberChat memberChat = new MemberChat();
+            memberChat.setChat(chat);
+            memberChat.addMemberChatToChat(chat);
             memberChat.setMember(x);
             memberChat.addMemberChatToMember(x);
-            memberService.save(x);
             memberChatService.save(memberChat);
+            chatService.save(chat);
+            memberService.save(x);
         }
     }
 
@@ -123,13 +137,11 @@ public class MemberController {
 
         List<MemberChat> memberChats = member.getMemberChat();
 
-        List<String> chatToken = new ArrayList<>();
+        List<ChatDto> dtoList = memberChats.stream()
+                .map(m -> new ChatDto(m.getMember().getMemberId(), m.getChat().getChatToken()))
+                .collect(Collectors.toList());
 
-        for (MemberChat x : memberChats) {
-            chatToken.add(x.getChat().getChatToken());
-        }
-
-        return new Result(chatToken);
+        return new Result(dtoList);
     }
 
     @Data
