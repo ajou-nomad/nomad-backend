@@ -94,6 +94,7 @@ public class DeliveryGroupController {
         deliveryGroup.setOrderStatus(OrderStatus.recruiting);
 
         deliveryGroup.setDeliveryDateTime(deliveryGroupRequestDto.getDeliveryDateTime());
+        deliveryGroup.setPromotion(deliveryGroupRequestDto.getPromotion());
 
         deliveryGroupService.save(deliveryGroup);
 
@@ -101,6 +102,7 @@ public class DeliveryGroupController {
         member.setDeliveryGroup(deliveryGroup);
         member.changeGroup(deliveryGroup);
         memberService.save(member);
+
         Promotion promotion = deliveryGroupRequestDto.getPromotion();
 
         if (promotion.equals(Promotion.Off)) {
