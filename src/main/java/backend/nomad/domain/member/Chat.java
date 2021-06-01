@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,19 +20,19 @@ public class Chat {
 
     private String chatToken;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member member;
+    @OneToMany(mappedBy = "chat")
+    private List<MemberChat> memberChat = new ArrayList<>();
 
     @OneToOne(mappedBy = "chat")
     private DeliveryGroup deliveryGroup;
 
-    public void addChat(Member member) {
-        this.member = member;
-        member.getChat().add(this);
-    }
-
-    public void deleteMember(Member member) {
-        this.member = member;
-        member.getChat().remove(this);
-    }
+//    public void addChat(Member member) {
+//        this.member = member;
+//        member.getChat().add(this);
+//    }
+//
+//    public void deleteMember(Member member) {
+//        this.member = member;
+//        member.getChat().remove(this);
+//    }
 }

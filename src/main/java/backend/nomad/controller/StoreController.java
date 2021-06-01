@@ -244,6 +244,29 @@ public class StoreController {
         return new Result(dtoList);
     }
 
+//    @GetMapping("/sales")
+//    public Result sales(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
+//        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+//        String uid = decodedToken.getUid();
+//
+//        Member member = memberService.findByUid(uid);
+//        Store store = member.getStore();
+//
+//        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findByOrderStatus(OrderStatus.deliveryDone);
+//
+//        for (DeliveryGroup x : deliveryGroups) {
+//            List<MemberOrder> memberOrders = x.getMemberOrders();
+//            for (MemberOrder y : memberOrders) {
+//                if (x.getDeliveryDateTime().getMonth() = )
+//            }
+//        }
+//
+//        for (int i = 1; i <= 12; i++) {
+//            List<MemberOrder> memberOrders =
+//            SalesDto salesDto = new SalesDto(i, )
+//        }
+//
+//    }
 
     @Data
     @AllArgsConstructor

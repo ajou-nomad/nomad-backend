@@ -4,12 +4,14 @@ package backend.nomad.controller;
 import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.member.Chat;
 import backend.nomad.domain.member.Member;
+import backend.nomad.domain.member.MemberChat;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.chat.ChatRequestDto;
 import backend.nomad.dto.member.MemberResponseDto;
 import backend.nomad.dto.member.MemberRequestDto;
 import backend.nomad.service.ChatService;
 import backend.nomad.service.DeliveryGroupService;
+import backend.nomad.service.MemberChatService;
 import backend.nomad.service.MemberService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -31,6 +33,7 @@ public class MemberController {
     private final MemberService memberService;
     private final DeliveryGroupService deliveryGroupService;
     private final ChatService chatService;
+    private final MemberChatService memberChatService;
 
     @PostMapping("/member")
     public Long saveMember(@RequestHeader("Authorization") String header, @RequestBody MemberRequestDto dto) throws FirebaseAuthException {
@@ -96,11 +99,16 @@ public class MemberController {
         chat.setChatToken(chatRequestDto.getChatId());
         chatService.save(chat);
 
+        MemberChat memberChat = new MemberChat();
+        memberChat.addMemberChatToChat(chat);
+        chatService.save(chat);
+        memberChatService.save(memberChat);
+
         List<Member> member = deliveryGroup.getMemberList();
         for (Member x : member) {
-            chat.addChat(x);
+            memberChat.addMemberChatToMember(x);
             memberService.save(x);
-            chatService.save(chat);
+            memberChatService.save(memberChat);
         }
     }
 
@@ -111,15 +119,15 @@ public class MemberController {
 
         Member member = memberService.findByUid(uid);
 
-        List<String> chatIds = new ArrayList<>();
+        List<MemberChat> memberChats = member.getMemberChat();
 
-        List<Chat> chatList = member.getChat();
+        List<String> chatToken = new ArrayList<>();
 
-        for (Chat x : chatList) {
-            chatIds.add(x.getChatToken());
+        for (MemberChat x : memberChats) {
+            chatToken.add(x.getChat().getChatToken());
         }
 
-        return new Result(chatIds);
+        return new Result(chatToken);
     }
 
     @Data

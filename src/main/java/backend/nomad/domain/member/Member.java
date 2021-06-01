@@ -44,7 +44,7 @@ public class Member {
     private List<MemberOrder> memberOrder = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Chat> chat = new ArrayList<>();
+    private List<MemberChat> memberChat = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Review> review = new ArrayList<>();
