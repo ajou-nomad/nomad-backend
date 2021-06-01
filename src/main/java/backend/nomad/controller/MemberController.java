@@ -100,6 +100,7 @@ public class MemberController {
         for (Member x : member) {
             chat.addChat(x);
             memberService.save(x);
+            chatService.save(chat);
         }
     }
 
