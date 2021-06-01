@@ -48,30 +48,29 @@ public class DeliveryGroupController {
     private final MemberOrderService memberOrderService;
     private final OrderItemService orderItemService;
 
-    @Scheduled(fixedDelay = 120000)
-    public void manageGroupState() {
-        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findGroups();
-
-
-        log.info("그룹주문 시간 탐색");
-        for (DeliveryGroup x : deliveryGroups) {
-            if (x.getDeliveryDateTime() != null && x.getOrderStatus().equals(OrderStatus.recruiting) && x.getDeliveryDateTime().isBefore(LocalDateTime.now())) {
-                // 멀티쓰레드 이슈 로 CopyOnWriteArrayList 이용
-                List<Member> memberList = new CopyOnWriteArrayList<>();
-
-                memberList.addAll(x.getMemberList());
-
-                for (Member y : memberList) {
-                    y.setDeliveryGroup(null);
-                    deliveryGroupService.save(x);
-                    memberService.save(y);
-                }
-
-                x.setOrderStatus(OrderStatus.cancel);
-                deliveryGroupService.save(x);
-            }
-        }
-    }
+//    @Scheduled(fixedDelay = 120000)
+//    public void manageGroupState() {
+//        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findGroups();
+//
+//        log.info("그룹주문 시간 탐색");
+//        for (DeliveryGroup x : deliveryGroups) {
+//            if (x.getDeliveryDateTime() != null && x.getOrderStatus().equals(OrderStatus.recruiting) && x.getDeliveryDateTime().isBefore(LocalDateTime.now())) {
+//                // 멀티쓰레드 이슈 로 CopyOnWriteArrayList 이용
+//                List<Member> memberList = new CopyOnWriteArrayList<>();
+//
+//                memberList.addAll(x.getMemberList());
+//
+//                for (Member y : memberList) {
+//                    y.setDeliveryGroup(null);
+//                    deliveryGroupService.save(x);
+//                    memberService.save(y);
+//                }
+//
+//                x.setOrderStatus(OrderStatus.cancel);
+//                deliveryGroupService.save(x);
+//            }
+//        }
+//    }
 //
 //    @Scheduled(cron = "0 1 * * * *")
 //    public void recommendOtherGroup() throws FirebaseMessagingException {
