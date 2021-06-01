@@ -100,12 +100,14 @@ public class MemberController {
         chatService.save(chat);
 
         MemberChat memberChat = new MemberChat();
+        memberChat.setChat(chat);
         memberChat.addMemberChatToChat(chat);
         chatService.save(chat);
         memberChatService.save(memberChat);
 
         List<Member> member = deliveryGroup.getMemberList();
         for (Member x : member) {
+            memberChat.setMember(x);
             memberChat.addMemberChatToMember(x);
             memberService.save(x);
             memberChatService.save(memberChat);
