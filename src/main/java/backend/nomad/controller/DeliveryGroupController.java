@@ -17,7 +17,6 @@ import backend.nomad.dto.review.ReviewResponseDto;
 import backend.nomad.dto.store.MenuRequestDto;
 import backend.nomad.dto.store.MenuResponseDto;
 import backend.nomad.dto.store.StoreResponseDto;
-import backend.nomad.firebase.FirebaseService;
 import backend.nomad.service.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -47,7 +46,6 @@ public class DeliveryGroupController {
     private final StoreService storeService;
     private final MenuService menuService;
     private final MemberOrderService memberOrderService;
-    private final FirebaseService firebaseService;
     private final OrderItemService orderItemService;
 
 //    @Scheduled(fixedDelay = 120000)
@@ -76,6 +74,74 @@ public class DeliveryGroupController {
 //            }
 //        }
 //    }
+//
+//    @Scheduled(cron = "0 1 * * * *")
+//    public void recommendOtherGroup() throws FirebaseMessagingException {
+//        LocalDateTime localDateTime = LocalDateTime.now();
+//        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findByDayAndOrderStatus(localDateTime.getDayOfMonth(), OrderStatus.recruiting);
+//
+//        log.info("추천 탐색");
+//        for (DeliveryGroup x : deliveryGroups) {
+//            Store storeX = storeService.findByStoreId(x.getStoreId());
+//
+//            if (x.getDeliveryDateTime().getHour() - localDateTime.getHour() == 1) {
+//
+//                for (DeliveryGroup y : deliveryGroups) {
+//                    Store storeY = storeService.findByStoreId(y.getStoreId());
+//
+//                    double distance = distance(y.getLatitude(), y.getLongitude(), x.getLatitude(), x.getLongitude(), "meter");
+//
+//                    if (distance < 200 && y.getDeliveryDateTime().getHour() - x.getDeliveryDateTime().getHour() < 2 && y.getCurrent() > x.getCurrent() && storeX.getCategory().equals(storeY.getCategory())) {
+//
+//                        List<Member> fcmMember = y.getMemberList();;
+//
+//                        for (Member member : fcmMember) {
+//                            Message message = Message.builder()
+//                                    .setNotification(Notification.builder()
+//                                            .setTitle("배달 그룹 마감 시간 임박!!")
+//                                            .setBody("이 배달 그룹은 어떠세요!?\n" + "매장: " + storeY.getStoreName() + "배달 장소: " + y.getBuildingName() + "\n" + "배달 시간: " + y.getDeliveryDateTime() + "\n" + "현재 모집인원이 " + (y.getMaxValue() - y.getCurrent()) + "명 남았습니다")
+//                                            .build())
+//                                    // Device를 특정할 수 있는 토큰.
+//                                    .setToken(member.getToken())
+//                                    .build();
+//
+//                            FirebaseMessaging.getInstance().send(message);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//    }
+//
+//    private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
+//
+//        double theta = lon1 - lon2;
+//        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+//
+//        dist = Math.acos(dist);
+//        dist = rad2deg(dist);
+//        dist = dist * 60 * 1.1515;
+//
+//        if (unit.equals("kilometer")) {
+//            dist = dist * 1.609344;
+//        } else if(unit.equals("meter")){
+//            dist = dist * 1609.344;
+//        }
+//
+//        return (dist);
+//    }
+//
+//    // This function converts decimal degrees to radians
+//    private static double deg2rad(double deg) {
+//        return (deg * Math.PI / 180.0);
+//    }
+//
+//    // This function converts radians to decimal degrees
+//    private static double rad2deg(double rad) {
+//        return (rad * 180 / Math.PI);
+//    }
+
 
     @PostMapping("/deliveryGroup")
     public void SaveGroup(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
@@ -95,6 +161,7 @@ public class DeliveryGroupController {
 
         deliveryGroup.setDeliveryDateTime(deliveryGroupRequestDto.getDeliveryDateTime());
         deliveryGroup.setPromotion(deliveryGroupRequestDto.getPromotion());
+        deliveryGroup.setDay(deliveryGroupRequestDto.getDeliveryDateTime().getDayOfMonth());
 
         deliveryGroupService.save(deliveryGroup);
 
@@ -139,12 +206,6 @@ public class DeliveryGroupController {
             memberOrder.setOrderTime(deliveryGroupRequestDto.getOrderTime());
 
             memberOrder.setMember(member);
-//        Menu menu = menuService.findByMenuName(deliveryGroupRequestDto.getMenu().getMenuName());
-
-
-//        int totalCost = menu.getCost() * deliveryGroupRequestDto.getQuantity();
-
-//        memberOrder.setTotalCost(deliveryGroupRequestDto.);
 
             memberOrderService.save(memberOrder);
         }
@@ -177,12 +238,6 @@ public class DeliveryGroupController {
             memberOrder.setOrderTime(deliveryGroupRequestDto.getOrderTime());
 
             memberOrder.setMember(member);
-//        Menu menu = menuService.findByMenuName(deliveryGroupRequestDto.getMenu().getMenuName());
-
-
-//        int totalCost = menu.getCost() * deliveryGroupRequestDto.getQuantity();
-
-//        memberOrder.setTotalCost(deliveryGroupRequestDto.);
 
             memberOrderService.save(memberOrder);
         }
@@ -200,39 +255,73 @@ public class DeliveryGroupController {
         memberService.save(member);
 
 
-        //주문 데이터
-        MemberOrder memberOrder = new MemberOrder();
+        if (deliveryGroup.getPromotion().equals(Promotion.Off)) {
+            //주문 데이터
+            MemberOrder memberOrder = new MemberOrder();
 
-        Store store = storeService.findByStoreId(deliveryGroup.getStoreId());
+            Store store = storeService.findByStoreId(deliveryGroup.getStoreId());
 
-        memberOrder.setUid(uid);
-        memberOrder.setStoreId(store.getStoreId());
-        memberOrder.setStore(store);
-        memberOrder.setDeliveryGroup(deliveryGroup);
-        deliveryGroupService.save(deliveryGroup);
-        memberOrderService.save(memberOrder);
+            memberOrder.setUid(uid);
+            memberOrder.setStoreId(store.getStoreId());
+            memberOrder.setStore(store);
+            memberOrder.setDeliveryGroup(deliveryGroup);
+            deliveryGroupService.save(deliveryGroup);
+            memberOrderService.save(memberOrder);
 
-        List<MenuRequestDto> menuList = dto.getMenu();
-        for (MenuRequestDto x : menuList) {
+            List<MenuRequestDto> menuList = dto.getMenu();
+            for (MenuRequestDto x : menuList) {
+
+                OrderItem orderItem = new OrderItem();
+                orderItem.setMenuName(x.getMenuName());
+                orderItem.setCost(x.getCost());
+                orderItem.setQuantity(x.getQuantity());
+
+                orderItem.addOrderItemToMemberOrder(memberOrder);
+
+                memberOrderService.save(memberOrder);
+                orderItemService.save(orderItem);
+
+            }
+            memberOrder.setTotalCost(dto.getTotalCost());
+            memberOrder.setPayMethod(dto.getPayMethod());
+            memberOrder.setOrderTime(dto.getOrderTime());
+
+            memberOrder.setMember(member);
+
+            memberOrderService.save(memberOrder);
+
+        }
+        else {
+            //프로모션 주문 데이터
+            Store store = storeService.findByStoreId(deliveryGroup.getStoreId());
+            PromotionMenu promotionMenu = store.getPromotionMenu();
+
+            MemberOrder memberOrder = new MemberOrder();
+            memberOrder.setUid(uid);
+            memberOrder.setStoreId(store.getStoreId());
+            memberOrder.setStore(store);
+            memberOrder.setDeliveryGroup(deliveryGroup);
+            deliveryGroupService.save(deliveryGroup);
+            memberOrderService.save(memberOrder);
+            memberService.save(member);
 
             OrderItem orderItem = new OrderItem();
-            orderItem.setMenuName(x.getMenuName());
-            orderItem.setCost(x.getCost());
-            orderItem.setQuantity(x.getQuantity());
-
+            orderItem.setMenuName(promotionMenu.getPromotionMenuName());
+            orderItem.setCost(promotionMenu.getCost());
+            orderItem.setQuantity(1);
             orderItem.addOrderItemToMemberOrder(memberOrder);
 
             memberOrderService.save(memberOrder);
             orderItemService.save(orderItem);
 
+            memberOrder.setTotalCost(dto.getTotalCost());
+            memberOrder.setPayMethod(dto.getPayMethod());
+            memberOrder.setOrderTime(dto.getOrderTime());
+
+            memberOrder.setMember(member);
+
+            memberOrderService.save(memberOrder);
         }
-        memberOrder.setTotalCost(dto.getTotalCost());
-        memberOrder.setPayMethod(dto.getPayMethod());
-        memberOrder.setOrderTime(dto.getOrderTime());
-
-        memberOrder.setMember(member);
-
-        memberOrderService.save(memberOrder);
 
         if (deliveryGroup.getCurrent() == deliveryGroup.getMaxValue()) {
             deliveryGroup.setOrderStatus(OrderStatus.recruitmentDone);

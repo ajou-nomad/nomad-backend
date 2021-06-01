@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +63,11 @@ public class DeliveryGroupService {
     @Transactional
     public List<DeliveryGroup> findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatusAndStoreId(OrderStatus orderStatusA, OrderStatus orderStatusB, OrderStatus orderStatusC, OrderStatus orderStatusD, Long storeId) {
         return deliveryGroupRepository.findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatusAndStoreId(orderStatusA, orderStatusB, orderStatusC, orderStatusD, storeId);
+    }
+
+    @Transactional
+    public List<DeliveryGroup> findByDayAndOrderStatus(Integer day, OrderStatus orderStatus) {
+        return deliveryGroupRepository.findByDayAndOrderStatus(day, orderStatus);
     }
 
 }

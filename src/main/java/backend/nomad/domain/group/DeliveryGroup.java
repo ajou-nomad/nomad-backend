@@ -55,6 +55,7 @@ public class DeliveryGroup {
     @Enumerated(EnumType.STRING)
     private Promotion promotion;
 
+    private Integer day;
 
     public DeliveryGroup(Long storeId, Double latitude, Double longitude, String address, String buildingName, LocalDateTime deliveryDateTime, Integer current, Integer maxValue, GroupType groupType, OrderStatus orderStatus) {
         this.storeId = storeId;

@@ -82,19 +82,19 @@ public class DeliveryManController {
     @PostMapping("/deliveryComplete")
     public void deliveryComplete(@RequestBody DeliveryGroupRequestDto deliveryGroupRequestDto) {
         DeliveryGroup deliveryGroup = deliveryGroupService.findById(deliveryGroupRequestDto.getGroupId());
-        Chat chat = deliveryGroup.getChat();
+//        Chat chat = deliveryGroup.getChat();
+//
+//        List<Member> memberList = deliveryGroup.getMemberList();
 
-        List<Member> memberList = deliveryGroup.getMemberList();
-
-        for (Member m : memberList) {
-            m.deleteGroup(deliveryGroup);
-            m.setDeliveryGroup(null);
-            memberService.save(m);
-
-            chat.deleteMember(m);
-        }
-
-        chatService.delete(chat);
+//        for (Member m : memberList) {
+//            m.deleteGroup(deliveryGroup);
+//            m.setDeliveryGroup(null);
+//            memberService.save(m);
+//
+//            chat.deleteMember(m);
+//        }
+//
+//        chatService.delete(chat);
 
         deliveryGroup.setOrderStatus(OrderStatus.deliveryDone);
         deliveryGroupService.save(deliveryGroup);
