@@ -22,7 +22,7 @@ public class Menu {
     private String menuName;
 
 
-    private Integer cost;
+    private Double cost;
     private String description;
 //    detail?
     private String imgUrl;
@@ -33,7 +33,7 @@ public class Menu {
 //    @OneToMany(mappedBy = "menu")
 //    private List<OrderItem> orderItem = new ArrayList<>();
 
-    public Menu(String menuName, Integer cost, String description, Store store, String imgUrl) {
+    public Menu(String menuName, Double cost, String description, Store store, String imgUrl) {
         this.menuName = menuName;
         this.cost = cost;
         this.description = description;

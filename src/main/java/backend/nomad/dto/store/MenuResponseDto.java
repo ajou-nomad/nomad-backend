@@ -17,19 +17,19 @@ public class MenuResponseDto {
 
     private Long menuId;
     private String menuName;
-    private Integer cost;
+    private Double cost;
     private String description;
 //    detail?
     private String imgUrl;
 
-    public MenuResponseDto(Long menuId, String menuName, Integer cost, String description) {
+    public MenuResponseDto(Long menuId, String menuName, Double cost, String description) {
         this.menuId = menuId;
         this.menuName = menuName;
         this.cost = cost;
         this.description = description;
     }
 
-    public MenuResponseDto(Long menuId, String menuName, Integer cost, String description, String imgUrl) {
+    public MenuResponseDto(Long menuId, String menuName, Double cost, String description, String imgUrl) {
         this.menuId = menuId;
         this.menuName = menuName;
         this.cost = cost;

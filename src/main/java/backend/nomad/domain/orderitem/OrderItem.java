@@ -24,7 +24,7 @@ public class OrderItem {
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    private Menu menu;
-    private Integer cost;
+    private Double cost;
     private String menuName;
 
     private Integer quantity;
@@ -32,7 +32,7 @@ public class OrderItem {
     public OrderItem() {
 
     }
-    public OrderItem(MemberOrder memberOrder, Integer cost, Integer quantity, String menuName) {
+    public OrderItem(MemberOrder memberOrder, Double cost, Integer quantity, String menuName) {
         this.memberOrder = memberOrder;
 //        this.menu = menu;
         this.menuName = menuName;

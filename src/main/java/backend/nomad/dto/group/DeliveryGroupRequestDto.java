@@ -34,7 +34,7 @@ public class DeliveryGroupRequestDto {
 //    private String menuName;
 //    private Integer cost;
 //    private Integer quantity;
-    private Integer totalCost;
+    private Double totalCost;
     private String payMethod;
     private String orderTime;
 

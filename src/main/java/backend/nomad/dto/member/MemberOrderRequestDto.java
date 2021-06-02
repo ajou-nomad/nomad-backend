@@ -17,11 +17,11 @@ public class MemberOrderRequestDto {
     private Long storeId;
     private String uid;
     private Menu menu;
-    private Integer totalCost;
+    private Double totalCost;
     private String payMethod;
     private String orderTime;
     private String menuName;
-    private Integer cost;
+    private Double cost;
     private Integer quantity;
 
 }

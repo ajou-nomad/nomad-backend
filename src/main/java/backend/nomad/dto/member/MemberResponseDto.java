@@ -14,12 +14,12 @@ public class MemberResponseDto {
     private String token;
     private String uid;
     private MemberType memberType;
-    private Long point;
+    private Double point;
     private String shopIdNumber;
     private String deliIdNumber;
     private Long storeId;
 
-    public MemberResponseDto(Long memberId, String nickName, String email, String phoneNum, String token, String uid, MemberType memberType, Long point, String shopIdNumber, String deliIdNumber) {
+    public MemberResponseDto(Long memberId, String nickName, String email, String phoneNum, String token, String uid, MemberType memberType, Double point, String shopIdNumber, String deliIdNumber) {
         this.memberId = memberId;
         this.nickName = nickName;
         this.email = email;

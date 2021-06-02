@@ -36,7 +36,7 @@ public class MemberOrder {
     @ManyToOne(fetch = FetchType.LAZY)
     private DeliveryGroup deliveryGroup;
 
-    private Integer totalCost;
+    private Double totalCost;
     private String payMethod;
 
     private String orderTime;
@@ -44,7 +44,7 @@ public class MemberOrder {
     @OneToOne(mappedBy = "memberOrder")
     private Review review;
 
-    public MemberOrder(Store store, String uid, Long storeId, Member member, Integer totalCost, String payMethod, String orderTime) {
+    public MemberOrder(Store store, String uid, Long storeId, Member member, Double totalCost, String payMethod, String orderTime) {
         this.store = store;
         this.uid = uid;
         this.storeId = storeId;

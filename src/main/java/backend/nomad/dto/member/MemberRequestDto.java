@@ -21,6 +21,6 @@ public class MemberRequestDto {
 
 
 
-    private long point;
+    private Double point;
 
 }

@@ -68,6 +68,15 @@ public class DeliveryGroupController {
 //
 //                x.setOrderStatus(OrderStatus.cancel);
 //                deliveryGroupService.save(x);
+//
+//                List<MemberOrder> memberOrders = new CopyOnWriteArrayList<>();
+//
+//                memberOrders.addAll(x.getMemberOrders());
+//
+//                for (MemberOrder z : memberOrders) {
+//                    Member member = z.getMember();
+//                    member.setPoint(z.getTotalCost());
+//                }
 //            }
 //        }
 //    }
@@ -88,7 +97,7 @@ public class DeliveryGroupController {
 //
 //                    double distance = distance(y.getLatitude(), y.getLongitude(), x.getLatitude(), x.getLongitude(), "meter");
 //
-//                    if (distance < 200 && y.getDeliveryDateTime().getHour() - x.getDeliveryDateTime().getHour() < 2 && y.getCurrent() > x.getCurrent() && storeX.getCategory().equals(storeY.getCategory())) {
+//                    if (distance < 200 && y.getDeliveryDateTime().getHour() - x.getDeliveryDateTime().getHour() < 2 && y.getCurrent() > x.getCurrent() && storeX.getStoreName().equals(storeY.getStoreName()) || storeX.getCategory().equals(storeY.getCategory())) {
 //
 //                        List<Member> fcmMember = y.getMemberList();;
 //

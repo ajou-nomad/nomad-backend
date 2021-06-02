@@ -16,7 +16,7 @@ public class PromotionMenu {
     private Long promotionMenuId;
 
     private String promotionMenuName;
-    private Integer cost;
+    private Double cost;
     private String description;
     private String promotionDescription;
     private String imgUrl;

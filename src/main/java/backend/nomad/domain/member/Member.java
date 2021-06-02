@@ -26,7 +26,7 @@ public class Member {
     private String phoneNum;
     private String token;
     private String uid;
-    private Long point;
+    private Double point;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
@@ -63,7 +63,7 @@ public class Member {
     public Member() {
     }
 
-    public Member(String email, String nickName, String phoneNum, String token, String uid, MemberType memberType, String shopIdNumber, String deliIdNumber, Long point, DeliveryGroup deliveryGroup) {
+    public Member(String email, String nickName, String phoneNum, String token, String uid, MemberType memberType, String shopIdNumber, String deliIdNumber, Double point, DeliveryGroup deliveryGroup) {
         this.email = email;
         this.nickName = nickName;
         this.phoneNum = phoneNum;

@@ -12,7 +12,7 @@ public class OrderItemResponseDto {
 
     private List<OrderItemResponseDto> orderItemList = new ArrayList<>();
     private Long orderItemId;
-    private Integer cost;
+    private Double cost;
     private String menuName;
 
     private Integer quantity;
@@ -20,14 +20,14 @@ public class OrderItemResponseDto {
     public OrderItemResponseDto() {
 
     }
-    public OrderItemResponseDto(Long orderItemId, String menuName, Integer cost, Integer quantity) {
+    public OrderItemResponseDto(Long orderItemId, String menuName, Double cost, Integer quantity) {
         this.orderItemId = orderItemId;
         this.menuName = menuName;
         this.cost = cost;
         this.quantity = quantity;
     }
 
-    public OrderItemResponseDto(String menuName, Integer cost, Integer quantity) {
+    public OrderItemResponseDto(String menuName, Double cost, Integer quantity) {
         this.menuName = menuName;
         this.cost = cost;
         this.quantity = quantity;

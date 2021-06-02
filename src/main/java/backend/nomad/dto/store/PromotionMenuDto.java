@@ -8,12 +8,12 @@ import lombok.Setter;
 public class PromotionMenuDto {
     private Long promotionMenuId;
     private String promotionMenuName;
-    private Integer cost;
+    private Double cost;
     private String description;
     private String promotionDescription;
     private String imgUrl;
 
-    public PromotionMenuDto(Long promotionMenuId, String promotionMenuName, Integer cost, String description, String promotionDescription, String imgUrl) {
+    public PromotionMenuDto(Long promotionMenuId, String promotionMenuName, Double cost, String description, String promotionDescription, String imgUrl) {
         this.promotionMenuId = promotionMenuId;
         this.promotionMenuName = promotionMenuName;
         this.cost = cost;
