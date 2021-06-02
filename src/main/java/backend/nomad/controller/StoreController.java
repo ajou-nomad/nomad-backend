@@ -182,7 +182,7 @@ public class StoreController {
 //            if (x.getDeliveryDateTime().isLocalDateTime.now().getDayOfMonth()) {
 //                continue;
 //            }
-            if (x.getOrderStatus() == OrderStatus.cancel || x.getOrderStatus() == OrderStatus.recruiting || x.getOrderStatus() != OrderStatus.deliveryDone ) {
+            if (x.getOrderStatus() == OrderStatus.cancel || x.getOrderStatus() == OrderStatus.recruiting || x.getOrderStatus() == OrderStatus.deliveryDone ) {
                 continue;
             }
 
