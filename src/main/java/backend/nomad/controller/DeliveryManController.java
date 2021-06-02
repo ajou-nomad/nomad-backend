@@ -22,6 +22,10 @@ import backend.nomad.service.MemberService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -53,7 +57,7 @@ public class DeliveryManController {
     }
 
     @PostMapping("/delivery")
-    public Result setDeliveryGroupData(@RequestBody GroupOrderRequestDto groupOrderRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
+    public Result setDeliveryGroupData(@RequestBody GroupOrderRequestDto groupOrderRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException, FirebaseMessagingException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
@@ -84,6 +88,16 @@ public class DeliveryManController {
 //            memberChat.setMember(x);
 //            memberChat.addMemberChatToMember(x);
 //            memberChatService.save(memberChat);
+            Message message = Message.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle("배달이 시작됐습니다!" + "\n" + "채팅방이 생성됐습니다.")
+                            .setBody("배달원의 메시지를 확인하세요!")
+                            .build())
+                    // Device를 특정할 수 있는 토큰.
+                    .setToken(x.getToken())
+                    .build();
+
+            FirebaseMessaging.getInstance().send(message);
 
             uidList.add(x.getUid());
         }

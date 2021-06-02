@@ -260,7 +260,6 @@ public class DeliveryGroupController {
         member.changeGroup(deliveryGroup);
         memberService.save(member);
 
-
         if (deliveryGroup.getPromotion().equals(Promotion.Off)) {
             //주문 데이터
             MemberOrder memberOrder = new MemberOrder();
