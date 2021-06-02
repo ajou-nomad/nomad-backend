@@ -27,6 +27,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -42,8 +43,6 @@ public class StoreController {
     private final MenuService menuService;
     private final DeliveryGroupService deliveryGroupService;
     private final ChatService chatService;
-
-
 
 //    @Scheduled(fixedDelay = 120000)
 //    public void manageChatRoom() {
@@ -244,29 +243,75 @@ public class StoreController {
         return new Result(dtoList);
     }
 
-//    @GetMapping("/sales")
-//    public Result sales(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
-//        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
-//        String uid = decodedToken.getUid();
-//
-//        Member member = memberService.findByUid(uid);
-//        Store store = member.getStore();
-//
-//        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findByOrderStatus(OrderStatus.deliveryDone);
-//
-//        for (DeliveryGroup x : deliveryGroups) {
-//            List<MemberOrder> memberOrders = x.getMemberOrders();
-//            for (MemberOrder y : memberOrders) {
-//                if (x.getDeliveryDateTime().getMonth() = )
-//            }
-//        }
-//
-//        for (int i = 1; i <= 12; i++) {
-//            List<MemberOrder> memberOrders =
-//            SalesDto salesDto = new SalesDto(i, )
-//        }
-//
-//    }
+    @GetMapping("/sales")
+    public Result sales(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+        Store store = member.getStore();
+
+        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findByOrderStatus(OrderStatus.deliveryDone);
+
+        List<Double>[] salesOfMonth = new ArrayList[13];
+
+        for (int i = 1; i <= 12; i++) {
+            salesOfMonth[i] = new ArrayList<>();
+            salesOfMonth[i].add(0.0);
+        }
+
+        for (DeliveryGroup x : deliveryGroups) {
+            List<MemberOrder> memberOrders = x.getMemberOrders();
+            Month month = x.getDeliveryDateTime().getMonth();
+            for (MemberOrder y : memberOrders) {
+                if (month.equals("JANUARY")) {
+                    salesOfMonth[1].set(0, salesOfMonth[1].get(0) + y.getTotalCost().doubleValue());
+                }
+                else if (month.equals("FEBRUARY")) {
+                    salesOfMonth[2].set(0, salesOfMonth[2].get(0) + y.getTotalCost().doubleValue());
+                }
+                else if (month.equals("MARCH")) {
+                    salesOfMonth[3].set(0, salesOfMonth[3].get(0) + y.getTotalCost().doubleValue());
+                }
+                else if (month.equals("APRIL")) {
+                    salesOfMonth[4].set(0, salesOfMonth[4].get(0) + y.getTotalCost().doubleValue());
+                }
+                else if (month.equals("MAY")) {
+                    salesOfMonth[5].set(0, salesOfMonth[5].get(0) + y.getTotalCost().doubleValue());
+                }
+                else if (month.equals("JUNE")) {
+                    salesOfMonth[6].set(0, salesOfMonth[6].get(0) + y.getTotalCost().doubleValue());
+                }
+                else if (month.equals("JULY")) {
+                    salesOfMonth[7].set(0, salesOfMonth[7].get(0) + y.getTotalCost().doubleValue());
+                }
+                else if (month.equals("AUGUST")) {
+                    salesOfMonth[8].set(0, salesOfMonth[8].get(0) + y.getTotalCost().doubleValue());
+                }
+                else if (month.equals("SEPTEMBER")) {
+                    salesOfMonth[9].set(0, salesOfMonth[9].get(0) + y.getTotalCost().doubleValue());
+                }
+                else if (month.equals("OCTOBER")) {
+                    salesOfMonth[10].set(0, salesOfMonth[10].get(0) + y.getTotalCost().doubleValue());
+                }
+                else if (month.equals("November")) {
+                    salesOfMonth[11].set(0, salesOfMonth[11].get(0) + y.getTotalCost().doubleValue());
+                }
+                else if (month.equals("December")) {
+                    salesOfMonth[12].set(0, salesOfMonth[12].get(0) + y.getTotalCost().doubleValue());
+                }
+            }
+
+            }
+        List<SalesDto> dtoList = new ArrayList<>();
+
+            for (int i = 1; i <= 12; i++) {
+                SalesDto dto = new SalesDto(i, salesOfMonth[i].get(0));
+                dtoList.add(dto);
+        }
+
+        return new Result(dtoList);
+    }
 
     @Data
     @AllArgsConstructor
