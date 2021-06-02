@@ -124,7 +124,7 @@ public class StoreController {
                     .map(m -> new ReviewResponseDto(m.getReviewId(), m.getNickName(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                     .collect(Collectors.toList());
 
-            if (x.getPromotion() != Promotion.On) {
+            if (x.getPromotion() == Promotion.On) {
                 PromotionMenu promotionMenu = x.getPromotionMenu();
                 PromotionMenuDto promotionMenuDto = new PromotionMenuDto(promotionMenu.getPromotionMenuId(), promotionMenu.getPromotionMenuName(), promotionMenu.getCost(), promotionMenu.getDescription(), promotionMenu.getPromotionDescription(), promotionMenu.getImgUrl());
 
