@@ -173,18 +173,22 @@ public class StoreController {
         Member member = memberService.findByUid(uid);
         Store store = member.getStore();
 
-        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatusAndStoreId(OrderStatus.recruitmentDone, OrderStatus.recruitmentAccept, OrderStatus.delivering, OrderStatus.waitingForDelivery, store.getStoreId());
+//        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatusAndStoreId(OrderStatus.recruitmentDone, OrderStatus.recruitmentAccept, OrderStatus.delivering, OrderStatus.waitingForDelivery, store.getStoreId());
+        List<DeliveryGroup> deliveryGroups = deliveryGroupService.findByStoreId(store.getStoreId());
 
         List<DeliveryGroupDto> dtoList = new ArrayList<>();
 
-        for (DeliveryGroup x : deliveryGroup) {
+        for (DeliveryGroup x : deliveryGroups) {
             if (x.getDeliveryDateTime().getDayOfMonth() != LocalDateTime.now().getDayOfMonth()) {
                 continue;
             }
+            if (x.getOrderStatus() == OrderStatus.recruiting || x.getOrderStatus() == OrderStatus.recruiting || x.getOrderStatus() != OrderStatus.deliveryDone ) {
+                continue;
+            }
+
             List<List<OrderItemDto>> orderItemList = new ArrayList<>();
 
             List<MemberOrder> memberOrder = x.getMemberOrders();
-
 
             for (MemberOrder y : memberOrder) {
 
