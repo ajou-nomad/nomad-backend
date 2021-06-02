@@ -1,5 +1,10 @@
 package backend.nomad.dto.store;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class SalesDto {
 
     private Integer month;
