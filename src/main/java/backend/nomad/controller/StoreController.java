@@ -264,40 +264,40 @@ public class StoreController {
             List<MemberOrder> memberOrders = x.getMemberOrders();
             Month month = x.getDeliveryDateTime().getMonth();
             for (MemberOrder y : memberOrders) {
-                if (month.equals("JANUARY")) {
+                if (month.equals(Month.FEBRUARY)) {
                     salesOfMonth[1].set(0, salesOfMonth[1].get(0) + y.getTotalCost().doubleValue());
                 }
-                else if (month.equals("FEBRUARY")) {
+                else if (month.equals(Month.JANUARY)) {
                     salesOfMonth[2].set(0, salesOfMonth[2].get(0) + y.getTotalCost().doubleValue());
                 }
-                else if (month.equals("MARCH")) {
+                else if (month.equals(Month.MARCH)) {
                     salesOfMonth[3].set(0, salesOfMonth[3].get(0) + y.getTotalCost().doubleValue());
                 }
-                else if (month.equals("APRIL")) {
+                else if (month.equals(Month.APRIL)) {
                     salesOfMonth[4].set(0, salesOfMonth[4].get(0) + y.getTotalCost().doubleValue());
                 }
-                else if (month.equals("MAY")) {
+                else if (month.equals(Month.MAY)) {
                     salesOfMonth[5].set(0, salesOfMonth[5].get(0) + y.getTotalCost().doubleValue());
                 }
-                else if (month.equals("JUNE")) {
+                else if (month.equals(Month.JUNE)) {
                     salesOfMonth[6].set(0, salesOfMonth[6].get(0) + y.getTotalCost().doubleValue());
                 }
-                else if (month.equals("JULY")) {
+                else if (month.equals(Month.JULY)) {
                     salesOfMonth[7].set(0, salesOfMonth[7].get(0) + y.getTotalCost().doubleValue());
                 }
-                else if (month.equals("AUGUST")) {
+                else if (month.equals(Month.AUGUST)) {
                     salesOfMonth[8].set(0, salesOfMonth[8].get(0) + y.getTotalCost().doubleValue());
                 }
-                else if (month.equals("SEPTEMBER")) {
+                else if (month.equals(Month.SEPTEMBER)) {
                     salesOfMonth[9].set(0, salesOfMonth[9].get(0) + y.getTotalCost().doubleValue());
                 }
-                else if (month.equals("OCTOBER")) {
+                else if (month.equals(Month.OCTOBER)) {
                     salesOfMonth[10].set(0, salesOfMonth[10].get(0) + y.getTotalCost().doubleValue());
                 }
-                else if (month.equals("November")) {
+                else if (month.equals(Month.NOVEMBER)) {
                     salesOfMonth[11].set(0, salesOfMonth[11].get(0) + y.getTotalCost().doubleValue());
                 }
-                else if (month.equals("December")) {
+                else if (month.equals(Month.DECEMBER)) {
                     salesOfMonth[12].set(0, salesOfMonth[12].get(0) + y.getTotalCost().doubleValue());
                 }
             }
