@@ -86,7 +86,7 @@ public class ReviewController {
         List<ReviewResponseDto> collect = review.stream()
                 .map(m -> new ReviewResponseDto(m.getReviewId(), m.getNickName(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                 .collect(Collectors.toList());
-        return new Result(store.getReview());
+        return new Result(collect);
     }
 
     @Data
