@@ -21,4 +21,7 @@ public class PromotionMenuDto {
         this.promotionDescription = promotionDescription;
         this.imgUrl = imgUrl;
     }
+
+    public PromotionMenuDto() {
+    }
 }

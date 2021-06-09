@@ -389,7 +389,10 @@ public class DeliveryGroupController {
                     .collect(Collectors.toList());
 
             PromotionMenu promotionMenu = store.getPromotionMenu();
-            PromotionMenuDto promotionMenuDto = new PromotionMenuDto(promotionMenu.getPromotionMenuId(), promotionMenu.getPromotionMenuName(), promotionMenu.getCost(), promotionMenu.getDescription(), promotionMenu.getPromotionDescription(), promotionMenu.getImgUrl());
+            PromotionMenuDto promotionMenuDto = new PromotionMenuDto();
+            if (promotionMenu != null) {
+                promotionMenuDto = new PromotionMenuDto(promotionMenu.getPromotionMenuId(), promotionMenu.getPromotionMenuName(), promotionMenu.getCost(), promotionMenu.getDescription(), promotionMenu.getPromotionDescription(), promotionMenu.getImgUrl());
+            }
 
             List<Review> review = store.getReview();
             List<ReviewResponseDto> reviewList = review.stream()
@@ -420,7 +423,10 @@ public class DeliveryGroupController {
                     .collect(Collectors.toList());
 
             PromotionMenu promotionMenu = store.getPromotionMenu();
-            PromotionMenuDto promotionMenuDto = new PromotionMenuDto(promotionMenu.getPromotionMenuId(), promotionMenu.getPromotionMenuName(), promotionMenu.getCost(), promotionMenu.getDescription(), promotionMenu.getPromotionDescription(), promotionMenu.getImgUrl());
+            PromotionMenuDto promotionMenuDto = new PromotionMenuDto();
+            if (promotionMenu != null) {
+                promotionMenuDto = new PromotionMenuDto(promotionMenu.getPromotionMenuId(), promotionMenu.getPromotionMenuName(), promotionMenu.getCost(), promotionMenu.getDescription(), promotionMenu.getPromotionDescription(), promotionMenu.getImgUrl());
+            }
 
             List<Review> review = store.getReview();
             List<ReviewResponseDto> reviewList = review.stream()
