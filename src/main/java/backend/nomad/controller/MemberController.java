@@ -58,7 +58,7 @@ public class MemberController {
         member.setMemberType(dto.getMemberType());
         member.setShopIdNumber(dto.getShopIdNumber());
         member.setDeliIdNumber(dto.getDeliIdNumber());
-        member.setPoint(dto.getPoint());
+        member.setPoint(0.0);
 
         memberService.save(member);
 
