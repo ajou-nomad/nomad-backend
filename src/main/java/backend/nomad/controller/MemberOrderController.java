@@ -72,6 +72,10 @@ public class MemberOrderController {
                 MemberOrderResponseDto dto = new MemberOrderResponseDto(x.getMemberOrderId(), store.getStoreId(), x.getDeliveryGroup().getGroupId(), store.getStoreName(), x.getDeliveryGroup().getOrderStatus(), orderItemList, reviewResponseDto, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
                 dtoList.add(dto);
             }
+            else {
+                MemberOrderResponseDto dto = new MemberOrderResponseDto(x.getMemberOrderId(), store.getStoreId(), null, store.getStoreName(), null, orderItemList, reviewResponseDto, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
+                dtoList.add(dto);
+            }
         }
 
         return new Result(dtoList);
