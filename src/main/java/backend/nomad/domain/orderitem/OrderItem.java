@@ -46,7 +46,6 @@ public class OrderItem {
 
     public void deleteMemberOrder(MemberOrder memberOrder) {
         this.memberOrder = memberOrder;
-        this.setMemberOrder(null);
         memberOrder.getOrderItem().remove(this);
     }
 
