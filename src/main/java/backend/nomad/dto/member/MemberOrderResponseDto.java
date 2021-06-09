@@ -21,6 +21,7 @@ public class MemberOrderResponseDto {
 
     private Long memberOrderId;
     private Long storeId;
+    private Long groupId;
     private String storeName;
     private List<OrderItemResponseDto> orderItemList;
     private ReviewResponseDto reviewList;
@@ -39,9 +40,10 @@ public class MemberOrderResponseDto {
         this.orderTime = orderTime;
     }
 
-    public MemberOrderResponseDto(Long memberOrderId, Long storeId, String storeName, OrderStatus orderStatus, List<OrderItemResponseDto> orderItemList, ReviewResponseDto reviewList, Double totalCost, String payMethod, String orderTime) {
+    public MemberOrderResponseDto(Long memberOrderId, Long storeId, Long groupId, String storeName, OrderStatus orderStatus, List<OrderItemResponseDto> orderItemList, ReviewResponseDto reviewList, Double totalCost, String payMethod, String orderTime) {
         this.memberOrderId = memberOrderId;
         this.storeId = storeId;
+        this.groupId = groupId;
         this.storeName = storeName;
         this.orderStatus = orderStatus;
         this.orderItemList = orderItemList;

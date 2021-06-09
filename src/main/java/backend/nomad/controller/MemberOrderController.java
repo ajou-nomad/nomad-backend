@@ -69,7 +69,7 @@ public class MemberOrderController {
             }
 
             if (x.getDeliveryGroup() != null) {
-                MemberOrderResponseDto dto = new MemberOrderResponseDto(x.getMemberOrderId(), store.getStoreId(), store.getStoreName(), x.getDeliveryGroup().getOrderStatus(), orderItemList, reviewResponseDto, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
+                MemberOrderResponseDto dto = new MemberOrderResponseDto(x.getMemberOrderId(), store.getStoreId(), x.getDeliveryGroup().getGroupId(), store.getStoreName(), x.getDeliveryGroup().getOrderStatus(), orderItemList, reviewResponseDto, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
                 dtoList.add(dto);
             }
         }
@@ -92,22 +92,19 @@ public class MemberOrderController {
 
         member.setPoint(memberOrder.getTotalCost());
 
-        List<OrderItem> orderItem = new CopyOnWriteArrayList<>();
-        orderItem.addAll(memberOrder.getOrderItem());
-
-        for (OrderItem x : orderItem) {
-            x.deleteMemberOrder(memberOrder);
-            orderItemService.save(x);
-        }
-        memberOrder.deleteMember(member);
-        memberService.save(member);
-        memberOrder.deleteStore(store);
-        storeService.save(store);
+//        List<OrderItem> orderItem = new CopyOnWriteArrayList<>();
+//        orderItem.addAll(memberOrder.getOrderItem());
+//
+//        for (OrderItem x : orderItem) {
+//            x.deleteMemberOrder(memberOrder);
+//            orderItemService.save(x);
+//        }
+//        memberOrder.deleteMember(member);
+//        memberService.save(member);
+//        memberOrder.deleteStore(store);
+//        storeService.save(store);
         memberOrder.deleteDeliveryGroup(deliveryGroup);
         deliveryGroupService.save(deliveryGroup);
-
-        memberOrderService.delete(memberOrder);
-
 
     }
 
