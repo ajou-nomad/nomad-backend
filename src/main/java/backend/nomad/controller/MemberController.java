@@ -138,7 +138,7 @@ public class MemberController {
         List<MemberChat> memberChats = member.getMemberChat();
 
         List<ChatDto> dtoList = memberChats.stream()
-                .map(m -> new ChatDto(m.getMember().getMemberId(), m.getChat().getChatToken()))
+                .map(m -> new ChatDto(m.getMember().getMemberId(), m.getChat().getChatToken() , m.getChat().getDeliveryGroup().getGroupId()))
                 .collect(Collectors.toList());
 
         return new Result(dtoList);
