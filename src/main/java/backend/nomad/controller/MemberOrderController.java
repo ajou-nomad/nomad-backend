@@ -91,6 +91,7 @@ public class MemberOrderController {
         deliveryGroupService.save(deliveryGroup);
 
         member.setPoint(memberOrder.getTotalCost());
+        memberService.save(member);
 
 //        List<OrderItem> orderItem = new CopyOnWriteArrayList<>();
 //        orderItem.addAll(memberOrder.getOrderItem());
@@ -104,6 +105,8 @@ public class MemberOrderController {
 //        memberOrder.deleteStore(store);
 //        storeService.save(store);
         memberOrder.deleteDeliveryGroup(deliveryGroup);
+        memberOrder.deleteDeliveryGroup(null);
+        memberOrderService.save(memberOrder);
         deliveryGroupService.save(deliveryGroup);
 
     }
