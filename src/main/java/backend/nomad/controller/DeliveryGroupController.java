@@ -16,6 +16,7 @@ import backend.nomad.dto.group.DeliveryGroupResponseDto;
 import backend.nomad.dto.review.ReviewResponseDto;
 import backend.nomad.dto.store.MenuRequestDto;
 import backend.nomad.dto.store.MenuResponseDto;
+import backend.nomad.dto.store.PromotionMenuDto;
 import backend.nomad.dto.store.StoreResponseDto;
 import backend.nomad.service.*;
 import com.google.firebase.auth.FirebaseAuth;
@@ -387,12 +388,15 @@ public class DeliveryGroupController {
                     .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription(), m.getImgUrl()))
                     .collect(Collectors.toList());
 
+            PromotionMenu promotionMenu = store.getPromotionMenu();
+            PromotionMenuDto promotionMenuDto = new PromotionMenuDto(promotionMenu.getPromotionMenuId(), promotionMenu.getPromotionMenuName(), promotionMenu.getCost(), promotionMenu.getDescription(), promotionMenu.getPromotionDescription(), promotionMenu.getImgUrl());
+
             List<Review> review = store.getReview();
             List<ReviewResponseDto> reviewList = review.stream()
                     .map(m -> new ReviewResponseDto(m.getReviewId(), m.getNickName(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                     .collect(Collectors.toList());
 
-            StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, reviewList, store.getRate(), store.getNotice(), store.getStoreIntro(), store.getCategory(), store.getPromotion());
+            StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, promotionMenuDto, reviewList, store.getRate(), store.getNotice(), store.getStoreIntro(), store.getCategory(), store.getPromotion());
             dtoList.add(dto);
         }
 
@@ -415,12 +419,16 @@ public class DeliveryGroupController {
                     .map(m -> new MenuResponseDto(m.getMenuId(), m.getMenuName(), m.getCost(), m.getDescription(), m.getImgUrl()))
                     .collect(Collectors.toList());
 
+            PromotionMenu promotionMenu = store.getPromotionMenu();
+            PromotionMenuDto promotionMenuDto = new PromotionMenuDto(promotionMenu.getPromotionMenuId(), promotionMenu.getPromotionMenuName(), promotionMenu.getCost(), promotionMenu.getDescription(), promotionMenu.getPromotionDescription(), promotionMenu.getImgUrl());
+
             List<Review> review = store.getReview();
             List<ReviewResponseDto> reviewList = review.stream()
                     .map(m -> new ReviewResponseDto(m.getReviewId(), m.getNickName(), m.getContents(), m.getImgUrl(), m.getRate(), m.getLocalDateTime()))
                     .collect(Collectors.toList());
 
-            StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, reviewList, store.getRate(), store.getNotice(), store.getStoreIntro(), store.getCategory(), store.getPromotion());
+            StoreResponseDto dto = new StoreResponseDto(store.getStoreId(), store.getStoreName(), store.getPhoneNumber(), store.getAddress(), store.getLatitude(), store.getLongitude(), store.getOpenTime(), store.getCloseTime(), store.getDeliveryTip(), store.getLogoUrl(), menuList, promotionMenuDto, reviewList, store.getRate(), store.getNotice(), store.getStoreIntro(), store.getCategory(), store.getPromotion());
+
             dtoList.add(dto);
         }
 

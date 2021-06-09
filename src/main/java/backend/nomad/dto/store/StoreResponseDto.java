@@ -27,6 +27,7 @@ public class StoreResponseDto {
     private Integer deliveryTip;
     private String logoUrl;
     private List<MenuResponseDto> menu;
+    private PromotionMenuDto promotionMenu;
     private List<ReviewResponseDto> reviewList;
     private Double rate;
 
@@ -64,6 +65,27 @@ public class StoreResponseDto {
         this.deliveryTip = deliveryTip;
         this.logoUrl = logoUrl;
         this.menu = menu;
+        this.rate = rate;
+        this.reviewList = reviewList;
+        this.notice = notice;
+        this.storeIntro = storeIntro;
+        this.category = category;
+        this.promotion = promotion;
+    }
+
+    public StoreResponseDto(Long storeId, String storeName, String phoneNumber, String address, Double latitude, Double longitude, String openTime, String closeTime, Integer deliveryTip, String logoUrl, List<MenuResponseDto> menu, PromotionMenuDto promotionMenu, List<ReviewResponseDto> reviewList, Double rate, String notice, String storeIntro, String category, Promotion promotion) {
+        this.storeId = storeId;
+        this.storeName = storeName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.deliveryTip = deliveryTip;
+        this.logoUrl = logoUrl;
+        this.menu = menu;
+        this.promotionMenu = promotionMenu;
         this.rate = rate;
         this.reviewList = reviewList;
         this.notice = notice;
