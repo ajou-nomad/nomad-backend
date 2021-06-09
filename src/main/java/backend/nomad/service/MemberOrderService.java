@@ -38,7 +38,12 @@ public class MemberOrderService {
     }
 
     @Transactional
-    public MemberOrder findById(Long storeId) {
-        return memberOrderRepository.findById(storeId).orElse(null);
+    public MemberOrder findById(Long memberOrderId) {
+        return memberOrderRepository.findById(memberOrderId).orElse(null);
+    }
+
+    @Transactional
+    public void delete(MemberOrder memberOrder) {
+        memberOrderRepository.delete(memberOrder);
     }
 }

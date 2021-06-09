@@ -1,16 +1,16 @@
 package backend.nomad.controller;
 
+import backend.nomad.domain.group.DeliveryGroup;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.orderitem.OrderItem;
 import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Store;
+import backend.nomad.dto.member.MemberOrderCancelDto;
 import backend.nomad.dto.member.MemberOrderResponseDto;
 import backend.nomad.dto.orderItem.OrderItemResponseDto;
 import backend.nomad.dto.review.ReviewResponseDto;
-import backend.nomad.service.DeliveryGroupService;
-import backend.nomad.service.MemberOrderService;
-import backend.nomad.service.MemberService;
+import backend.nomad.service.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -30,6 +30,8 @@ public class MemberOrderController {
     private final MemberOrderService memberOrderService;
     private final MemberService memberService;
     private final DeliveryGroupService deliveryGroupService;
+    private final OrderItemService orderItemService;
+    private final StoreService storeService;
 
 //    @PostMapping("/memberOrder")
 //    public Long saveMemberOrder(@RequestBody MemberOrderRequestDto memberOrderRequestDto) {
@@ -73,6 +75,40 @@ public class MemberOrderController {
 
         return new Result(dtoList);
     }
+
+    @PostMapping("/memberOrderCancel")
+    public void cancel(@RequestHeader("Authorization") String header, @RequestBody MemberOrderCancelDto memberOrderCancelDto) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        MemberOrder memberOrder = memberOrderService.findById(memberOrderCancelDto.getMemberOrderId());
+        Member member = memberOrder.getMember();
+        Store store = memberOrder.getStore();
+        DeliveryGroup deliveryGroup = memberOrder.getDeliveryGroup();
+
+        member.deleteGroup(deliveryGroup);
+        deliveryGroupService.save(deliveryGroup);
+
+        member.setPoint(memberOrder.getTotalCost());
+
+        List<OrderItem> orderItem = memberOrder.getOrderItem();
+
+        for (OrderItem x : orderItem) {
+            x.deleteMemberOrder(memberOrder);
+            orderItemService.save(x);
+        }
+        memberOrder.deleteMember(member);
+        memberService.save(member);
+        memberOrder.deleteStore(store);
+        storeService.save(store);
+        memberOrder.deleteDeliveryGroup(deliveryGroup);
+        deliveryGroupService.save(deliveryGroup);
+
+        memberOrderService.delete(memberOrder);
+
+
+    }
+
     @Data
     @AllArgsConstructor
     class Result<T> {

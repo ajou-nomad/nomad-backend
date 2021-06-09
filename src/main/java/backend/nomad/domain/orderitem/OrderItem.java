@@ -44,6 +44,12 @@ public class OrderItem {
         memberOrder.getOrderItem().add(this);
     }
 
+    public void deleteMemberOrder(MemberOrder memberOrder) {
+        this.memberOrder = memberOrder;
+        this.setMemberOrder(null);
+        memberOrder.getOrderItem().remove(this);
+    }
+
 //    public void addOrderItemToMenu(Menu menu) {
 //        this.menu = menu;
 //        menu.getOrderItem().add(this);

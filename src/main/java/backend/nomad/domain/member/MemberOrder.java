@@ -72,4 +72,22 @@ public class MemberOrder {
         this.deliveryGroup = deliveryGroup;
         deliveryGroup.getMemberOrders().add(this);
     }
+
+    public void deleteMember(Member member) {
+        this.member = member;
+        this.setMember(null);
+        member.getMemberOrder().remove(this);
+    }
+
+    public void deleteStore(Store store) {
+        this.store = store;
+        this.setStore(null);
+        store.getMemberOrder().remove(this);
+    }
+
+    public void deleteDeliveryGroup(DeliveryGroup deliveryGroup) {
+        this.deliveryGroup = deliveryGroup;
+        this.setDeliveryGroup(null);
+        deliveryGroup.getMemberOrders().remove(this);
+    }
 }
