@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 @RestController
@@ -91,7 +92,8 @@ public class MemberOrderController {
 
         member.setPoint(memberOrder.getTotalCost());
 
-        List<OrderItem> orderItem = memberOrder.getOrderItem();
+        List<OrderItem> orderItem = new CopyOnWriteArrayList<>();
+        orderItem.addAll(memberOrder.getOrderItem());
 
         for (OrderItem x : orderItem) {
             x.deleteMemberOrder(memberOrder);
