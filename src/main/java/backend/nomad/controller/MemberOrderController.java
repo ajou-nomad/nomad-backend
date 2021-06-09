@@ -82,7 +82,7 @@ public class MemberOrderController {
     }
 
     @PostMapping("/memberOrderCancel")
-    public void cancel(@RequestHeader("Authorization") String header, @RequestBody MemberOrderCancelDto memberOrderCancelDto) throws FirebaseAuthException {
+    public Double cancel(@RequestHeader("Authorization") String header, @RequestBody MemberOrderCancelDto memberOrderCancelDto) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
@@ -113,6 +113,7 @@ public class MemberOrderController {
         memberOrderService.save(memberOrder);
         deliveryGroupService.save(deliveryGroup);
 
+        return member.getPoint();
     }
 
     @Data
