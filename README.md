@@ -8,13 +8,14 @@
 ## 데이터베이스
 
 ### 데이터베이스 전체 개요
-![데이터베이스 개요](img/1.png)
+![데이터베이스 개요](img/2.png)
 
 [데이터베이스 사이트 바로가기](https://www.erdcloud.com/d/7AzuwXxHN6HnoKKhc)
 
 ### Detail
 
 #### 사용자
+
 ![](img/member1.png)
 - memberId: member 엔티티의 primary Key
 - groupId: 사용자가 그룹에 참여했을시, member 엔티티와 group 엔티티의 일대다 관계 매핑을 위한 foreign key
@@ -125,6 +126,12 @@
 - chatToken: 채팅방 생성을 위한 Token 값
 - memberId: 한명의 사용자가 여러 채팅방에 들어갈 수 있기 때문에 member 엔티티와 chat 엔티티 일대다 관계 매핑을 위한 foreign key
 
+#### 사용자채팅방
+![](img/memchat.png)
+- memberChatId: memberChat 엔티티의 primary key
+- memberId: 채팅방과 사용자의 다대다 매핑을 풀기 위해 member 엔티티와 memberChat 엔티티의 일대다 관계 매핑을 위한 foreign key
+- chatId: 채팅방과 사용자의 다대다 매핑을 풀기 위해 chat 엔티티와 memberChat 엔티티의 일대다 관계 매핑을 위한 foreign key
+
 ## API
 
 POST `/member`: 회원가입<br>
@@ -172,3 +179,8 @@ GET `/delivery` : 배달이 필요한 주문들 불러오기 (WaitingForDelivery
 
 ### CASE2: `시`를 기준으로 1시간 내외가 남았는데 아직 모집이 완료되지 않은 상황
 해당 배달 그룹 사람들에게 다른 배달 그룹을 추천해주며, 추천 기준은 200M 내외이고 모집된 인원이 기존 배달 그룹보다 많이 모인 그룹중에, 동일한 이름의 매장에 배달한 그룹 또는 동일한 카테고리를 가진 매장에 배달한 그룹을 추천해준다.
+
+
+| Entity | description |
+|:----:|:----:|
+|![](img/review.png) | sdf |
