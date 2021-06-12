@@ -1,4 +1,4 @@
-## 아주대학교 SW 캡스톤 디자인 - Team Nomad
+## 아주대학교 SW 캡스톤 디자인 - Team Nomad [![Build Status](https://www.travis-ci.com/ajou-nomad/nomad-backend.svg?branch=master)](https://www.travis-ci.com/ajou-nomad/nomad-backend)
 ### Title: Dutch Delivery
 
 ---
