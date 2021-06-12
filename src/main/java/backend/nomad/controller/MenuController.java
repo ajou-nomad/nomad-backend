@@ -6,6 +6,7 @@ import backend.nomad.domain.store.Promotion;
 import backend.nomad.domain.store.PromotionMenu;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.store.MenuDeleteDto;
+import backend.nomad.dto.store.MenuModifyDto;
 import backend.nomad.dto.store.MenuRequestDto;
 import backend.nomad.dto.store.PromotionMenuDto;
 import backend.nomad.service.MemberService;
@@ -67,6 +68,23 @@ public class MenuController {
         storeService.save(store);
 
         menuService.delete(menu);
+
+    }
+
+    @PostMapping("/modifyMenu")
+    public void modifyMenu(@RequestBody MenuModifyDto menuModifyDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+        Store store = member.getStore();
+        Menu menu = menuService.findById(menuModifyDto.getMenuId());
+        menu.setMenuName(menuModifyDto.getMenuName());
+        menu.setCost(menuModifyDto.getCost());
+        menu.setDescription(menuModifyDto.getDescription());
+
+        menuService.save(menu);
+        storeService.save(store);
 
     }
 
