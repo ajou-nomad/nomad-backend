@@ -49,5 +49,10 @@ public class Menu {
         this.store = store;
         store.getMenu().add(this);
     }
+
+    public void deleteMenu(Store store) {
+        this.store = store;
+        store.getMenu().remove(this);
+    }
 }
 

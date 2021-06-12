@@ -1,5 +1,6 @@
 package backend.nomad.service;
 
+import backend.nomad.domain.likestore.LikeStore;
 import backend.nomad.domain.store.Menu;
 import backend.nomad.domain.store.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +26,18 @@ public class MenuService {
     }
 
     @Transactional
+    public Menu findById(Long menuId) {
+        return menuRepository.findById(menuId).orElse(null);
+    }
+
+    @Transactional
     public Menu findByMenuName(String menuName) {
         return menuRepository.findByMenuName(menuName);
+    }
+
+    @Transactional
+    public void delete(Menu menu) {
+        menuRepository.delete(menu);
     }
 
 }
