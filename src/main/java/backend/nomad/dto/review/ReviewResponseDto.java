@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 @Setter
 public class ReviewResponseDto {
     private Long reviewId;
+    private Long storeId;
+    private String storeName;
     private String nickName;
     private String contents;
     private String uid;
@@ -20,8 +22,10 @@ public class ReviewResponseDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
     private LocalDateTime localDateTime;
 
-    public ReviewResponseDto(Long reviewId, String nickName, String contents, String imgUrl, Double rate, LocalDateTime localDateTime) {
+    public ReviewResponseDto(Long reviewId, Long storeId, String storeName, String nickName, String contents, String imgUrl, Double rate, LocalDateTime localDateTime) {
         this.reviewId = reviewId;
+        this.storeId = storeId;
+        this.storeName = storeName;
         this.nickName = nickName;
         this.contents = contents;
         this.imgUrl = imgUrl;
