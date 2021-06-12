@@ -33,7 +33,7 @@ public class LikeStoreController {
     private final StoreService storeService;
 
     @PostMapping("/likeStore")
-    public void saveMember(@RequestHeader("Authorization") String header, @RequestBody StoreRequestDto storeRequestDto) throws FirebaseAuthException {
+    public void saveLikeStore(@RequestHeader("Authorization") String header, @RequestBody StoreRequestDto storeRequestDto) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
@@ -53,6 +53,26 @@ public class LikeStoreController {
 
     }
 
+    @DeleteMapping("/likeStore")
+    public void deleteLikeStore(@RequestHeader("Authorization") String header, @RequestBody StoreRequestDto storeRequestDto) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+        Store store = storeService.findByStoreId(storeRequestDto.getStoreId());
+
+        LikeStore likeStore = new LikeStore();
+        likeStore.setUid(uid);
+
+        likeStore.deleteMember(member);
+        memberService.save(member);
+
+        likeStore.deleteStore(store);
+        storeService.save(store);
+
+        likeStoreService.delete(likeStore);
+
+    }
     @GetMapping("/likeStore")
     public Result likeStoreList(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);

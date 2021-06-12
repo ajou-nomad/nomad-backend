@@ -37,4 +37,14 @@ public class LikeStore {
         this.store = store;
         store.getLikeStore().add(this);
     }
+
+    public void deleteMember(Member member) {
+        this.member = member;
+        member.getLikeStore().remove(this);
+    }
+
+    public void deleteStore(Store store) {
+        this.store = store;
+        store.getLikeStore().remove(this);
+    }
 }

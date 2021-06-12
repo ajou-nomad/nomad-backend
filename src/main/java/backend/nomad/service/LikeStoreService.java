@@ -2,6 +2,7 @@ package backend.nomad.service;
 
 import backend.nomad.domain.likestore.LikeStore;
 import backend.nomad.domain.likestore.LikeStoreRepository;
+import backend.nomad.domain.review.Review;
 import backend.nomad.domain.store.Menu;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,5 +29,10 @@ public class LikeStoreService {
     @Transactional
     public List<LikeStore> findByUid(String uid) {
         return likeStoreRepository.findByUid(uid);
+    }
+
+    @Transactional
+    public void delete(LikeStore likeStore) {
+        likeStoreRepository.delete(likeStore);
     }
 }
