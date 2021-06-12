@@ -2,4 +2,4 @@ version: 0.0
 os: linux
 files:
   - source:  /
-    destination: /app/travis/build/
+    destination: /app/travis/build
