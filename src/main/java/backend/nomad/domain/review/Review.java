@@ -66,4 +66,14 @@ public class Review {
         store.getReview().add(this);
     }
 
+    public void deleteMember(Member member) {
+        this.member = member;
+        member.getReview().remove(this);
+    }
+
+    public void deleteStore(Store store) {
+        this.store = store;
+        store.getReview().remove(this);
+    }
+
 }
