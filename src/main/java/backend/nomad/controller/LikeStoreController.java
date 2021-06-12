@@ -54,7 +54,7 @@ public class LikeStoreController {
 
     }
 
-    @DeleteMapping("/likeStore")
+    @PostMapping("/deleteLikeStore")
     public void deleteLikeStore(@RequestHeader("Authorization") String header, @RequestBody StoreRequestDto storeRequestDto) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
