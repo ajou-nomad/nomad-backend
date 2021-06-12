@@ -42,6 +42,7 @@ public class LikeStoreController {
 
         LikeStore likeStore = new LikeStore();
         likeStore.setUid(uid);
+        likeStore.setStoreId(store.getStoreId());
 
         likeStore.addLikeToMember(member);
         memberService.save(member);
@@ -53,16 +54,14 @@ public class LikeStoreController {
 
     }
 
-    @PostMapping("/deleteLikeStore")
+    @DeleteMapping("/likeStore")
     public void deleteLikeStore(@RequestHeader("Authorization") String header, @RequestBody StoreRequestDto storeRequestDto) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
         String uid = decodedToken.getUid();
 
         Member member = memberService.findByUid(uid);
         Store store = storeService.findByStoreId(storeRequestDto.getStoreId());
-
-        LikeStore likeStore = new LikeStore();
-        likeStore.setUid(uid);
+        LikeStore likeStore = likeStoreService.findByUidAndStoreId(uid, store.getStoreId());
 
         likeStore.deleteMember(member);
         memberService.save(member);

@@ -32,6 +32,10 @@ public class LikeStoreService {
     }
 
     @Transactional
+    public LikeStore findByUidAndStoreId(String uid, Long storeId) {
+        return likeStoreRepository.findByUidAndStoreId(uid, storeId);
+    }
+    @Transactional
     public void delete(LikeStore likeStore) {
         likeStoreRepository.delete(likeStore);
     }

@@ -7,4 +7,6 @@ import java.util.List;
 public interface LikeStoreRepository extends JpaRepository<LikeStore, Long> {
 
     List<LikeStore> findByUid(String uid);
+
+    LikeStore findByUidAndStoreId(String uid, Long storeId);
 }

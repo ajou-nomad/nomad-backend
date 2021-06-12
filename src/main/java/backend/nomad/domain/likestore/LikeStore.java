@@ -18,6 +18,7 @@ public class LikeStore {
     private Long likeStoreId;
 
     private String uid;
+    private Long storeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
