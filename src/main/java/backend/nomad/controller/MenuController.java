@@ -51,7 +51,6 @@ public class MenuController {
             menuService.save(menu);
             storeService.save(store);
         }
-//        storeService.save(member.getStore());
     }
 
     @PostMapping("/promotionMenu")
