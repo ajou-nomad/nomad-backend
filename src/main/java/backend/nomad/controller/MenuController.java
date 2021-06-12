@@ -88,6 +88,28 @@ public class MenuController {
 
     }
 
+    @PostMapping("/addMenu")
+    public void addMenu(@RequestBody MenuRequestDto menuRequestDto, @RequestHeader("Authorization") String header) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+        Store store = member.getStore();
+
+        Menu menu = new Menu();
+
+        menu.setMenuName(menuRequestDto.getMenuName());
+        menu.setCost(menuRequestDto.getCost());
+        menu.setDescription(menuRequestDto.getDescription());
+        menu.setImgUrl(menuRequestDto.getImgUrl());
+
+        menu.addMenu(store);
+        storeService.save(store);
+
+        menuService.save(menu);
+
+    }
+
     @PostMapping("/promotionMenu")
     public void savePromotion(@RequestBody PromotionMenuDto dto, @RequestHeader("Authorization") String header) throws FirebaseAuthException{
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
