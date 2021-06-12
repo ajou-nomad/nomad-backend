@@ -1,5 +1,6 @@
 package backend.nomad.service;
 
+import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.review.Review;
 import backend.nomad.domain.review.ReviewRepository;
 import backend.nomad.domain.store.Menu;
@@ -28,5 +29,15 @@ public class ReviewService {
     @Transactional
     public List<Review> findByUid(String uid) {
         return reviewRepository.findByUid(uid);
+    }
+
+    @Transactional
+    public Review findByReviewId(Long reviewId) {
+        return reviewRepository.findByReviewId(reviewId);
+    }
+
+    @Transactional
+    public void delete(Review review) {
+        reviewRepository.delete(review);
     }
 }

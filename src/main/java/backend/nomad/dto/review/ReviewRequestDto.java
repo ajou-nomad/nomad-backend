@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class ReviewRequestDto {
+    private Long reviewId;
     private String contents;
     private Double rate;
     private String imgUrl;

@@ -59,6 +59,25 @@ public class ReviewController {
         reviewService.save(review);
     }
 
+    @PostMapping("/deleteReview")
+    public void deleteReview(@RequestHeader("Authorization") String header, @RequestBody ReviewRequestDto reviewRequestDto) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+        Store store = storeService.findByStoreId(reviewRequestDto.getStoreId());
+        Review review = reviewService.findByReviewId(reviewRequestDto.getReviewId());
+
+        review.deleteMember(member);
+        memberService.save(member);
+
+        review.deleteStore(store);
+        storeService.save(store);
+
+        reviewService.delete(review);
+
+    }
+
     @GetMapping("/memberReview")
     public Result memberReview(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
