@@ -61,8 +61,8 @@ public class DeliveryGroupService {
     }
 
     @Transactional
-    public List<DeliveryGroup> findByDayAndOrderStatus(Integer day, OrderStatus orderStatus) {
-        return deliveryGroupRepository.findByDayAndOrderStatus(day, orderStatus);
+    public List<DeliveryGroup> findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatus(OrderStatus orderStatusA, OrderStatus orderStatusB, OrderStatus orderStatusC, OrderStatus orderStatusD) {
+        return deliveryGroupRepository.findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatus(orderStatusA, orderStatusB, orderStatusC, orderStatusD);
     }
 
 }

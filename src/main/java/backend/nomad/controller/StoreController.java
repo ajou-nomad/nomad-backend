@@ -12,6 +12,7 @@ import backend.nomad.domain.store.Promotion;
 import backend.nomad.domain.store.PromotionMenu;
 import backend.nomad.domain.store.Store;
 import backend.nomad.dto.group.DeliveryGroupRequestDto;
+import backend.nomad.dto.group.DeliveryGroupResponseDto;
 import backend.nomad.dto.group.GroupOrderRequestDto;
 import backend.nomad.dto.review.ReviewResponseDto;
 import backend.nomad.dto.store.*;
@@ -173,7 +174,6 @@ public class StoreController {
         Member member = memberService.findByUid(uid);
         Store store = member.getStore();
 
-//        List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatusAndStoreId(OrderStatus.recruitmentDone, OrderStatus.recruitmentAccept, OrderStatus.delivering, OrderStatus.waitingForDelivery, store.getStoreId());
         List<DeliveryGroup> deliveryGroups = deliveryGroupService.findByStoreId(store.getStoreId());
 
         List<DeliveryGroupDto> dtoList = new ArrayList<>();
@@ -217,6 +217,22 @@ public class StoreController {
 
         deliveryGroupService.save(deliveryGroup);
 
+    }
+
+    @GetMapping("/allDeliveryGroupOrder")
+    public Result allDeliveryGroupOrder(@RequestHeader("Authorization") String header) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+        Store store = member.getStore();
+
+        List<DeliveryGroup> deliveryGroupList = deliveryGroupService.findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatus(OrderStatus.recruitmentAccept, OrderStatus.waitingForDelivery, OrderStatus.delivering, OrderStatus.deliveryDone);
+        List<DeliveryGroupResponseDto> collect = deliveryGroupList.stream()
+                .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus(), m.getPromotion()))
+                .collect(Collectors.toList());
+
+        return new Result(collect);
     }
 
     @GetMapping("/deliveryComplete")
