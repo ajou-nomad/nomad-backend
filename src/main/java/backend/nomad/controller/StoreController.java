@@ -244,7 +244,6 @@ public class StoreController {
         Store store = member.getStore();
 
         List<DeliveryGroup> deliveryGroup = deliveryGroupService.findByOrderStatusAndStoreId(OrderStatus.deliveryDone, store.getStoreId());
-
         List<DeliveryGroupDto> dtoList = new ArrayList<>();
 
         for (DeliveryGroup x : deliveryGroup) {
