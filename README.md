@@ -25,10 +25,9 @@
 
 ---
 
-# backend
+# 1. backend
 
-# 1. backend 개발도구
-## 1.1 Development
+## 1.1 Development Tools
 ![Java](https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white)
 ![spring](https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white)
 ![springboot](https://img.shields.io/badge/Spring%20Boot-6DB33F?style=flat-square&logo=Spring-Boot&logoColor=white)
@@ -36,8 +35,57 @@
 ![in](https://img.shields.io/badge/IntelliJ-000000?style=flat-square&logo=IntelliJ-IDEA&logoColor=white)
 ![aws](https://img.shields.io/badge/Amazon%20AWS-232F3E?style=flat-square&logo=Amazon-AWS&logoColor=white)
 
+## 1.2 Spring setting
+application.yml
+```
 
-## 1.2 DevOps 및 Test
+# FOR AMAZON RDS // 실제 서비스 DB
+spring:
+  datasource:
+    url: #RDS url
+    username: #RDS admin
+    password: #RDS password
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  jpa:
+    generate-ddl: true
+    hibernate:
+    ddl-auto: create
+  properties:
+    hibernate:
+      show_sql: true
+      format_sql: true
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
+  
+# FOR LOCAL DATABASE(H2) // 테스트 및 개발
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    generate-ddl: true
+    hibernate:
+    ddl-auto: create-drop
+  properties:
+    hibernate:
+      show_sql: true
+      format_sql: true
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
+
+
+```
+
+
+
+# 2. CI/CD
+
+## 2.1 DevOps/Test Tools
 ![travis](https://img.shields.io/badge/Travis%20CI-3EAAAF?style=flat-square&logo=Travis-CI&logoColor=white)
 ![slack](https://img.shields.io/badge/Slack-4A154B?style=flat-square&logo=Slack&logoColor=white)
 ![github](https://img.shields.io/badge/Github-181717?style=flat-square&logo=Github&logoColor=white)
@@ -45,11 +93,10 @@
 ![deploy](https://img.shields.io/badge/Amazon-CodeDeploy-green)
 ![postman](https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=Postman&logoColor=white)
 
-# 2. CI/CD
-## 2.1 CI/CD Architecture
+## 2.2 CI/CD Architecture
 ![](img/cicd.png)
 
-## 2.2 Build/Notify/Deploy 
+## 2.3 Build/Notify/Deploy 
 .travis.yml : Build, Notify, Deploy의 information Setting
 ```
 language: java
@@ -304,3 +351,4 @@ GET `/delivery` : 배달이 필요한 주문들 불러오기 (WaitingForDelivery
 
 ### CASE2: `시간`을 기준으로 1시간 내외가 남았는데 아직 모집이 완료되지 않은 상황
 해당 배달 그룹 사람들에게 다른 배달 그룹을 추천해주며, 추천 기준은 200M 내외이고 모집된 인원이 기존 배달 그룹보다 많이 모인 그룹중에, 동일한 이름의 매장에 배달한 그룹 또는 동일한 카테고리를 가진 매장에 배달한 그룹을 추천해준다.
+
