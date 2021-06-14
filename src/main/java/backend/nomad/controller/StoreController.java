@@ -213,7 +213,18 @@ public class StoreController {
     public void orderConfirm(@RequestHeader("Authorization") String header, @RequestBody GroupOrderRequestDto groupOrderRequestDto) throws FirebaseAuthException {
 
         DeliveryGroup deliveryGroup = deliveryGroupService.findById(groupOrderRequestDto.getGroupId());
-        deliveryGroup.setOrderStatus(groupOrderRequestDto.getOrderStatus());
+        if (groupOrderRequestDto.getOrderStatus() == OrderStatus.recruitmentAccept) {
+            deliveryGroup.setOrderStatus(OrderStatus.recruitmentAccept);
+        }
+        else if (groupOrderRequestDto.getOrderStatus() == OrderStatus.waitingForDelivery) {
+            deliveryGroup.setOrderStatus(OrderStatus.waitingForDelivery);
+        }
+        else if (groupOrderRequestDto.getOrderStatus() == OrderStatus.delivering) {
+            deliveryGroup.setOrderStatus(OrderStatus.delivering);
+        }
+        else if (groupOrderRequestDto.getOrderStatus() == OrderStatus.deliveryDone) {
+            deliveryGroup.setOrderStatus(OrderStatus.deliveryDone);
+        }
 
         deliveryGroupService.save(deliveryGroup);
 
