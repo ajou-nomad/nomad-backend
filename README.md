@@ -35,7 +35,7 @@
 ![in](https://img.shields.io/badge/IntelliJ-000000?style=flat-square&logo=IntelliJ-IDEA&logoColor=white)
 ![aws](https://img.shields.io/badge/Amazon%20AWS-232F3E?style=flat-square&logo=Amazon-AWS&logoColor=white)
 
-## 1.2 Spring setting
+## 1.2 Spring Setting
 application.yml
 ```
 
@@ -158,7 +158,7 @@ deploy:
       branch: master
 ```
 
-appspec.yml : Deploy가 되고 난 후, 실행될 명령어 모집 hooks setting
+appspec.yml : Deploy가 되고 난 후, 실행될 명령어 모집 hooks Setting
 ```
 version: 0.0
 os: linux
