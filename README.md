@@ -315,7 +315,7 @@ GET `/alldeliveryGroupOrder` : 모집중, 모집완료 주문을 제외한 배�
 GET `/allGroupList` : 생성된 배달 그룹 전부 불러오기<br>
 GET `/dailyGroupList` : 당일 모집 배달 그룹 전부 불러오기<br>
 GET `/weeklyGroupList` : 주간 모집 배달 그룹 전부 불러오기<br>
-GET `/deliveryComplete` : 배달 완료된 그룹 불러오기(매장 보관용) // 수정요망<br>
+GET `/deliveryComplete` : 배달 완료된 그룹 불러오기(매장 보관용)
 
 POST `/store` : 매장 생성<br>
 GET `/storeList` : 배달 그룹 생성할 때, 전체 매장 불러오기(메뉴, 리뷰 포함)<br>
@@ -342,13 +342,14 @@ GET `/storeReview` : 매장 로그인 시, 매장을 대상으로 작성된 리�
 
 POST `/delivery` : 배달 접수하기(채팅방 생성 포함)<br>
 POST `/deliveryComplete` : 배달 완료<br>
-GET `/delivery` : 배달이 필요한 주문들 불러오기 (WaitingForDelivery 상태인 배달들) // 수정요망<br>
+GET `/delivery` : 배달이 필요한 주문들 불러오기 (WaitingForDelivery 상태인 배달들)
 
-## 스케쥴러
+# 5. 스케쥴러
+- Spring의 `@Scheduled`를 사용해 구현
 
-### CASE1: 그룹 배달 시간이 되었는데 모집이 완료 되지 않은 상황
+## 5.1 그룹 배달 시간이 되었는데 모집이 완료 되지 않은 상황
 해당 배달 그룹은 모집 취소가 되며, 해당 그룹에 참여한 사람들의 결제금액은 포인트로 돌려준다.
 
-### CASE2: `시간`을 기준으로 1시간 내외가 남았는데 아직 모집이 완료되지 않은 상황
+## 5.2 `시간`을 기준으로 1시간 내외가 남았는데 아직 모집이 완료되지 않은 상황
 해당 배달 그룹 사람들에게 다른 배달 그룹을 추천해주며, 추천 기준은 200M 내외이고 모집된 인원이 기존 배달 그룹보다 많이 모인 그룹중에, 동일한 이름의 매장에 배달한 그룹 또는 동일한 카테고리를 가진 매장에 배달한 그룹을 추천해준다.
 
