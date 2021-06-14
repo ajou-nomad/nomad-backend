@@ -44,6 +44,11 @@ public class MemberController {
     private final ChatService chatService;
     private final MemberChatService memberChatService;
 
+    @GetMapping("/test")
+    public Integer test() {
+        return 1;
+    }
+
     @PostMapping("/member")
     public Long saveMember(@RequestHeader("Authorization") String header, @RequestBody MemberRequestDto dto) throws FirebaseAuthException {
         FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
