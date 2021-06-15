@@ -14,7 +14,7 @@ public interface DeliveryGroupRepository extends JpaRepository<DeliveryGroup, Lo
     List<DeliveryGroup> findByOrderStatus(OrderStatus orderStatus);
 
     List<DeliveryGroup> findByOrderStatusAndStoreId(OrderStatus orderStatus, Long storeId);
-    List<DeliveryGroup> findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatus(OrderStatus orderStatusA, OrderStatus orderStatusB, OrderStatus orderStatusC, OrderStatus orderStatusD);
+    List<DeliveryGroup> findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatusOrOrderStatus(OrderStatus orderStatusA, OrderStatus orderStatusB, OrderStatus orderStatusC, OrderStatus orderStatusD, OrderStatus orderStatusE);
     List<DeliveryGroup> findByDayAndOrderStatus(Integer day, OrderStatus orderStatus);
 
 }

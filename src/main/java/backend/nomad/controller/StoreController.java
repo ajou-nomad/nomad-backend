@@ -238,7 +238,7 @@ public class StoreController {
         Member member = memberService.findByUid(uid);
         Store store = member.getStore();
 
-        List<DeliveryGroup> deliveryGroupList = deliveryGroupService.findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatus(OrderStatus.recruitmentAccept, OrderStatus.waitingForDelivery, OrderStatus.delivering, OrderStatus.deliveryDone);
+        List<DeliveryGroup> deliveryGroupList = deliveryGroupService.findByOrderStatusOrOrderStatusOrOrderStatusOrOrderStatusOrOrderStatus(OrderStatus.recruitmentDone, OrderStatus.recruitmentAccept, OrderStatus.waitingForDelivery, OrderStatus.delivering, OrderStatus.deliveryDone);
         List<DeliveryGroupResponseDto> collect = deliveryGroupList.stream()
                 .map(m -> new DeliveryGroupResponseDto(m.getGroupId(), m.getStoreId(), m.getLatitude(), m.getLongitude(), m.getAddress(), m.getBuildingName(), m.getDeliveryDateTime(), m.getCurrent(),  m.getMaxValue(), m.getGroupType(), m.getOrderStatus(), m.getPromotion()))
                 .collect(Collectors.toList());
@@ -349,6 +349,19 @@ public class StoreController {
         }
 
         return new Result(dtoList);
+    }
+
+    @PostMapping("/modifyNotice")
+    public void orderList(@RequestHeader("Authorization") String header, @RequestBody StoreRequestDto storeRequestDto) throws FirebaseAuthException {
+        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(header);
+        String uid = decodedToken.getUid();
+
+        Member member = memberService.findByUid(uid);
+        Store store = member.getStore();
+
+        store.setNotice(storeRequestDto.getNotice());
+
+        storeService.save(store);
     }
 
     @Data
