@@ -62,8 +62,6 @@ public class MemberOrderController {
                     .map(m -> new OrderItemResponseDto(m.getOrderItemId(),m.getMenuName(), m.getCost(), m.getQuantity()))
                     .collect(Collectors.toList());
 
-            Long tempStoreId = store.getStoreId();
-            String tempStoreName = store.getStoreName();
 
             Review review = x.getReview();
             ReviewResponseDto reviewResponseDto = new ReviewResponseDto();
@@ -77,7 +75,7 @@ public class MemberOrderController {
             }
 
             else {
-                MemberOrderResponseDto dto = new MemberOrderResponseDto(x.getMemberOrderId(), tempStoreId, null, tempStoreName, null, orderItemList, reviewResponseDto, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
+                MemberOrderResponseDto dto = new MemberOrderResponseDto(x.getMemberOrderId(), store.getStoreId(), null, store.getStoreName(), null, orderItemList, reviewResponseDto, x.getTotalCost(), x.getPayMethod(), x.getOrderTime());
                 dtoList.add(dto);
             }
         }
@@ -127,9 +125,6 @@ public class MemberOrderController {
 //        memberOrder.deleteMember(member);
 //        memberService.save(member);
 
-        memberOrder.deleteStore(store);
-        storeService.save(store);
-        memberOrder.setStore(null);
 
         memberOrder.deleteDeliveryGroup(deliveryGroup);
         deliveryGroupService.save(deliveryGroup);
