@@ -86,7 +86,7 @@ public class Member {
     public void deleteGroup(DeliveryGroup deliveryGroup) {
         this.deliveryGroup = deliveryGroup;
         deliveryGroup.getMemberList().remove(this);
-        deliveryGroup.setCurrent(deliveryGroup.getMemberList().size());
+        deliveryGroup.setCurrent(deliveryGroup.getMemberList().size() - 1);
     }
 
 }
