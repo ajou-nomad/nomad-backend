@@ -90,11 +90,11 @@ public class MemberOrderController {
 
         MemberOrder memberOrder = memberOrderService.findById(memberOrderCancelDto.getMemberOrderId());
         Member member = memberOrder.getMember();
-        Store store = memberOrder.getStore();
         DeliveryGroup deliveryGroup = memberOrder.getDeliveryGroup();
 
         if (deliveryGroup.getMemberList().size() == 1) {
             member.deleteGroup(deliveryGroup);
+            deliveryGroup.setCurrent(deliveryGroup.getMemberList().size());
             member.setDeliveryGroup(null);
             memberService.save(member);
 
@@ -103,6 +103,7 @@ public class MemberOrderController {
         }
         else {
             member.deleteGroup(deliveryGroup);
+            deliveryGroup.setCurrent(deliveryGroup.getMemberList().size());
             member.setDeliveryGroup(null);
             memberService.save(member);
 
