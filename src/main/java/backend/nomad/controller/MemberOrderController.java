@@ -95,6 +95,7 @@ public class MemberOrderController {
         if (deliveryGroup.getMemberList().size() == 1) {
             member.deleteGroup(deliveryGroup);
             memberService.save(member);
+            member.setDeliveryGroup(null);
 
             deliveryGroup.setOrderStatus(OrderStatus.cancel);
             deliveryGroupService.save(deliveryGroup);
@@ -102,6 +103,7 @@ public class MemberOrderController {
         else {
             member.deleteGroup(deliveryGroup);
             memberService.save(member);
+            member.setDeliveryGroup(null);
 
             deliveryGroupService.save(deliveryGroup);
         }
@@ -124,9 +126,11 @@ public class MemberOrderController {
 
         memberOrder.deleteStore(store);
         storeService.save(store);
+        memberOrder.setStore(null);
 
         memberOrder.deleteDeliveryGroup(deliveryGroup);
         deliveryGroupService.save(deliveryGroup);
+        memberOrder.setDeliveryGroup(null);
 
         memberOrderService.save(memberOrder);
 
