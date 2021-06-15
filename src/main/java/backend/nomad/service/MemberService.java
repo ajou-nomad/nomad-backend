@@ -35,7 +35,8 @@ public class MemberService {
 //        return userRepository.findAll();
 //    }
 
-//    public User findOne(Long memberId) {
-//        return userRepository.findOne(memberId);
-//    }
+    @Transactional
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId).orElse(null);
+    }
 }

@@ -75,13 +75,16 @@ public class MemberOrder {
 
     public void deleteMember(Member member) {
         this.member = member;
+        member.getMemberOrder().remove(this);
     }
 
     public void deleteStore(Store store) {
         this.store = store;
+        store.getMemberOrder().remove(this);
     }
 
     public void deleteDeliveryGroup(DeliveryGroup deliveryGroup) {
         this.deliveryGroup = deliveryGroup;
+        deliveryGroup.getMemberOrders().remove(this);
     }
 }

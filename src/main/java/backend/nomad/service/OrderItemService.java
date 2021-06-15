@@ -29,4 +29,10 @@ public class OrderItemService {
 //    public OrderItem findByUid(String uid) {
 //        return orderItemRepository.findByUid(uid);
 //    }
+
+    @Transactional
+    public OrderItem findById(Long orderItemId) {
+        return orderItemRepository.findById(orderItemId).orElse(null);
+    }
+
 }

@@ -99,19 +99,24 @@ public class MemberOrderController {
 
 //        List<OrderItem> orderItem = new CopyOnWriteArrayList<>();
 //        orderItem.addAll(memberOrder.getOrderItem());
-//
+
 //        for (OrderItem x : orderItem) {
+//
 //            x.deleteMemberOrder(memberOrder);
+//
 //            orderItemService.save(x);
 //        }
+
 //        memberOrder.deleteMember(member);
 //        memberService.save(member);
-//        memberOrder.deleteStore(store);
-//        storeService.save(store);
+
+        memberOrder.deleteStore(store);
+        storeService.save(store);
+
         memberOrder.deleteDeliveryGroup(deliveryGroup);
-        memberOrder.deleteDeliveryGroup(null);
-        memberOrderService.save(memberOrder);
         deliveryGroupService.save(deliveryGroup);
+
+        memberOrderService.save(memberOrder);
 
         return member.getPoint();
     }

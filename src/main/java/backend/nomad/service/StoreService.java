@@ -36,4 +36,8 @@ public class StoreService {
         return storeRepository.findById(storeId).orElse(null);
     }
 
+    @Transactional
+    public Store findByStoreName(String storeName) {
+        return storeRepository.findByStoreName(storeName);
+    }
 }
