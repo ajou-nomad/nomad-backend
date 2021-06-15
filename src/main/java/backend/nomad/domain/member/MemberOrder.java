@@ -58,17 +58,17 @@ public class MemberOrder {
 
     }
 
-    public void setMember(Member member) {
+    public void addMember(Member member) {
         this.member = member;
         member.getMemberOrder().add(this);
     }
 
-    public void setStore(Store store) {
+    public void addStore(Store store) {
         this.store = store;
         store.getMemberOrder().add(this);
     }
 
-    public void setDeliveryGroup(DeliveryGroup deliveryGroup) {
+    public void addDeliveryGroup(DeliveryGroup deliveryGroup) {
         this.deliveryGroup = deliveryGroup;
         deliveryGroup.getMemberOrders().add(this);
     }

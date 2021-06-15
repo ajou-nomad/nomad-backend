@@ -187,8 +187,8 @@ public class DeliveryGroupController {
             MemberOrder memberOrder = new MemberOrder();
             memberOrder.setUid(uid);
             memberOrder.setStoreId(deliveryGroupRequestDto.getStoreId());
-            memberOrder.setStore(store);
-            memberOrder.setDeliveryGroup(deliveryGroup);
+            memberOrder.addStore(store);
+            memberOrder.addDeliveryGroup(deliveryGroup);
             deliveryGroupService.save(deliveryGroup);
             memberOrderService.save(memberOrder);
             memberService.save(member);
@@ -212,7 +212,7 @@ public class DeliveryGroupController {
             memberOrder.setPayMethod(deliveryGroupRequestDto.getPayMethod());
             memberOrder.setOrderTime(deliveryGroupRequestDto.getOrderTime());
 
-            memberOrder.setMember(member);
+            memberOrder.addMember(member);
 
             memberOrderService.save(memberOrder);
         }
@@ -224,8 +224,8 @@ public class DeliveryGroupController {
             MemberOrder memberOrder = new MemberOrder();
             memberOrder.setUid(uid);
             memberOrder.setStoreId(deliveryGroupRequestDto.getStoreId());
-            memberOrder.setStore(store);
-            memberOrder.setDeliveryGroup(deliveryGroup);
+            memberOrder.addStore(store);
+            memberOrder.addDeliveryGroup(deliveryGroup);
             deliveryGroupService.save(deliveryGroup);
             memberOrderService.save(memberOrder);
             memberService.save(member);
@@ -244,7 +244,7 @@ public class DeliveryGroupController {
             memberOrder.setPayMethod(deliveryGroupRequestDto.getPayMethod());
             memberOrder.setOrderTime(deliveryGroupRequestDto.getOrderTime());
 
-            memberOrder.setMember(member);
+            memberOrder.addMember(member);
 
             memberOrderService.save(memberOrder);
         }
@@ -269,8 +269,8 @@ public class DeliveryGroupController {
 
             memberOrder.setUid(uid);
             memberOrder.setStoreId(store.getStoreId());
-            memberOrder.setStore(store);
-            memberOrder.setDeliveryGroup(deliveryGroup);
+            memberOrder.addStore(store);
+            memberOrder.addDeliveryGroup(deliveryGroup);
             deliveryGroupService.save(deliveryGroup);
             memberOrderService.save(memberOrder);
 
@@ -292,7 +292,7 @@ public class DeliveryGroupController {
             memberOrder.setPayMethod(dto.getPayMethod());
             memberOrder.setOrderTime(dto.getOrderTime());
 
-            memberOrder.setMember(member);
+            memberOrder.addMember(member);
 
             memberOrderService.save(memberOrder);
 
@@ -305,8 +305,8 @@ public class DeliveryGroupController {
             MemberOrder memberOrder = new MemberOrder();
             memberOrder.setUid(uid);
             memberOrder.setStoreId(store.getStoreId());
-            memberOrder.setStore(store);
-            memberOrder.setDeliveryGroup(deliveryGroup);
+            memberOrder.addStore(store);
+            memberOrder.addDeliveryGroup(deliveryGroup);
             deliveryGroupService.save(deliveryGroup);
             memberOrderService.save(memberOrder);
             memberService.save(member);
@@ -324,7 +324,7 @@ public class DeliveryGroupController {
             memberOrder.setPayMethod(dto.getPayMethod());
             memberOrder.setOrderTime(dto.getOrderTime());
 
-            memberOrder.setMember(member);
+            memberOrder.addMember(member);
 
             memberOrderService.save(memberOrder);
         }
