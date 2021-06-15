@@ -1,6 +1,7 @@
 package backend.nomad.controller;
 
 import backend.nomad.domain.group.DeliveryGroup;
+import backend.nomad.domain.group.OrderStatus;
 import backend.nomad.domain.member.Member;
 import backend.nomad.domain.member.MemberOrder;
 import backend.nomad.domain.orderitem.OrderItem;
@@ -91,11 +92,22 @@ public class MemberOrderController {
         Store store = memberOrder.getStore();
         DeliveryGroup deliveryGroup = memberOrder.getDeliveryGroup();
 
-        member.deleteGroup(deliveryGroup);
-        deliveryGroupService.save(deliveryGroup);
+        if (deliveryGroup.getMemberList().size() == 1) {
+            member.deleteGroup(deliveryGroup);
+            memberService.save(member);
+
+            deliveryGroup.setOrderStatus(OrderStatus.cancel);
+            deliveryGroupService.save(deliveryGroup);
+        }
+        else {
+            member.deleteGroup(deliveryGroup);
+            memberService.save(member);
+
+            deliveryGroupService.save(deliveryGroup);
+        }
 
         member.setPoint(member.getPoint() + memberOrder.getTotalCost());
-//        memberService.save(member);
+        memberService.save(member);
 
 //        List<OrderItem> orderItem = new CopyOnWriteArrayList<>();
 //        orderItem.addAll(memberOrder.getOrderItem());
@@ -114,8 +126,6 @@ public class MemberOrderController {
         storeService.save(store);
 
         memberOrder.deleteDeliveryGroup(deliveryGroup);
-        memberService.save(member);
-
         deliveryGroupService.save(deliveryGroup);
 
         memberOrderService.save(memberOrder);
